@@ -8,7 +8,7 @@ _(Java .properties file parser ported to node.js)_
 
 [Availability](#availability) | [Compatibility](#compatibility) | [Documentation](#documentation)
 
-Version: 0.1.1
+Version: 0.1.2
 
 <a name="availability"></a>
 #### Availability [↑](#start) ####

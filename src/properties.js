@@ -5,7 +5,7 @@
  * @author Gabriel Llamas
  * @created 08/04/2012
  * @modified 15/04/2012
- * @version 0.1.1
+ * @version 0.1.2
  */
 "use strict";
 
@@ -248,7 +248,7 @@ Properties.prototype.load = function (fileName, cb){
 
 Properties.prototype.set = function (key, value, comment){
 	this._keys[key] = {
-		value: value,
+		value: value ? value.toString () : value,
 		comment: comment
 	};
 	return this;
