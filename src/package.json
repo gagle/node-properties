@@ -1,0 +1,24 @@
+{
+	"name": "properties",
+	"version": "0.1.0",
+	"description": "Provides a simple persistence way to store and retrieve key-value properties.",
+	"keywords": ["properties", "persistence"],
+	"author": {
+		"name": "Gabriel Llamas"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/Gagle/Node-Properties.git"
+	},
+	"engines": {
+		"node": "*"
+	},
+	"dependencies": {
+		"buffered-reader": "*"
+	},
+	"licenses": [{
+		"type": "MIT",
+		"url": "http://www.opensource.org/licenses/mit-license.html"
+	}],
+	"main": "properties"
+}

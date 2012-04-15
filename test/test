@@ -1,0 +1,36 @@
+#Comment 1
+
+!Comment 2
+a1=b
+		a2:				::=b
+  a3 b
+trunked1=foo\
+bar
+trunked2=\
+\
+foo
+#Comment symbol inside key and value
+f#oo 	=#bar
+
+!Escaped whitespaces in key
+foo\ bar = foo
+
+# Long key-value pair without separator
+bar	 		 		 	\ bar
+!Hardcoded tab
+   tab\tkey : bar
+!Hardcoded line feed
+a-key= a \n value
+
+#Empty key with a trunked value
+:emp\
+ty
+#Empty value
+empty=
+#Empty value without separator
+empty2
+
+#Unicode
+É : É
+!Escaped unicode
+E_unicode		\u00C9
