@@ -32,5 +32,5 @@ npm install properties
  
 [Reference](https://github.com/Gagle/Node-Properties/wiki/Reference)  
 [Examples](https://github.com/Gagle/Node-Properties/tree/master/examples)  
-[Change log](https://github.com/Gagle/Node-Properties/wiki/Change-log)  
+[Change Log](https://github.com/Gagle/Node-Properties/wiki/Change-Log)  
 [MIT License](https://github.com/Gagle/Node-Properties/blob/master/LICENSE)
