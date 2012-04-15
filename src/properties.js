@@ -4,8 +4,8 @@
  *
  * @author Gabriel Llamas
  * @created 08/04/2012
- * @modified 15/04/2012
- * @version 0.1.2
+ * @modified 16/04/2012
+ * @version 0.1.3
  */
 "use strict";
 
@@ -199,13 +199,6 @@ PropertyReader.prototype.parse = function (c){
 	}
 };
 
-var getFileName = function (fileName){
-	var main = process.mainModule.filename;
-	var cwd = main.substring (0, main.lastIndexOf (SLASH));
-	var relative = PATH.relative (process.cwd (), cwd);
-	return PATH.join (relative, fileName);
-};
-
 var Properties = function (){
 	this._keys = {};
 };
@@ -343,7 +336,7 @@ Properties.prototype.store = function (fileName, unicode, headerComment, cb){
 		}
 	}
 	
-	var s = FS.createWriteStream (getFileName (fileName));
+	var s = FS.createWriteStream (fileName);
 	s.on ("close", function (){
 		if (cb) cb (null, true);
 	});
