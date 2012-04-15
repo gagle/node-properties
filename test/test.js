@@ -2,21 +2,21 @@ var assert = require ("assert");
 var Properties = require ("../build/properties").Properties;
 
 var o = {
-    a1: "b",
-    a2: "::=b",
-    a3: "b",
-    trunked1: "foobar",
-    trunked2: "foo",
-    "f#oo": "#bar",
-    "foo bar": "foo",
-    bar: " bar",
-    "tab\tkey": "bar",
-    "a-key": "a \n value",
-    "": "empty",
-    empty: "",
-    empty2: "",
-    "É": "É",
-    E_unicode: "É"
+    a1: { value: "b" },
+    a2: { value: "::=b" },
+    a3: { value: "b" },
+    trunked1: { value: "foobar" },
+    trunked2: { value: "foo" },
+    "f#oo": { value: "#bar" },
+    "foo bar": { value: "foo" },
+    bar: { value: " bar" },
+    "tab\tkey": { value: "bar" },
+    "a-key": { value: "a \n value" },
+    "": { value: "empty" },
+    empty: { value: "" },
+    empty2: { value: "" },
+    "É": { value: "É" },
+    E_unicode: { value: "É" }
 };
 
 var properties = new Properties ();

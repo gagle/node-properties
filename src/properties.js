@@ -5,7 +5,7 @@
  * @author Gabriel Llamas
  * @created 08/04/2012
  * @modified 15/04/2012
- * @version 0.1.0
+ * @version 0.1.1
  */
 "use strict";
 
@@ -211,10 +211,11 @@ var Properties = function (){
 };
 
 Properties.SEPARATOR = "=";
+Properties.COMMENT = "#";
 
 Properties.prototype.get = function (key, defaultValue){
-	var value = this._keys[key];
-	return value !== undefined ? value : defaultValue;
+	var k = this._keys[key];
+	return k !== undefined ? k.value : defaultValue;
 };
 
 Properties.prototype.keys = function (){
@@ -225,7 +226,9 @@ Properties.prototype.load = function (fileName, cb){
 	var me = this;
 	
 	var pr = new PropertyReader (function (key, value){
-		me._keys[key] = value;
+		me._keys[key] = {
+			value: value
+		}
 	}, function (){
 		cb (null, true);
 	});
@@ -243,8 +246,11 @@ Properties.prototype.load = function (fileName, cb){
 		.read ();
 };
 
-Properties.prototype.set = function (key, value){
-	this._keys[key] = value ? value.toString () : "";
+Properties.prototype.set = function (key, value, comment){
+	this._keys[key] = {
+		value: value,
+		comment: comment
+	};
 	return this;
 };
 
@@ -252,6 +258,8 @@ var convert = function (string, escapeSpace, unicode){
 	var c;
 	var code;
 	var ret = "";
+	
+	if (!string) return ret;
 	
 	for (var i=0, len=string.length; i<len; i++){
 		c = string[i];
@@ -308,10 +316,31 @@ var convert = function (string, escapeSpace, unicode){
 	return ret;
 };
 
-Properties.prototype.store = function (fileName, unicode, cb){
-	if (arguments.length === 2 && typeof unicode === "function"){
-		cb = unicode;
-		unicode = false;
+Properties.prototype.store = function (fileName, unicode, headerComment, cb){
+	var argsLen = arguments.length;
+	var type;
+	var type2;
+	if (argsLen === 2){
+		type = typeof unicode;
+		if (type === "function"){
+			cb = unicode;
+			unicode = false;
+			headerComment = null;
+		}else if (type === "string"){
+			headerComment = unicode;
+			unicode = false;
+		}
+	}else if (argsLen === 3){
+		type = typeof unicode;
+		type2 = typeof headerComment;
+		if (type === "boolean" && type2 === "function"){
+			cb = headerComment;
+			headerComment = null;
+		}else if (type === "string"){
+			cb = headerComment;
+			headerComment = unicode;
+			unicode = false;
+		}
 	}
 	
 	var s = FS.createWriteStream (getFileName (fileName));
@@ -322,9 +351,18 @@ Properties.prototype.store = function (fileName, unicode, cb){
 		if (cb) cb (error, false);
 	});
 	
+	if (headerComment){
+		s.write (Properties.COMMENT + " " + headerComment + EOL);
+	}
+	
+	var k;
 	for (var p in this._keys){
+		k = this._keys[p];
+		if (k.comment){
+			s.write (Properties.COMMENT + " " + k.comment + EOL);
+		}
 		s.write (convert (p, true, unicode) + Properties.SEPARATOR +
-			convert (this._keys[p], false, unicode) + EOL);
+			convert (k.value, false, unicode) + EOL);
 	}
 	
 	s.end ();
