@@ -4,7 +4,7 @@ Node Properties
 ===============
 
 #### Provides a simple way for persisting key-value properties for node.js ####
-_(A Java .properties file parser ported to node.js)_
+_(Java .properties file parser ported to node.js)_
 
 [Availability](#availability) | [Compatibility](#compatibility) | [Documentation](#documentation)
 
