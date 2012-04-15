@@ -352,14 +352,14 @@ Properties.prototype.store = function (fileName, unicode, headerComment, cb){
 	});
 	
 	if (headerComment){
-		s.write (Properties.COMMENT + " " + headerComment + EOL);
+		s.write (Properties.COMMENT + headerComment + EOL);
 	}
 	
 	var k;
 	for (var p in this._keys){
 		k = this._keys[p];
 		if (k.comment){
-			s.write (Properties.COMMENT + " " + k.comment + EOL);
+			s.write (Properties.COMMENT + k.comment + EOL);
 		}
 		s.write (convert (p, true, unicode) + Properties.SEPARATOR +
 			convert (k.value, false, unicode) + EOL);
