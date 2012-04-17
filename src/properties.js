@@ -312,7 +312,6 @@ var convert = function (string, escapeSpace, unicode){
 Properties.prototype.store = function (fileName, unicode, headerComment, cb){
 	var argsLen = arguments.length;
 	var type;
-	var type2;
 	if (argsLen === 2){
 		type = typeof unicode;
 		if (type === "function"){
@@ -325,8 +324,7 @@ Properties.prototype.store = function (fileName, unicode, headerComment, cb){
 		}
 	}else if (argsLen === 3){
 		type = typeof unicode;
-		type2 = typeof headerComment;
-		if (type === "boolean" && type2 === "function"){
+		if (type === "boolean" && typeof headerComment === "function"){
 			cb = headerComment;
 			headerComment = null;
 		}else if (type === "string"){
