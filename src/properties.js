@@ -4,14 +4,14 @@
  *
  * @author Gabriel Llamas
  * @created 08/04/2012
- * @modified 16/04/2012
- * @version 0.1.3
+ * @modified 21/04/2012
+ * @version 0.1.4
  */
 "use strict";
 
 var FS = require ("fs");
 var PATH = require ("path");
-var BufferedReader = require ("buffered-reader").BufferedReader;
+var BufferedReader = require ("buffered-reader");
 
 var BUFFER_SIZE = 4096;
 var SLASH = PATH.normalize ("/");
