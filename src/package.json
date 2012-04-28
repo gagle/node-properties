@@ -14,7 +14,8 @@
 		"node": "*"
 	},
 	"dependencies": {
-		"buffered-reader": "*"
+		"buffered-reader": "*",
+		"buffered-writer": "*"
 	},
 	"licenses": [{
 		"type": "MIT",
