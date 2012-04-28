@@ -4,18 +4,18 @@
  *
  * @author Gabriel Llamas
  * @created 08/04/2012
- * @modified 21/04/2012
- * @version 0.1.4
+ * @modified 28/04/2012
+ * @version 0.1.5
  */
 "use strict";
 
 var FS = require ("fs");
 var PATH = require ("path");
 var BufferedReader = require ("buffered-reader");
+var BufferedWriter = require ("buffered-writer");
 
 var BUFFER_SIZE = 4096;
 var SLASH = PATH.normalize ("/");
-var EOL = process.platform.indexOf ("win") !== -1 ? "\r\n" : "\n";
 
 var charFromUnicodeString = function (string){
 	var value = 0;
@@ -334,29 +334,28 @@ Properties.prototype.store = function (fileName, unicode, headerComment, cb){
 		}
 	}
 	
-	var s = FS.createWriteStream (fileName);
-	s.on ("close", function (){
-		if (cb) cb (null, true);
-	});
-	s.on ("error", function (error){
+	var bw = new BufferedWriter (fileName, "utf8");
+	bw.on ("error", function (error){
 		if (cb) cb (error, false);
 	});
 	
 	if (headerComment){
-		s.write (Properties.COMMENT + headerComment + EOL);
+		bw.write (Properties.COMMENT + headerComment).newLine ();
 	}
 	
 	var k;
 	for (var p in this._keys){
 		k = this._keys[p];
 		if (k.comment){
-			s.write (Properties.COMMENT + k.comment + EOL);
+			bw.write (Properties.COMMENT + k.comment).newLine ();
 		}
-		s.write (convert (p, true, unicode) + Properties.SEPARATOR +
-			convert (k.value, false, unicode) + EOL);
+		bw.write (convert (p, true, unicode) + Properties.SEPARATOR +
+			convert (k.value, false, unicode)).newLine ();
 	}
 	
-	s.end ();
+	bw.close ();
+	
+	if (cb) cb (null, true);
 };
 
 module.exports.Properties = Properties;
