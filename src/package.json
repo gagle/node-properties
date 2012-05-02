@@ -1,6 +1,6 @@
 {
 	"name": "properties",
-	"version": "0.1.6",
+	"version": "0.1.7",
 	"description": "Provides a simple persistence way to store and retrieve key-value properties.",
 	"keywords": ["properties", "persistence", "parser"],
 	"author": {

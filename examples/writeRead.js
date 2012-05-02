@@ -1,7 +1,6 @@
-var Properties = require ("../build/properties").Properties;
+var Properties = require ("../build/properties");
 
-var properties = new Properties ();
-properties
+new Properties ()
 	.set ("p1", "v1", "Property 1")
 	.set ("p2", null, "Property 2, empty")
 	.set ("p3", "v3")
@@ -9,14 +8,14 @@ properties
 	.store ("example.properties", "Example .properties file", function (error, stored){
 		console.log ("stored: " + stored);
 		
-		properties = new Properties ();
-		properties.load ("example.properties", function (error, loaded){
+		new Properties ().load ("example.properties", function (error, loaded){
 			console.log ("loaded: " + loaded);
 			
-			var keys = properties.keys ();
+			var me = this;
+			var keys = this.keys ();
 			console.log ("keys: " + keys);
 			keys.forEach (function (key){
-				console.log (key + ":" + properties.get (key));
+				console.log (key + ":" + me.get (key));
 			});
 		});
 	});

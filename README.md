@@ -7,7 +7,7 @@ Node Properties
 
 [Availability](#availability) | [Compatibility](#compatibility) | [Documentation](#documentation)
 
-Version: 0.1.6
+Version: 0.1.7
 
 A Java .properties file parser ported to node.js.
 

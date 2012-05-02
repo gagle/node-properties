@@ -5,19 +5,14 @@
  * @author Gabriel Llamas
  * @created 08/04/2012
  * @modified 02/05/2012
- * @version 0.1.6
+ * @version 0.1.7
  */
 "use strict";
 
-var FS = require ("fs");
-var PATH = require ("path");
 var BufferedReader = require ("buffered-reader");
 var BufferedWriter = require ("buffered-writer");
 
-var BUFFER_SIZE = 4096;
-var SLASH = PATH.normalize ("/");
-
-var charFromUnicodeString = function (string){
+var unicodeStringToCharacter = function (string){
 	var value = 0;
 	var c;
 	
@@ -42,7 +37,7 @@ var charFromUnicodeString = function (string){
 	return String.fromCharCode (value);
 };
 
-var unicodeStringFromChar = function (c){
+var characterToUnicodeString = function (c){
     var code = c.charCodeAt (0);
 	return "\\u" + toHex (code >> 12) + toHex (code >> 8) + toHex (code >> 4) + toHex (code);
 };
@@ -73,7 +68,7 @@ PropertyReader.prototype._convert = function (offset, end, string){
 		if (c === "\\"){
 			c = string[offset++];
 			if (c === "u"){
-				ret += charFromUnicodeString (
+				ret += unicodeStringToCharacter (
 					string[offset++] + string[offset++] + string[offset++] + string[offset++]);
 			}else{
 				if (c === "t") c = "\t";
@@ -216,17 +211,17 @@ Properties.prototype.keys = function (){
 };
 
 Properties.prototype.load = function (fileName, cb){
+	if (cb) cb = cb.bind (this);
 	var me = this;
-	
 	var pr = new PropertyReader (function (key, value){
 		me._keys[key] = {
 			value: value
 		}
 	}, function (){
-		cb (null, true);
+		if (cb) cb (null, true);
 	});
 	
-	new BufferedReader (fileName, { encoding: "utf8", bufferSize: BUFFER_SIZE })
+	new BufferedReader (fileName, { encoding: "utf8" })
 		.on ("error", function (error){
 			if (cb) cb (error, false);
 		})
@@ -299,7 +294,7 @@ var convert = function (string, escapeSpace, unicode){
 				break;
 			default:
 				if (code < 33 || code > 126){
-					ret += unicode ? unicodeStringFromChar (c) : c;
+					ret += unicode ? characterToUnicodeString (c) : c;
 				}else{
 					ret += c;
 				}
@@ -312,7 +307,9 @@ var convert = function (string, escapeSpace, unicode){
 Properties.prototype.store = function (fileName, unicode, headerComment, cb){
 	var argsLen = arguments.length;
 	var type;
-	if (argsLen === 2){
+	if (argsLen === 1){
+		unicode = false;
+	}else if (argsLen === 2){
 		type = typeof unicode;
 		if (type === "function"){
 			cb = unicode;
@@ -334,6 +331,7 @@ Properties.prototype.store = function (fileName, unicode, headerComment, cb){
 		}
 	}
 	
+	if (cb) cb = cb.bind (this);
 	var bw = new BufferedWriter (fileName, { encoding: "utf8" });
 	bw.on ("error", function (error){
 		if (cb) cb (error, false);
@@ -358,4 +356,4 @@ Properties.prototype.store = function (fileName, unicode, headerComment, cb){
 	if (cb) cb (null, true);
 };
 
-module.exports.Properties = Properties;
+module.exports = Properties;
