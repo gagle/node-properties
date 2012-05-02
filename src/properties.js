@@ -4,8 +4,8 @@
  *
  * @author Gabriel Llamas
  * @created 08/04/2012
- * @modified 28/04/2012
- * @version 0.1.5
+ * @modified 02/05/2012
+ * @version 0.1.6
  */
 "use strict";
 
@@ -226,7 +226,7 @@ Properties.prototype.load = function (fileName, cb){
 		cb (null, true);
 	});
 	
-	new BufferedReader (fileName, BUFFER_SIZE, "utf8")
+	new BufferedReader (fileName, { encoding: "utf8", bufferSize: BUFFER_SIZE })
 		.on ("error", function (error){
 			if (cb) cb (error, false);
 		})
@@ -334,7 +334,7 @@ Properties.prototype.store = function (fileName, unicode, headerComment, cb){
 		}
 	}
 	
-	var bw = new BufferedWriter (fileName, "utf8");
+	var bw = new BufferedWriter (fileName, { encoding: "utf8" });
 	bw.on ("error", function (error){
 		if (cb) cb (error, false);
 	});
