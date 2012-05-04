@@ -1,1 +1,1 @@
-var Properties = require ("../build/properties").Properties;
+var Properties = require ("../build/properties");

@@ -1,3 +1,6 @@
+Characters that cannot be directly represented in ISO 8859-1 encoding can be
+written using Unicode escapes.
+
 Properties are processed in terms of lines. There are two kinds of line,
 natural lines and logical lines. A natural line is defined as a line of
 characters that is terminated either by a set of line terminator characters
@@ -95,4 +98,4 @@ sequences and Unicode escapes used for characters and strings are:
     - Escapes are not necessary for single and double quotes; however, by the
 	  rule above, single and double quote characters preceded by a backslash
 	  still yield single and double quote characters, respectively.
-    - Only a single 'u' character is allowed in a Uniocde escape sequence.
+    - Only a single 'u' character is allowed in a Unicode escape sequence.

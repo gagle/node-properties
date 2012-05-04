@@ -218,12 +218,12 @@ Properties.prototype.load = function (fileName, cb){
 			value: value
 		}
 	}, function (){
-		if (cb) cb (null, true);
+		if (cb) cb (null);
 	});
 	
 	new BufferedReader (fileName, { encoding: "utf8" })
 		.on ("error", function (error){
-			if (cb) cb (error, false);
+			if (cb) cb (error);
 		})
 		.on ("character", function (character){
 			pr.parse (character);
@@ -334,7 +334,7 @@ Properties.prototype.store = function (fileName, unicode, headerComment, cb){
 	if (cb) cb = cb.bind (this);
 	var bw = new BufferedWriter (fileName, { encoding: "utf8" });
 	bw.on ("error", function (error){
-		if (cb) cb (error, false);
+		if (cb) cb (error);
 	});
 	
 	if (headerComment){
@@ -351,9 +351,9 @@ Properties.prototype.store = function (fileName, unicode, headerComment, cb){
 			convert (k.value, false, unicode)).newLine ();
 	}
 	
-	bw.close ();
-	
-	if (cb) cb (null, true);
+	bw.close (function (){
+		if (cb) cb (null);
+	});
 };
 
 module.exports = Properties;

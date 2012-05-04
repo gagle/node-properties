@@ -1,5 +1,5 @@
+var Properties = require ("../../build/properties");
 var assert = require ("assert");
-var Properties = require ("../build/properties").Properties;
 
 var o = {
     a1: { value: "b" },
@@ -16,10 +16,11 @@ var o = {
     empty: { value: "" },
     empty2: { value: "" },
     "É": { value: "É" },
-    E_unicode: { value: "É" }
+	"↑": { value: "↓" },
+    E_unicode: { value: "É" },
+	"←": { value: "→" }
 };
 
-var properties = new Properties ();
-properties.load ("test", function (error, loaded){
-	assert.deepEqual (properties._keys, o);
+new Properties ().load ("test", function (error){
+	assert.deepEqual (this._keys, o);
 });

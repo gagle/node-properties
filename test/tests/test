@@ -32,5 +32,7 @@ empty2
 
 #Unicode
 É : É
+↑		↓
 !Escaped unicode
 E_unicode		\u00C9
+\u2190=\u2192
