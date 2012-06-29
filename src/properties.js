@@ -404,6 +404,20 @@ Properties.prototype.store = function (fileName, unicode, headerComment, cb){
 			convert (k.value, false, unicode)).newLine ();
 	}
 	
+	for (var s in this._sections){
+		if (this._sections.hasOwnProperty(s)){
+			bw.write ("[" + convert (s, true, unicode) + "]").newLine ();
+			for (var p in this._sections[s]){
+				k = this._sections[s][p];
+				if (k.comment){
+					bw.write (Properties.COMMENT + k.comment).newLine ();
+				}
+				bw.write (convert (p, true, unicode) + Properties.SEPARATOR +
+					convert (k.value, false, unicode)).newLine ();
+			}
+		}
+	}
+
 	bw.close (function (){
 		if (cb) cb (null);
 	});
