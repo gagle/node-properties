@@ -202,13 +202,15 @@ PropertyReader.prototype.parse = function (c){
 				this._readKeyValue (this._line);
 			}
 			this._line = "";
+
+			this._isSectionLine = false;
 		}
 	}
 };
 
 var Properties = function (){
 	this._keys = {};
-	this._sections = null;
+	this._sections = {};
 	this._currentSection = null;
 };
 
