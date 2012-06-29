@@ -222,8 +222,24 @@ Properties.prototype.get = function (key, defaultValue){
 	return k !== undefined ? k.value : defaultValue;
 };
 
+Properties.prototype.getS = function (section, key, defaultValue){
+	var s = this._sections[section];
+	if (s === undefined){
+		return defaultValue;
+	}
+	var k = s[key];
+	return k !== undefined ? k.value : defaultValue;
+};
+
 Properties.prototype.keys = function (){
 	return Object.keys (this._keys);
+};
+
+Properties.prototype.sectionKeys = function (section){
+	if (typeof this._sections[section] === "undefined"){
+		return Object.keys (this._sections);
+	}
+	return Object.keys (this._sections[section]);
 };
 
 Properties.prototype.load = function (fileName, cb){
