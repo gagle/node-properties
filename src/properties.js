@@ -284,6 +284,17 @@ Properties.prototype.set = function (key, value, comment){
 	return this;
 };
 
+Properties.prototype.setS = function (section, key, value, comment){
+	if (typeof this._sections[section] === "undefined"){
+		this._sections[section] = {};
+	}
+	this._sections[section][key] = {
+		value: value ? value.toString () : value,
+		comment: comment
+	};
+	return this;
+};
+
 var convert = function (string, escapeSpace, unicode){
 	var c;
 	var code;
