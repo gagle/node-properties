@@ -47,11 +47,13 @@ var toHex = function (n){
 	return (hex[n & 0xF]);
 };
 
-var PropertyReader = function (onLine, onEOF){
+var PropertyReader = function (onLine, onSection, onEOF){
 	this._onLine = onLine;
+	this._onSection = onSection;
 	this._onEOF = onEOF;
 	this._skipWhiteSpace = true;
 	this._isCommentLine = false;
+	this._isSectionLine = false;
 	this._isNewLine = true;
 	this._appendedLineBegin = false;
 	this._precedingBackslash = false;
@@ -164,10 +166,20 @@ PropertyReader.prototype.parse = function (c){
 			this._isCommentLine = true;
 			return;
 		}
+		if (c === "["){
+			this._isSectionLine = true;
+			this._line = "";
+			return;
+		}
 	}
 	
 	if (c !== "\n" && c !== "\r"){
-		this._line += c;
+		if (this._isSectionLine && c === "]"){
+			this._onSection(this._line);
+			return;
+		}else{
+			this._line += c;
+		}
 		if (c === "\\"){
 			this._precedingBackslash = !this._precedingBackslash;
 		}else{
@@ -186,16 +198,20 @@ PropertyReader.prototype.parse = function (c){
 			this._isNewLine = true;
 			this._skipWhiteSpace = true;
 			
-			if (this._line){
+			if (!this._isSectionLine && this._line){
 				this._readKeyValue (this._line);
 			}
 			this._line = "";
+
+			this._isSectionLine = false;
 		}
 	}
 };
 
 var Properties = function (){
 	this._keys = {};
+	this._sections = {};
+	this._currentSection = null;
 };
 
 Properties.SEPARATOR = "=";
@@ -206,17 +222,43 @@ Properties.prototype.get = function (key, defaultValue){
 	return k !== undefined ? k.value : defaultValue;
 };
 
+Properties.prototype.getS = function (section, key, defaultValue){
+	var s = this._sections[section];
+	if (s === undefined){
+		return defaultValue;
+	}
+	var k = s[key];
+	return k !== undefined ? k.value : defaultValue;
+};
+
 Properties.prototype.keys = function (){
 	return Object.keys (this._keys);
+};
+
+Properties.prototype.sectionKeys = function (section){
+	if (typeof this._sections[section] === "undefined"){
+		return Object.keys (this._sections);
+	}
+	return Object.keys (this._sections[section]);
 };
 
 Properties.prototype.load = function (fileName, cb){
 	if (cb) cb = cb.bind (this);
 	var me = this;
 	var pr = new PropertyReader (function (key, value){
-		me._keys[key] = {
-			value: value
+		if (me._currentSection){
+			me._sections[me._currentSection][key] = {
+				value: value
+			}
+		}else{
+			me._keys[key] = {
+				value: value
+			}
 		}
+	}, function (name){
+		me._sections[name] = {
+		}
+		me._currentSection = name;
 	}, function (){
 		if (cb) cb (null);
 	});
@@ -236,6 +278,17 @@ Properties.prototype.load = function (fileName, cb){
 
 Properties.prototype.set = function (key, value, comment){
 	this._keys[key] = {
+		value: value ? value.toString () : value,
+		comment: comment
+	};
+	return this;
+};
+
+Properties.prototype.setS = function (section, key, value, comment){
+	if (typeof this._sections[section] === "undefined"){
+		this._sections[section] = {};
+	}
+	this._sections[section][key] = {
 		value: value ? value.toString () : value,
 		comment: comment
 	};
@@ -351,6 +404,20 @@ Properties.prototype.store = function (fileName, unicode, headerComment, cb){
 			convert (k.value, false, unicode)).newLine ();
 	}
 	
+	for (var s in this._sections){
+		if (this._sections.hasOwnProperty(s)){
+			bw.write ("[" + convert (s, true, unicode) + "]").newLine ();
+			for (var p in this._sections[s]){
+				k = this._sections[s][p];
+				if (k.comment){
+					bw.write (Properties.COMMENT + k.comment).newLine ();
+				}
+				bw.write (convert (p, true, unicode) + Properties.SEPARATOR +
+					convert (k.value, false, unicode)).newLine ();
+			}
+		}
+	}
+
 	bw.close (function (){
 		if (cb) cb (null);
 	});
