@@ -47,11 +47,13 @@ var toHex = function (n){
 	return (hex[n & 0xF]);
 };
 
-var PropertyReader = function (onLine, onEOF){
+var PropertyReader = function (onLine, onSection, onEOF){
 	this._onLine = onLine;
+	this._onSection = onSection;
 	this._onEOF = onEOF;
 	this._skipWhiteSpace = true;
 	this._isCommentLine = false;
+	this._isSectionLine = false;
 	this._isNewLine = true;
 	this._appendedLineBegin = false;
 	this._precedingBackslash = false;
@@ -164,10 +166,20 @@ PropertyReader.prototype.parse = function (c){
 			this._isCommentLine = true;
 			return;
 		}
+		if (c === "["){
+			this._isSectionLine = true;
+			this._line = "";
+			return;
+		}
 	}
 	
 	if (c !== "\n" && c !== "\r"){
-		this._line += c;
+		if (this._isSectionLine && c === "]"){
+			this._onSection(this._line);
+			return;
+		}else{
+			this._line += c;
+		}
 		if (c === "\\"){
 			this._precedingBackslash = !this._precedingBackslash;
 		}else{
@@ -186,7 +198,7 @@ PropertyReader.prototype.parse = function (c){
 			this._isNewLine = true;
 			this._skipWhiteSpace = true;
 			
-			if (this._line){
+			if (!this._isSectionLine && this._line){
 				this._readKeyValue (this._line);
 			}
 			this._line = "";
@@ -196,6 +208,8 @@ PropertyReader.prototype.parse = function (c){
 
 var Properties = function (){
 	this._keys = {};
+	this._sections = null;
+	this._currentSection = null;
 };
 
 Properties.SEPARATOR = "=";
@@ -214,9 +228,19 @@ Properties.prototype.load = function (fileName, cb){
 	if (cb) cb = cb.bind (this);
 	var me = this;
 	var pr = new PropertyReader (function (key, value){
-		me._keys[key] = {
-			value: value
+		if (me._currentSection){
+			me._sections[me._currentSection][key] = {
+				value: value
+			}
+		}else{
+			me._keys[key] = {
+				value: value
+			}
 		}
+	}, function (name){
+		me._sections[name] = {
+		}
+		me._currentSection = name;
 	}, function (){
 		if (cb) cb (null);
 	});
