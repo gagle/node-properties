@@ -18,7 +18,12 @@ var o = {
     "É": { value: "É" },
 	"↑": { value: "↓" },
     E_unicode: { value: "É" },
-	"←": { value: "→" }
+    "←": { value: "→" },
+    substitute: { value: "b", origValue: "${a1}" },
+    "subst.a.value" : { value: "a_value" },
+    "subst.b.value" : { value: "b_value" },
+    recursive_substitute : { value: "b_value", origValue: "${subst.${substitute}.value}" },
+    recursive_and_concated : { value: "b_value.a_value", origValue: "${subst.${substitute}.value}.${subst.a.value}" }
 };
 
 new Properties ().load ("test", function (error){

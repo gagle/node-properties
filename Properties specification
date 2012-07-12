@@ -99,3 +99,23 @@ sequences and Unicode escapes used for characters and strings are:
 	  rule above, single and double quote characters preceded by a backslash
 	  still yield single and double quote characters, respectively.
     - Only a single 'u' character is allowed in a Unicode escape sequence.
+
+Value substitution
+
+values can reference already defined keys. Such references will be dereferenced 
+after all properties have been loaded. The syntax is as follows ${keyName}. The 
+referenced keyName can contain references as well. This makes it possible to 
+have several configurations in a single properties file, e.g:
+
+env = dev
+database.dev.username = foo
+database.dev.host = localhost
+database.prod.username = bar
+database.prod.host = example.com
+
+database.username = ${database.${env}.username}
+database.host = ${database.${env}.host}
+
+During value substitution the special key NODE_ENV is defined during the 
+substitution and carries the value of the NODE_ENV environment variable.
+

@@ -13,10 +13,9 @@ var BufferedReader = require ("buffered-reader");
 var BufferedWriter = require ("buffered-writer");
 
 var unicodeStringToCharacter = function (string){
-	var value = 0;
-	var c;
+	var value = 0, c, i;
 	
-	for (var i=0; i<4; i++){
+	for (i=0; i<4; i++){
 		c = string[i];
 		switch (c){
 			case "0": case "1": case "2": case "3": case "4":
@@ -196,14 +195,97 @@ PropertyReader.prototype.parse = function (c){
 
 var Properties = function (){
 	this._keys = {};
+	this._line = "";
+	this._readerPos = 0;
+	this._token = 0;
+	this._substStack = [];
 };
 
 Properties.SEPARATOR = "=";
 Properties.COMMENT = "#";
+Properties.SUBST_OPEN = "${";
+Properties.SUBST_CLOSE = "}";
 
 Properties.prototype.get = function (key, defaultValue){
 	var k = this._keys[key];
 	return k !== undefined ? k.value : defaultValue;
+};
+
+Properties.prototype._performSubstitutions = function() {
+	var prop,
+    keys = this._keys,
+	    subst = "";
+	for (prop in keys) {
+		if (keys.hasOwnProperty(prop)) {
+			subst = this._performValueSubstitution(prop, keys[prop].value);
+			if (keys[prop].value !== subst) {
+				keys[prop].origValue = keys[prop].value;
+				keys[prop].value = subst;
+			}
+		}
+	}
+};
+
+Properties.prototype._performValueSubstitution = function(key, value) {
+	this._line = value;
+	this._readerPos = 0;
+	this._token = 0;
+	this._substStack = [];
+	this._substStack.push("");
+	this._nextToken();
+	this._charOrOpenSubst();
+	if (this._substStack.length !== 1 ||
+		this._token !== 0) {
+		throw ("Malformed variable substitution for " + key + " = " + value);
+	}
+	return this._substStack.pop();
+};
+
+Properties.prototype._charOrOpenSubst = function() {
+	while (this._token === Properties.SUBST_OPEN ||
+		   (this._token !== Properties.SUBST_CLOSE && this._token !== 0) ) {
+		if (this._token === Properties.SUBST_OPEN) {
+			this._substStack.push("");
+			this._nextToken();
+			this._charOrOpenSubst();
+			this._closeSubst();
+		} else {
+			this._substStack[this._substStack.length-1] = this._substStack[this._substStack.length-1].concat(this._token);
+			this._nextToken();
+		}
+	}
+};
+
+Properties.prototype._closeSubst = function() {
+	var refKey,
+       refValue;
+
+	if (this._token === Properties.SUBST_CLOSE) {
+		refKey = this._substStack.pop();
+		if (refKey === "NODE_ENV") {
+			refValue = process.env.NODE_ENV;
+		} else {
+			refValue = this.get(refKey, "UNDEFINED");
+		}
+		this._substStack[this._substStack.length-1] = this._substStack[this._substStack.length-1].concat(refValue);
+		this._nextToken();
+	}
+};
+
+Properties.prototype._nextToken = function() {
+	var ret = 0;
+	if (this._line.length === this._readerPos) {
+		ret = 0;
+	} else if (this._line.length > this._readerPos+1 &&
+			   this._line.charAt(this._readerPos) === "$" &&
+			   this._line.charAt(this._readerPos+1) === "{") {
+		ret = Properties.SUBST_OPEN;
+		this._readerPos += 2;
+	} else {
+		ret = this._line.charAt(this._readerPos);
+		this._readerPos++;
+	}
+	this._token = ret;
 };
 
 Properties.prototype.keys = function (){
@@ -216,6 +298,14 @@ Properties.prototype.load = function (fileName, cb){
 	var pr = new PropertyReader (function (key, value){
 		me._keys[key] = {
 			value: value
+		}
+		try {
+			me._performSubstitutions.call(me);
+		} catch (error) {
+			if (cb) {
+				cb(error);
+				cb = null;
+			}
 		}
 	}, function (){
 		if (cb) cb (null);
@@ -355,5 +445,6 @@ Properties.prototype.store = function (fileName, unicode, headerComment, cb){
 		if (cb) cb (null);
 	});
 };
+
 
 module.exports = Properties;

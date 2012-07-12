@@ -36,3 +36,8 @@ empty2
 !Escaped unicode
 E_unicode		\u00C9
 \u2190=\u2192
+substitute = ${a1}
+subst.a.value = a_value
+subst.b.value = b_value
+recursive_substitute = ${subst.${substitute}.value}
+recursive_and_concated = ${subst.${substitute}.value}.${subst.a.value}
