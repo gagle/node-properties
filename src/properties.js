@@ -299,6 +299,7 @@ Properties.prototype.load = function (fileName, cb){
 		me._keys[key] = {
 			value: value
 		}
+	}, function (){
 		try {
 			me._performSubstitutions.call(me);
 		} catch (error) {
@@ -307,7 +308,6 @@ Properties.prototype.load = function (fileName, cb){
 				cb = null;
 			}
 		}
-	}, function (){
 		if (cb) cb (null);
 	});
 	
