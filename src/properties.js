@@ -203,9 +203,14 @@ Properties.SENSITIVITY = true;
 Properties.SEPARATOR = "=";
 
 Properties.prototype.get = function (key, defaultValue){
-	if (defaultValue === undefined) defaultValue = null;
 	var k = this._keys[key];
-	return k !== undefined ? k.value : defaultValue;
+	var v;
+	if (k !== undefined){
+		v = k.value;
+	}else{
+		v = defaultValue === undefined ? null : defaultValue;
+	}
+	return v;
 };
 
 Properties.prototype.keys = function (){
