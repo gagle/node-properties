@@ -251,6 +251,8 @@ Properties.prototype.remove = function (key){
 				break;
 			}
 		}
+	}else{
+		delete this._keys[key];
 	}
 	return this;
 };
@@ -364,6 +366,8 @@ Properties.prototype.store = function (fileName, unicode, headerComment, cb){
 	bw.on ("error", function (error){
 		if (cb) cb (error);
 	});
+	
+	bw.write ("");
 	
 	if (headerComment){
 		bw.write (Properties.COMMENT + headerComment).newLine ();
