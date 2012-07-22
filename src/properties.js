@@ -5,7 +5,7 @@
  * @author Gabriel Llamas
  * @created 08/04/2012
  * @modified 22/07/2012
- * @version 0.1.9
+ * @version 0.1.10
  */
 "use strict";
 
@@ -203,6 +203,7 @@ Properties.SENSITIVITY = true;
 Properties.SEPARATOR = "=";
 
 Properties.prototype.get = function (key, defaultValue){
+	if (defaultValue === undefined) defaultValue = null;
 	var k = this._keys[key];
 	return k !== undefined ? k.value : defaultValue;
 };
@@ -223,7 +224,7 @@ Properties.prototype.load = function (fileName, cb){
 		}
 		
 		me._keys[key] = {
-			value: value
+			value: value === "" ? null : value
 		}
 	}, function (){
 		if (cb) cb (null);
