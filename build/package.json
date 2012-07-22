@@ -1,6 +1,6 @@
 {
 	"name": "properties",
-	"version": "0.1.8",
+	"version": "0.1.9",
 	"description": "A Java .properties file parser ported to node.js.",
 	"keywords": ["properties", "persistence", "parser"],
 	"author": {

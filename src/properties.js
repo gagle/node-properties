@@ -4,8 +4,8 @@
  *
  * @author Gabriel Llamas
  * @created 08/04/2012
- * @modified 21/07/2012
- * @version 0.1.8
+ * @modified 22/07/2012
+ * @version 0.1.9
  */
 "use strict";
 
@@ -240,6 +240,19 @@ Properties.prototype.load = function (fileName, cb){
 			pr.eof ();
 		})
 		.read ();
+};
+
+Properties.prototype.remove = function (key){
+	if (!Properties.SENSITIVITY){
+		var keyInsensitive = key.toLowerCase ();
+		for (var storedKey in this._keys){
+			if (keyInsensitive === storedKey.toLowerCase ()){
+				delete this._keys[storedKey];
+				break;
+			}
+		}
+	}
+	return this;
 };
 
 Properties.prototype.set = function (key, value, comment){
