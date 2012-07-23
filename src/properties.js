@@ -215,9 +215,7 @@ Properties.prototype.load = function (fileName, cb){
 	if (cb) cb = cb.bind (this);
 	var me = this;
 	var pr = new PropertyReader (function (key, value){
-		me._keys[Properties.SENSITIVITY ? key : key.toLowerCase ()] = {
-			value: value === "" ? null : value
-		}
+		me.set (key, value);
 	}, function (){
 		if (cb) cb (null);
 	});
