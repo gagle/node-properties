@@ -3,10 +3,11 @@ var Properties = require ("../build/properties");
 Properties.SENSITIVITY = false;
 
 new Properties ()
-	.set ("P1", "v1", "Comment 1")
-	.set ("p1", null, "This property won't be written to the file")
+	.set ("p1", "v1")
+	.set ("P1", "v2")
 	.store ("outFile");
 
 new Properties ().load ("inFile", function (){
-	console.log (this.keys ()); //['P1']
+	console.log (this.keys ()); //Prints: ['p1']
+	console.log (this.get ("P1")); //Prints: v2
 });

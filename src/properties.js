@@ -4,8 +4,8 @@
  *
  * @author Gabriel Llamas
  * @created 08/04/2012
- * @modified 22/07/2012
- * @version 0.1.10
+ * @modified 23/07/2012
+ * @version 0.1.11
  */
 "use strict";
 
@@ -203,14 +203,8 @@ Properties.SENSITIVITY = true;
 Properties.SEPARATOR = "=";
 
 Properties.prototype.get = function (key, defaultValue){
-	var k = this._keys[key];
-	var v;
-	if (k !== undefined){
-		v = k.value;
-	}else{
-		v = defaultValue === undefined ? null : defaultValue;
-	}
-	return v;
+	var v = this._keys[Properties.SENSITIVITY ? key : key.toLowerCase ()];
+	return v ? v.value : (defaultValue === undefined ? null : defaultValue)
 };
 
 Properties.prototype.keys = function (){
@@ -221,14 +215,7 @@ Properties.prototype.load = function (fileName, cb){
 	if (cb) cb = cb.bind (this);
 	var me = this;
 	var pr = new PropertyReader (function (key, value){
-		if (!Properties.SENSITIVITY){
-			var keyInsensitive = key.toLowerCase ();
-			for (var storedKey in me._keys){
-				if (keyInsensitive === storedKey.toLowerCase ()) return;
-			}
-		}
-		
-		me._keys[key] = {
+		me._keys[Properties.SENSITIVITY ? key : key.toLowerCase ()] = {
 			value: value === "" ? null : value
 		}
 	}, function (){
@@ -249,29 +236,12 @@ Properties.prototype.load = function (fileName, cb){
 };
 
 Properties.prototype.remove = function (key){
-	if (!Properties.SENSITIVITY){
-		var keyInsensitive = key.toLowerCase ();
-		for (var storedKey in this._keys){
-			if (keyInsensitive === storedKey.toLowerCase ()){
-				delete this._keys[storedKey];
-				break;
-			}
-		}
-	}else{
-		delete this._keys[key];
-	}
+	delete this._keys[Properties.SENSITIVITY ? key : key.toLowerCase ()];
 	return this;
 };
 
 Properties.prototype.set = function (key, value, comment){
-	if (!Properties.SENSITIVITY){
-		var keyInsensitive = key.toLowerCase ();
-		for (var storedKey in this._keys){
-			if (keyInsensitive === storedKey.toLowerCase ()) return this;
-		}
-	}
-	
-	this._keys[key] = {
+	this._keys[Properties.SENSITIVITY ? key : key.toLowerCase ()] = {
 		value: value ? value.toString () : value,
 		comment: comment
 	};
