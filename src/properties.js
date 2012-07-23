@@ -204,7 +204,7 @@ Properties.SEPARATOR = "=";
 
 Properties.prototype.get = function (key, defaultValue){
 	var v = this._keys[Properties.SENSITIVITY ? key : key.toLowerCase ()];
-	return v ? v.value : (defaultValue === undefined ? null : defaultValue);
+	return v ? v.value : (defaultValue || null);
 };
 
 Properties.prototype.keys = function (){
@@ -215,7 +215,7 @@ Properties.prototype.load = function (fileName, cb){
 	if (cb) cb = cb.bind (this);
 	var me = this;
 	var pr = new PropertyReader (function (key, value){
-		me.set (key, value ? value : null);
+		me.set (key, value || null);
 	}, function (){
 		if (cb) cb (null);
 	});
@@ -241,7 +241,7 @@ Properties.prototype.remove = function (key){
 Properties.prototype.set = function (key, value, comment){
 	this._keys[Properties.SENSITIVITY ? key : key.toLowerCase ()] = {
 		value: value ? value.toString () : value,
-		comment: comment ? comment : null
+		comment: comment || null
 	};
 	return this;
 };
