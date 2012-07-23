@@ -204,7 +204,7 @@ Properties.SEPARATOR = "=";
 
 Properties.prototype.get = function (key, defaultValue){
 	var v = this._keys[Properties.SENSITIVITY ? key : key.toLowerCase ()];
-	return v ? v.value : (defaultValue === undefined ? null : defaultValue)
+	return v ? v.value : (defaultValue === undefined ? null : defaultValue);
 };
 
 Properties.prototype.keys = function (){
