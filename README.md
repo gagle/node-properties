@@ -3,13 +3,11 @@
 Node Properties
 ===============
 
-#### Provides a simple way for persisting key-value properties for node.js ####
+#### A Java .properties file parser ported to node.js ####
 
 [Availability](#availability) | [Compatibility](#compatibility) | [Documentation](#documentation)
 
 Version: 0.1.11
-
-A Java .properties file parser ported to node.js.
 
 <a name="availability"></a>
 #### Availability [↑](#start) ####
