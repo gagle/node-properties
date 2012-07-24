@@ -25,7 +25,7 @@ npm install properties
 <a name="compatibility"></a>
 #### Compatibility [↑](#start) ####
 
-✔ Node *
+✔ Node 0.4.10+
 
 ***
 
