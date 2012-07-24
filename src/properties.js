@@ -341,7 +341,7 @@ Properties.prototype.store = function (fileName, unicode, headerComment, cb){
 		if (cb) cb (error);
 	});
 	
-	bw.write ("");
+	bw.touch ();
 	
 	if (headerComment){
 		bw.write (Properties.COMMENT + headerComment).newLine ();
