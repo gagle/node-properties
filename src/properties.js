@@ -4,8 +4,8 @@
  *
  * @author Gabriel Llamas
  * @created 08/04/2012
- * @modified 23/07/2012
- * @version 0.1.11
+ * @modified 29/07/2012
+ * @version 0.1.12
  */
 "use strict";
 
@@ -204,7 +204,7 @@ Properties.SEPARATOR = "=";
 
 Properties.prototype.get = function (key, defaultValue){
 	var v = this._keys[Properties.SENSITIVITY ? key : key.toLowerCase ()];
-	return v ? v.value : (defaultValue || null);
+	return (!v || !v.value) ? (defaultValue || null) : v.value;
 };
 
 Properties.prototype.keys = function (){
