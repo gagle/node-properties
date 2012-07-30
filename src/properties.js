@@ -4,8 +4,8 @@
  *
  * @author Gabriel Llamas
  * @created 08/04/2012
- * @modified 29/07/2012
- * @version 0.1.12
+ * @modified 30/07/2012
+ * @version 0.1.13
  */
 "use strict";
 
@@ -194,7 +194,8 @@ PropertyReader.prototype.parse = function (c){
 	}
 };
 
-var Properties = function (){
+var Properties = function (encoding){
+	this._encoding = encoding || "utf8";
 	this._keys = {};
 };
 
@@ -220,7 +221,7 @@ Properties.prototype.load = function (fileName, cb){
 		if (cb) cb (null);
 	});
 	
-	new BufferedReader (fileName, { encoding: "utf8" })
+	new BufferedReader (fileName, { encoding: this._encoding })
 		.on ("error", function (error){
 			if (cb) cb (error);
 		})

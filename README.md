@@ -7,7 +7,7 @@ Node Properties
 
 [Availability](#availability) | [Compatibility](#compatibility) | [Documentation](#documentation)
 
-Version: 0.1.12
+Version: 0.1.13
 
 <a name="availability"></a>
 #### Availability [↑](#start) ####
