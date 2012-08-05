@@ -24,12 +24,15 @@ new Properties ()
 		new Properties ().load ("example.properties", function (error){
 			var me = this;
 			var keys = this.keys ();
+			
 			console.log ("keys: " + keys); //Prints: keys: p1,p2,p3,p4
+			
 			keys.forEach (function (key){
 				console.log (key + ": " + me.get (key));
 			});
 			/*
 			Prints: 
+			
 			p1: v1
 			p2: null
 			p3: v3
