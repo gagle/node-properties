@@ -11,7 +11,7 @@ new Properties ()
 			var keys = this.keys ();
 			console.log ("keys: " + keys);
 			keys.forEach (function (key){
-				console.log (key + ":" + me.get (key));
+				console.log (key + ": " + me.get (key));
 			});
 		});
 	});
