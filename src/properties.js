@@ -194,9 +194,13 @@ PropertyReader.prototype.parse = function (c){
 	}
 };
 
-var Properties = function (encoding){
+var Properties = function (encoding, options){
 	this._encoding = encoding || "utf8";
 	this._keys = {};
+	this._lastname = null;
+	if (options){
+		this._autosave = !!options.autosave;
+	}
 };
 
 Properties.COMMENT = "#";
@@ -244,6 +248,9 @@ Properties.prototype.set = function (key, value, comment){
 		value: value ? value.toString () : value,
 		comment: comment || null
 	};
+	if (this._autosave && this._lastname){
+		this.store(this._lastname);
+	}
 	return this;
 };
 
