@@ -4,12 +4,12 @@
  *
  * @author Gabriel Llamas
  * @created 08/04/2012
- * @modified 30/07/2012
- * @version 0.1.13
+ * @modified 06/10/2012
+ * @version 0.1.14
  */
 "use strict";
 
-var BufferedReader = require ("buffered-reader");
+var DataReader = require ("buffered-reader").DataReader;
 var BufferedWriter = require ("buffered-writer");
 
 var unicodeStringToCharacter = function (string){
@@ -221,7 +221,7 @@ Properties.prototype.load = function (fileName, cb){
 		if (cb) cb (null);
 	});
 	
-	new BufferedReader (fileName, { encoding: this._encoding })
+	new DataReader (fileName, { encoding: this._encoding })
 		.on ("error", function (error){
 			if (cb) cb (error);
 		})

@@ -7,7 +7,7 @@ Node Properties
 
 [Show me!](#showme) | [Availability](#availability) | [Compatibility](#compatibility) | [Documentation](#documentation)
 
-Version: 0.1.13
+Version: 0.1.14
 
 If you need advanced features like arguments replacement, INI sections and property expansion (keys as variables) take a look at [Node-EnhancedProperties](https://github.com/Gagle/Node-EnhancedProperties).
 
