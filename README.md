@@ -125,7 +125,7 @@ var props = {
 	},
 	e: {
 		comment: "my comment"
-		//No value, the same as c
+		//No value, the same as d
 	},
 	f: {
 		//No comment, the same as a
