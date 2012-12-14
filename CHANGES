@@ -2,6 +2,7 @@ v0.2.0 (14 Dec 2012)
 	Complete code revision and refactor.
 	Non printable characters (C0 and C1 control codes) are converted to unicode
 		string representations regardless the encoding.
+	Added "config()".
 
 v0.1.13 (30 Jul 2012)
 	Added the option to pass the file encoding, by default is utf8.
