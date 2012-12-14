@@ -92,7 +92,7 @@ Loads a .properties file. The callback receives the error and the loaded propert
 
 The possible settings are:
 
-- encoding. __String__. `ascii` or `utf8`. Default is `utf8`.
+- encoding. _String_. `ascii` or `utf8`. Default is `utf8`.
 - bufferSize. _Number_. The buffer size used while reading the file. Default is 16KB.
 
 ```javascript
@@ -140,7 +140,7 @@ var props = {
 The possible settings are:
 - encoding. _String_. `ascii` or `utf8`. If `ascii` is used, all the characters with code greater than 127 are converted to its unicode string representation.
 - bufferSize. _Number_. The buffer size used while writin the file. Default is 16KB.
-- header. __String__. A comment to write at the beginning of the file.
+- header. _String_. A comment to write at the beginning of the file.
 
 The comments (from properties and header) can be written as a multi-line comment, for example, if you write a property:
 
