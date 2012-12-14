@@ -48,10 +48,12 @@ properties.store ("file", p, { header: "My multi-line\nproperties header" }, fun
 		/*
 		Prints:
 		
-		p1: v1
-		p2: null
-		p3: v3
-		p4: null
+		{
+			p1: "v1",
+			p2: null,
+			p3: "v3",
+			p4: null
+		}
 		*/
 	});
 ```
