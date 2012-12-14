@@ -138,7 +138,7 @@ var props = {
 ```
 
 The possible settings are:
-- encoding. _String_. `ascii` or `utf8`. If `ascii` is used, all the characters with code greater than 127 are converted to its unicode string representation.
+- encoding. _String_. `ascii` or `utf8`. If `ascii` is used, all the characters with code greater than 127 are converted to its unicode string representation. Default is `utf8`.
 - bufferSize. _Number_. The buffer size used while writin the file. Default is 16KB.
 - header. _String_. A comment to write at the beginning of the file.
 
