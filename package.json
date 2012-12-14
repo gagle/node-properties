@@ -1,0 +1,26 @@
+{
+	"name": "properties",
+	"version": "0.2.0",
+	"description": ".properties file parser",
+	"keywords": [".properties", "properties", "parser"],
+	"author": {
+		"name": "Gabriel Llamas",
+		"email": "gaglekas@gmail.com"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/Gagle/Node-Properties.git"
+	},
+	"engines": {
+		"node": "*"
+	},
+	"dependencies": {
+		"buffered-reader": "*",
+		"buffered-writer": "*"
+	},
+	"licenses": [{
+		"type": "MIT",
+		"url": "http://www.opensource.org/licenses/mit-license.html"
+	}],
+	"main": "properties"
+}

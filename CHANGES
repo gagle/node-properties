@@ -1,0 +1,51 @@
+v0.2.0 (14 Dec 2012)
+	Complete code revision and refactor.
+	Non printable characters (C0 and C1 control codes) are converted to unicode
+		string representations regardless the encoding.
+
+v0.1.13 (30 Jul 2012)
+	Added the option to pass the file encoding, by default is utf8.
+
+v0.1.12 (29 Jul 2012)
+	Fixed error when "get()" was called with not existent key.
+
+v0.1.11 (23 Jul 2012)
+	Fixed case sensitivity.
+
+v0.1.10 (22 Jul 2012)
+	The empty keys now have a "null" value instead of an empty string.
+
+v0.1.9 (22 Jul 2012)
+	Added "remove()" method.
+
+v0.1.8 (21 Jul 2012)
+	Added the option to configure the case sensitivity.
+
+v0.1.7 (02 May 2012)
+	Changed the way to require the class.
+		Now: "var Properties = require ("properties");".
+	Inside the "load()" and "store()" callbacks, "this" points to the object
+		itself.
+	Some maintenance.
+
+v0.1.6 (02 May 2012)
+	Fixed source code to support the new `BufferedReader` settings.
+
+v0.1.5 (28 Apr 2012)
+	Added "buffered-writer" dependency.
+
+v0.1.4 (21 Apr 2012)
+	Added "buffered-writer" dependency.
+
+v0.1.3 (16 Apr 2012)
+	Removed "getFileName()", internal function.
+
+v0.1.2 (15 Apr 2012)
+	The property value is now converted to a string before persisting.
+
+v0.1.1 (15 Apr 2012)
+	Now it's possible to add comments for each key-value pair. A header comment
+		can also be added.
+
+v0.1.0 (15 Apr 2012)
+	First commit.

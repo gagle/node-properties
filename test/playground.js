@@ -1,1 +1,0 @@
-var Properties = require ("../build/properties");

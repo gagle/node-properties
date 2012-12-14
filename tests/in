@@ -9,6 +9,8 @@ bar
 trunked2=\
 \
 foo
+#form feed separator
+form-feed  ff
 #Comment symbol inside key and value
 f#oo 	=#bar
 
@@ -30,8 +32,8 @@ empty=
 #Empty value without separator
 empty2
 
-#Unicode
-É : É
+#utf8
+聵 : 聵
 ↑		↓
 !Escaped unicode
 E_unicode		\u00C9
