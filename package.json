@@ -18,6 +18,9 @@
 		"buffered-reader": "*",
 		"buffered-writer": "*"
 	},
+	"devDependencies": {
+		"mocha-runner": "*"
+	},
 	"licenses": [{
 		"type": "MIT",
 		"url": "http://www.opensource.org/licenses/mit-license.html"
