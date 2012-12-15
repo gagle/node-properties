@@ -7,7 +7,7 @@ _Node.js project_
 
 Version: 0.2.0
 
-For reading and writing the properties a buffered reader and writer are used to reduce the memory footprint. The default buffer size is 16KB, a quite large size for a simple properties file. Most often you'll have small files (less than 1KB, maybe 2KB), so a single I/O will be done, but it's better to support buffering just in case. The properties are case sensitive.
+For reading and writing the properties a buffered reader and writer are used to reduce the memory footprint. The default buffer size is 16KB, a quite large for a simple properties file. Most often you'll have small files (less than 1KB, maybe 2KB), so a single I/O call will be done, but it's better to support buffering just in case. The properties are case sensitive.
 
 If you need advanced features like arguments replacement, INI sections and property expansion (keys as variables) take a look at [enhanced-properties](https://github.com/Gagle/Node-EnhancedProperties).
 
