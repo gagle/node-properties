@@ -81,7 +81,7 @@ p4 =
 
 <a name="config"></a>
 __properties.config([settings])__  
-Configures how comments and property separators must be written. The possible settings are:
+Configures how comments and property separators must be written. This is an optional configuration. By default, comments are written with a `#` and keys-values are separated with an `=`. The possible settings are:
 
 - comment. _String_. The characters used to write comments. A valid comment must start with `#` or `!`. For example, `#<space>` is valid.
 - separator. _String_. The characters used to separate keys from values. A valid separator can only contain spaces, tabs, form feeds (\f) and optionally only one `=` or `:`. For example, `<tab>=<space>` is valid.
