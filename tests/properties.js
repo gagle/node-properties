@@ -2,7 +2,7 @@
 
 var ASSERT = require ("assert");
 var FS = require ("fs");
-var properties = require ("../properties");
+var properties = require ("../lib/properties");
 
 var WIN = process.platform === "win32";
 var EOL = WIN ? [0x0D, 0x0A] : [0x0A];
