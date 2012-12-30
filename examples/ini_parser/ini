@@ -1,0 +1,36 @@
+timestamp =								1356797645091
+
+; Application
+[app]
+name =										MyApp
+version =									0.0.1
+
+; Web server
+[web]
+host =										localhost
+port =										8080
+log =											web.log
+
+; Session
+[session]
+secret										brainfuck
+key_id										sid
+max_age										31536000000
+
+; Database connection
+[database]
+user =										root
+password =								mypass
+host =										localhost
+port =										27017
+min_pool =								10
+max_pool =								100
+timeout =									10000
+log =											db.log
+
+; Internationalization
+[i18n]
+default =									en-US
+file_extension =					.lang
+cache =										true
+timeout =									3600000

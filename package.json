@@ -1,8 +1,8 @@
 {
 	"name": "properties",
-	"version": "0.2.0",
+	"version": "0.3.0",
 	"description": ".properties file parser",
-	"keywords": [".properties", "properties", "parser"],
+	"keywords": ["properties", ".properties", "ini", ".ini", "parser"],
 	"author": {
 		"name": "Gabriel Llamas",
 		"email": "gaglekas@gmail.com"
@@ -16,7 +16,8 @@
 	},
 	"dependencies": {
 		"buffered-reader": "*",
-		"buffered-writer": "*"
+		"buffered-writer": "*",
+		"error-provider": "*"
 	},
 	"devDependencies": {
 		"mocha-runner": "*"

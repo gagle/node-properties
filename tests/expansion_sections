@@ -1,0 +1,20 @@
+a = 1
+
+[t]
+get = s
+
+[s${a}]
+e2 = ee
+greet = say hi
+a = am
+b = {${${t|get}1|gr${s1|e2}t}}, {n${s1|a}e}!
+
+[s2]
+a = ${a}2
+${s2|a} = 34
+
+[]
+1_a_12_34 = ${s2|a} months
+obvious = 1 year = ${|${a}_a_${s2|a}_${s2|${a}2}}
+123 = 456
+${|${s2|a}3} = 123

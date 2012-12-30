@@ -24,9 +24,8 @@ bar	 		 		 	\ bar
 !Hardcoded line feed
 a-key= a \n value
 
-#Empty key with a trunked value
-:emp\
-ty
+#No key and no value
+:
 #Empty value
 empty=
 #Empty value without separator
