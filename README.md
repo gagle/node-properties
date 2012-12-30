@@ -100,6 +100,137 @@ p3 = v3
 p4 = 
 ```
 
+#### Features ####
+
+##### Sections #####
+To add a section just write:
+
+`[<name>]`
+
+Example:
+
+`[My Section]`
+
+Additional information:
+
+* The keys next to a section header will belong to that section.
+* Different sections can have keys with the same name.
+* The keys added before the first section are considered global and don't belong to any section.
+* It's not possible to nest sections inside other sections.
+* Duplicate sections replaces the previous section with the same name, they are not merged.
+
+Enable:
+```javascript
+properties.config ({ sections: true });
+```
+
+Disable:
+```javascript
+properties.config ({ sections: false });
+```
+
+Sections are disabled by default.
+
+##### Variables #####
+To get the value of a key:
+
+```text
+a = 1
+b = ${a}
+```
+
+The value of `b` will be `1`.
+
+Take into account that the keys can belong to sections. In the previous example, `a` and `b` are global properties. To reference a key within a section just prefix the section followed by a `|`. Example:
+
+```text
+a = 1
+[Section1]
+a = 2
+[Section2]
+a = 3
+b = ${a}${Section1|a}${Section2|a}
+```
+
+The value of `b` will be `123`.
+
+You can also nest variables inside other variables, in other words, you can create variables dynamically. Example:
+
+```text
+[Section1]
+a = 12
+[Section2]
+123 = a
+b = ${Section2|${Section1|a}3}
+```
+
+The value of `b` will be `a`.
+
+You can use a variable anywhere. Look at the examples to see what you can do with variables.
+
+Enable:
+```javascript
+properties.config ({ variables: true });
+```
+
+Disable:
+```javascript
+properties.config ({ variables: false });
+```
+
+Variables are disabled by default.
+
+If you want to enable the sections and the variables just write:
+
+```javascript
+properties.config ({ variables: true, sections: true });
+```
+
+##### Customize tokens #####
+You can also add new characters that can be used to write comments or to separate keys and values. For example, we want parse a text that uses `;` to write comments:
+
+```javascript
+properties.config ({ allowedComments: [";"] });
+```
+
+The properties specification says that `#` and `!` can be used to write comments. These characters will always be allowed, so the `allowedComments` property adds `;` to the valid set of tokens to write comments.
+
+Similarly, you can add new characters to separate keys and values:
+
+```javascript
+properties.config ({ allowedSeparators: ["-", ">"] });
+```
+
+`allowedComments` and `allowedSeparators` are used to parse the files. If you want to stringify an object and write comments with `; ` and separators with ` - ` you have to use `comment` and `separator`:
+
+```javascript
+properties.config ({ comment: "; ", separator: " - " });
+```
+
+To reset to the default values:
+
+```javascript
+properties.config ({
+	comment: null,
+	allowedComments: [],
+	separator: null,
+	allowedSeparators: []
+});
+```
+
+##### INI files #####
+Enabling the sections and adding `;` to the set of valid characters to write comments this module can also parse and stringify INI files:
+
+```javascript
+properties.config ({
+	sections: true,
+	comment: "; ",
+	allowedComments: [";"]
+});
+```
+
+Take into account that `comment` and `separator` can contain blank spaces (space, \t or \f) but `allowedComments` and `allowedSeparators` expect an array of characters.
+
 #### Methods ####
 
 - [properties.config([settings])](#config)
@@ -110,27 +241,84 @@ p4 =
 
 <a name="config"></a>
 __properties.config([settings])__  
-Configures how comments and property separators must be written. This is an optional configuration. By default, comments are written with a `#` and keys-values are separated with an `=`. The possible settings are:
+Enables and configures additional features.
 
-- comment. _String_. The characters used to write comments. A valid comment must start with `#` or `!`. For example, `#<space>` is valid.
-- separator. _String_. The characters used to separate keys from values. A valid separator can only contain spaces, tabs, form feeds (\f) and optionally only one `=` or `:`. For example, `<tab>=<space>` is valid.
+The possible settings are:
+
+- comment. _String_. The characters used to write comments. It's used when the object is stringified. Default is `#`.
+- separator. _String_. The characters used to separate keys from values. It's used when the object is stringified. Default is `=`.
+- allowedComments. _Array_. An array of characters that can be used to parse comments. `#` and `!` are always considered comment tokens.
+- allowedSeparators. _Array_. An array of characters that can be used to parse key-value separators. `=`, `:` and `<blank space>` are always considered separator tokens.
+- sections. _Boolean_. Enables the sections usage. Default is false.
+- variables. _Boolean_. Enables the variables usage. Default is false.
 
 <a name="load"></a>
 __properties.load(file[, settings], callback)__  
-Loads a .properties file. The callback receives the error and the loaded properties. The loaded properties is just a JavaScript object in literal notation.
+Loads a properties file. The callback receives the error and the loaded properties. The loaded properties is just a JavaScript object in literal notation.
 
 The possible settings are:
 
 - encoding. _String_. `ascii` or `utf8`. Default is `utf8`.
 - bufferSize. _Number_. The buffer size used while reading the file. Default is 16KB.
+- reviver. _Function_. Callback executed for each property and section. Its funcionality is similar than the json reviver callback. The reviver receives two parameters, the key and the value. The returned value will be stored in the final object. If the function returns undefined the property is not added. If sections are enabled the reviver receives a third parameter, the section. When a section is found, the key and the value are set to null. The returnd value will be used to store the section, if it's undefined the section is not added.
 
-```javascript
-properties.load ("file", function (error, props){
-	console.log (props.p1);
-	console.log (props.p2);
-	...
-});
-```
+  For example, a reviver that does nothing:
+
+	```javascript
+	properties.config ({ sections: true });
+	
+	var reviver = function (key, value, section){
+		console.log (key, value, section);
+		
+		/*
+		Prints:
+		
+		a 1 null
+		null null "section 1"
+		a 1 section 1
+		null null "section 2"
+		a 1 section 2
+		*/
+		
+		if (key === null){
+			//New section found
+			return section;
+		}
+		return value;
+	}
+	
+	properties.load ("file", { reviver: reviver }, function (error, props){
+		console.log (props);
+		
+		/*
+		Prints:
+		
+		{
+			a: 1,
+			"section 1": {
+				a: 1
+			},
+			"section 2": {
+				a: 1
+			}
+		}
+		*/
+	});
+	```
+	
+	file:
+	
+	```text
+	a = 1
+	[section 1]
+	a = 1
+	[section 2]
+	a = 1
+	```
+
+<a name="parse"></a>
+__properties.parse(str[, settings])__
+Does the same as [load()](#load) but does not perform any I/O access, the input is the given string. The only setting property is the reviver.
 
 <a name="store"></a>
 __properties.store(file, obj[, settings], callback)__  
@@ -138,30 +326,41 @@ Stores a JavaScript object in literal notation -the properties- to a file. The c
 
 All the non printable unicode characters ([C0 and C1 control codes](http://en.wikipedia.org/wiki/C0_and_C1_control_codes): 0-31 and 127-159) are converted to its unicode string representation, e.g. 0x00 (NUL) is converted to \u0000.
 
-The properties can be null and can have comments. To write comments you must use an object with a `comment` property and optionally a `value` property to set the key's value. Some examples:
+The properties can be null and can have comments. To write comments you must use an object with a `$comment` and `$value` properties. Some examples:
 
 ```javascript
 var props = {
-	a: "my value",
+	a: "a value",
 	b: null,
 	c: {
-		comment: "my comment",
-		value: "my value"
+		comment: "c comment",
+		value: "c value"
 	},
 	d: {
-		comment: "my comment",
+		comment: "d comment",
 		value: null
 	},
 	e: {
-		comment: "my comment"
+		comment: "e comment"
 		//No value, the same as d
 	},
 	f: {
 		//No comment, the same as a
-		value: "my value"
+		value: "f value"
 	},
 	g: {
-		//No comment and no value, the same as b
+		//No comment and no value, the same as b if sections are disabled
+		//If sections are enabled this is a section with no properties
+	},
+	h: {
+		$comment: "h section",
+		$value: {
+			a: "a value",
+			b: {
+				$comment: "b comment",
+				$value: "b value"
+			}
+		}
 	}
 };
 ```
@@ -170,6 +369,8 @@ The possible settings are:
 - encoding. _String_. `ascii` or `utf8`. If `ascii` is used, all the characters with code greater than 127 are converted to its unicode string representation. Default is `utf8`.
 - bufferSize. _Number_. The buffer size used while writing the file. Default is 16KB.
 - header. _String_. A comment to write at the beginning of the file.
+- pretty. _Boolean_. If true, the stringified properties are well formatted: tabbed and word wrapped at 80 columns.
+- replacer. _Function_. The same as the reviver function but if the returned value is undefined the property or section is not stringified. Receives two parameters and optionally three if section are enabled.
 
 The comments (from properties and header) can be written as a multi-line comment, for example, if you write a property:
 
@@ -189,3 +390,12 @@ a=b
 ```
 
 The line separator could also be `\r\n`. Line separators are only used to split the comment, that is, if you're on Linux and write a comment `line1\r\nline2`, a `\n` will be used to write these lines.
+
+Please, note that the ECMAScript specification does not guarantee the order of the object properties, so the module cannot guaranteee that the properties will be stored with the same order. This modules guarantees that if sections are enabled, the global properties will be written first.
+
+> ECMA-262 does not specify enumeration order. The de facto standard is to match insertion order, which V8 also does, but with one exception:
+> V8 gives no guarantees on the enumeration order for array indices (i.e., a property name that can be parsed as a 32-bit unsigned integer).
+
+<a name="stringify"></a>
+__properties.stringify(obj[, settings])__
+Does the same as [store()](#store) but does not perform any I/O access, the output is a string. The possible setting properties are the pretty boolean and the reviver.
