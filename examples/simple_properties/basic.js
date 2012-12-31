@@ -5,7 +5,7 @@ var properties = require ("../../lib/properties");
 properties.config ({
 	//Enables the sections
 	sections: true,
-	//A space character will be used aas a separator between keys and values
+	//A space character will be used as a separator between keys and values
 	separator: " "
 });
 
