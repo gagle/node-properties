@@ -17,7 +17,7 @@ var p = {
 			}
 		}
 	},
-	timestamp: new Date ().getTime (),
+	timestamp: Date.now (),
 	database: {
 		user: {
 			$comment: "A very long comment because I need to show you how the " +
