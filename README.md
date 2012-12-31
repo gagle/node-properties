@@ -3,7 +3,7 @@ properties
 
 _Node.js project_
 
-#### Properties file parser ####
+#### Properties parser/stringifier ####
 
 Version: 0.3.0
 
@@ -52,7 +52,8 @@ var properties = require ("properties");
 
 properties.config ({
 	comment: "# ",
-	separator: " = "
+	separator: " = ",
+	sections: true
 });
 
 var p = {
@@ -64,6 +65,10 @@ var p = {
 	},
 	p4: {
 		$comment: "An empty property\nwith multi-line comment"
+	},
+	s1: {
+		p1: 1,
+		p2: 2
 	}
 };
 
@@ -80,10 +85,15 @@ properties.store ("file", p, { header: "My header" }, function (error){
 			p1: "v1",
 			p2: null,
 			p3: "v3",
-			p4: null
+			p4: null,
+			s1: {
+				p1: 1,
+				p2: 2
+			}
 		}
 		*/
 	});
+});
 ```
 
 file:
