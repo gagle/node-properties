@@ -27,7 +27,6 @@ home = some/path
 # 5) Inside variables in the section part
 logs = ${${paths|guest}|home}/logs/${domain1}
 conf = ${${paths|guest}|home}/conf/${domain1}
-# 1) In keys
 locales_english = ${${paths|guest}|home}/locales/${domain2}
 
 [${paths|admin}]
@@ -41,6 +40,7 @@ guest = permissions.${users|guest}
 admin = permissions.${users|admin}
 
 [${permissions|guest}]
+# 1) In keys
 ${${paths|guest}|home} = 400
 ${${paths|guest}|logs} = 400
 ${${paths|guest}|conf} = 400
