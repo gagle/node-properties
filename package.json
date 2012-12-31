@@ -1,7 +1,7 @@
 {
 	"name": "properties",
 	"version": "0.3.0",
-	"description": ".properties file parser",
+	"description": "Properties parser/stringifier",
 	"keywords": ["properties", ".properties", "ini", ".ini", "parser"],
 	"author": {
 		"name": "Gabriel Llamas",

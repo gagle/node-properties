@@ -291,7 +291,7 @@ The possible settings are:
 		*/
 		
 		if (key === null){
-			//New section found
+			//Section found
 			return section;
 		}
 		return value;
