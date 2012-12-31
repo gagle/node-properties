@@ -7,7 +7,7 @@ _Node.js project_
 
 Version: 0.3.0
 
-The module implements the Java properties specification and gives to you a powerful set of features that can be enabled or disabled at any time. Json files can be used to store complex data structures such as arrays or nested objects, but if you only want to save some properties, e.g. the database uri connection and credentials, valid json objects require a lot of metadata: curly braces, colons, commas and especially a lot of double quotes. Compare this two versions:
+The module implements the Java properties specification and gives to you a powerful set of features that can be enabled or disabled at any time. Json files can be used to store complex data structures such as arrays or nested objects, but if you only want to save some properties, e.g. the database uri connection and credentials, valid json files can become a bit overloaded with metadata: curly braces, colons, commas and especially a lot of double quotes. Compare this two versions:
 
 ```text
 c = 1
@@ -31,11 +31,11 @@ b = 1
 
 Which do you prefer? Which is more readable? Can you write comments in json files?
 
-The stringified properties are parsed the right way, reading character by character instead of reading lines, splitting, using regular expressions and all the easy to implement but slow techniques.
+The stringified properties are parsed the right way reading character by character instead of reading lines, splitting them, using regular expressions and all the easy to implement but slow techniques.
 
-There are several additional features you can use, some of them are: sections, variables, define your custom comment and key-value separator characters, replacers and revivers similar to the json functions, pretty print the stringified properties, convert special characters to their unicode string representation, write comments, parse/stringify INI files and much more.
+There are several additional features you can use, some of them are: sections, variables, define your custom comment and key-value separator characters, replacers and revivers similar to the json callbacks, pretty print the stringified properties, convert special characters to their unicode string representation, write comments, parse/stringify INI files and much more.
 
-The disk access is buffered to reduce the memory footprint. The default buffer size is 16KB, a quite large for a simple properties file. Most often you'll have small files (less than 1KB, maybe 2KB), so a single I/O call will be done, but it's better to support buffering, just in case. If you prefer, you can avoid the buffers usage and work with strings with the [parse()](#parse) and [stringify()](#stringify) functions, so you decide how to do the I/O access -typically you'll use fs.readFile() and fs.writeFile()- 
+The disk access is buffered to reduce the memory footprint. The default buffer size is 16KB, a quite large for a simple properties file. Most often you'll have small files (less than 1KB, maybe 2KB), so a single I/O call will be done, but it's better to support buffering, just in case. If you prefer, you can avoid the buffers and work with strings with the [parse()](#parse) and [stringify()](#stringify) functions, so you decide how to do the I/O access -typically you'll use fs.readFile() and fs.writeFile()- 
 
 The properties are case sensitive.
 
@@ -166,7 +166,7 @@ b = ${Section2|${Section1|a}3}
 
 The value of `b` will be `a`.
 
-You can use a variable anywhere. Look at the examples to see what you can do with variables.
+You can use a variable anywhere. Look at the [examples](https://github.com/Gagle/Node-Properties/tree/master/examples/variables) to see what you can do with variables.
 
 Enable:
 ```javascript
@@ -180,14 +180,14 @@ properties.config ({ variables: false });
 
 Variables are disabled by default.
 
-If you want to enable the sections and the variables just write:
+If you want to enable both the sections and the variables just write:
 
 ```javascript
 properties.config ({ variables: true, sections: true });
 ```
 
 ##### Customize tokens #####
-You can also add new characters that can be used to write comments or to separate keys and values. For example, we want parse a text that uses `;` to write comments:
+You can also add new characters that can be used to write comments or to separate keys from values. For example, we want parse a text that uses `;` to write comments:
 
 ```javascript
 properties.config ({ allowedComments: [";"] });
@@ -195,7 +195,7 @@ properties.config ({ allowedComments: [";"] });
 
 The properties specification says that `#` and `!` can be used to write comments. These characters will always be allowed, so the `allowedComments` property adds `;` to the valid set of tokens to write comments.
 
-Similarly, you can add new characters to separate keys and values:
+Similarly, you can add new characters to separate keys from values:
 
 ```javascript
 properties.config ({ allowedSeparators: ["-", ">"] });
@@ -254,7 +254,7 @@ The possible settings are:
 
 <a name="load"></a>
 __properties.load(file[, settings], callback)__  
-Loads a properties file. The callback receives the error and the loaded properties. The loaded properties is just a JavaScript object in literal notation.
+Loads a properties file. The callback receives the error and the loaded properties. The loaded properties are just a JavaScript object in literal notation.
 
 The possible settings are:
 
@@ -391,7 +391,7 @@ a=b
 
 The line separator could also be `\r\n`. Line separators are only used to split the comment, that is, if you're on Linux and write a comment `line1\r\nline2`, a `\n` will be used to write these lines.
 
-Please, note that the ECMAScript specification does not guarantee the order of the object properties, so the module cannot guaranteee that the properties will be stored with the same order. This modules guarantees that if sections are enabled, the global properties will be written first.
+Please, note that the ECMAScript specification does not guarantee the order of the object properties, so the module cannot guaranteee that the properties will be stored with the same order. This modules guarantees that if sections are enabled, the global properties will be written before the sections to avoid possible errors.
 
 > ECMA-262 does not specify enumeration order. The de facto standard is to match insertion order, which V8 also does, but with one exception:
 > V8 gives no guarantees on the enumeration order for array indices (i.e., a property name that can be parsed as a 32-bit unsigned integer).
