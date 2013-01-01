@@ -1,6 +1,6 @@
 {
 	"name": "properties",
-	"version": "0.3.0",
+	"version": "0.3.1",
 	"description": "Properties parser/stringifier",
 	"keywords": ["properties", ".properties", "ini", ".ini", "parser"],
 	"author": {

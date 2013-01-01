@@ -2,13 +2,14 @@
 # Authors: You and Me
 # Date: 23:59:59 31/12/12
 
-timestamp       = 1356918281160
+timestamp       = 1357046801081
 
-[gagle]
+# User contribution
+[users]
 # This is me!
 gagle           = 100%
 
-[secret_password]
+[database]
 # A very long comment because I need to show you how the comments are word
 # wrapped at 80 columns if the output it's pretty printed
 user            = root
