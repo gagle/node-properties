@@ -328,7 +328,7 @@ The possible settings are:
 
 <a name="parse"></a>
 __properties.parse(str[, settings])__
-Does the same as [load()](#load) but does not perform any I/O access, the input is the given string. The only setting property is the reviver.
+Does the same as [load()](#load) but does not perform any I/O access, the input is the given string. The only setting property is the reviver. Only throws exceptions if the variable substitution is enabled.
 
 <a name="store"></a>
 __properties.store(file, obj[, settings], callback)__  
