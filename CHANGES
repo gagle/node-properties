@@ -1,5 +1,8 @@
+v0.3.2 (04 Jan 2013)
+	Removed "config()".
+
 v0.3.1 (01 Jan 2013)
-	Fixed pretty print with sections with comments
+	Fixed pretty print with sections and comments.
 
 v0.3.0 (30 Dec 2012)
 	Added "reviver" callback setting to "load()".

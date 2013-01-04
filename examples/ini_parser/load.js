@@ -2,14 +2,6 @@
 
 var properties = require ("../../lib/properties");
 
-properties.config ({
-	//Enables the sections
-	sections: true,
-	//Allowed character comments: #, ! (default) and ;
-	allowedComments: [";"]
-});
-
-//The reviver is called for every property and section
 var reviver = function (key, value, section){
 	if (key === null){
 		//Section found, all sections are added
@@ -20,8 +12,17 @@ var reviver = function (key, value, section){
 	if (key !== "timestamp") return value;
 };
 
-properties.load ("ini", { reviver: reviver },
-		function (error, p){
+
+var config = {
+	//Enables the sections
+	sections: true,
+	//Allowed character comments: #, ! (default) and ;
+	comments: [";"],
+	//Called for every property and section
+	reviver: reviver
+};
+
+properties.load (__dirname + "/ini", config, function (error, p){
 	if (error) return console.log (error);
 	console.log (p);
 	

@@ -2,12 +2,12 @@
 
 var properties = require ("../../lib/properties");
 
-properties.config ({
+var config = {
 	//Enables the sections
 	sections: true,
 	//A space character will be used as a separator between keys and values
 	separator: " "
-});
+};
 
 var p = {
 	colour: {
@@ -22,7 +22,7 @@ var p = {
 	big: true
 };
 
-var str = properties.stringify (p);
+var str = properties.stringify (p, config);
 
 console.log (str);
 
@@ -39,7 +39,7 @@ name John Doe
 age 10
 */
 
-console.log (properties.parse (str));
+console.log (properties.parse (str, config));
 
 /*
 Prints:

@@ -3,13 +3,11 @@ properties
 
 _Node.js project_
 
-#### Properties parser/stringifier ####
+#### .properties parser/stringifier ####
 
-# I'm going to remove the config() function because it has problems when you need to use different features on each call to load()/parse() or store()/stringify(), so you need to enable/disable them all the time. I'll put them in the load..., stringify... settings parameter
+Version: 0.3.2
 
-Version: 0.3.1
-
-The module implements the Java properties specification and gives to you a powerful set of features that can be enabled or disabled at any time. Json files can be used to store complex data structures such as arrays or nested objects, but if you only want to save some properties, e.g. the database uri connection and credentials, valid json files can become a bit overloaded with metadata: curly braces, colons, commas and especially a lot of double quotes. Compare this two versions:
+This module implements the Java .properties specification and gives to you a powerful set of features that can be enabled. Json files can be used to store complex data structures such as arrays or nested objects, but if you only want to save some properties, e.g. the database uri connection and credentials, valid json files can become a bit overloaded due to the metadata characters: curly braces, colons, commas and especially a lot of double quotes. Compare this two versions:
 
 ```text
 c = 1
@@ -33,7 +31,7 @@ b = 1
 
 Which do you prefer? Which is more readable? Can you write comments in json files?
 
-The stringified properties are parsed the right way reading character by character instead of reading lines, splitting them, using regular expressions and all the easy to implement but slow techniques.
+The properties are parsed the right way, reading character by character instead of reading lines, splitting them, using regular expressions and all the easy to implement but slow techniques.
 
 There are several additional features you can use, some of them are: sections, variables, define your custom comment and key-value separator characters, replacers and revivers similar to the json callbacks, pretty print the stringified properties, convert special characters to their unicode string representation, write comments, parse/stringify INI files and much more.
 
@@ -52,11 +50,11 @@ npm install properties
 ```javascript
 var properties = require ("properties");
 
-properties.config ({
+var config = {
 	comment: "# ",
 	separator: " = ",
 	sections: true
-});
+};
 
 var p = {
 	p1: "v1",
@@ -74,9 +72,9 @@ var p = {
 	}
 };
 
-properties.store ("file", p, { header: "My header" }, function (error){
+properties.store ("file", p, config, function (error){
 	if (error) return console.log (error);
-	properties.load ("file", function (error, p){
+	properties.load ("file", config, function (error, p){
 		if (error) return console.log (error);
 		console.log (p);
 		
@@ -101,8 +99,6 @@ properties.store ("file", p, { header: "My header" }, function (error){
 file:
 
 ```text
-# My header
-
 p1 = v1
 p2 = 
 # A property
@@ -110,11 +106,15 @@ p3 = v3
 # An empty property
 # with multi-line comment
 p4 = 
+[s1]
+p1 = 1
+p2 = 2
 ```
 
 #### Features ####
 
 ##### Sections #####
+
 To add a section just write:
 
 `[<name>]`
@@ -131,19 +131,10 @@ Additional information:
 * It's not possible to nest sections inside other sections.
 * Duplicate sections replaces the previous section with the same name, they are not merged.
 
-Enable:
-```javascript
-properties.config ({ sections: true });
-```
-
-Disable:
-```javascript
-properties.config ({ sections: false });
-```
-
 Sections are disabled by default.
 
 ##### Variables #####
+
 To get the value of a key:
 
 ```text
@@ -157,11 +148,11 @@ Take into account that the keys can belong to sections. In the previous example,
 
 ```text
 a = 1
-[Section1]
+[s1]
 a = 2
-[Section2]
+[s2]
 a = 3
-b = ${a}${Section1|a}${Section2|a}
+b = ${a}${s1|a}${s2|a}
 ```
 
 The value of `b` will be `123`.
@@ -169,116 +160,79 @@ The value of `b` will be `123`.
 You can also nest variables inside other variables, in other words, you can create variables dynamically. Example:
 
 ```text
-[Section1]
+[s1]
 a = 12
-[Section2]
+[s2]
 123 = a
-b = ${Section2|${Section1|a}3}
+b = ${s2|${s1|a}3}
 ```
 
 The value of `b` will be `a`.
 
 You can use a variable anywhere. Look at the [examples](https://github.com/Gagle/Node-Properties/tree/master/examples/variables) to see what you can do with variables.
 
-Enable:
-```javascript
-properties.config ({ variables: true });
-```
-
-Disable:
-```javascript
-properties.config ({ variables: false });
-```
-
 Variables are disabled by default.
 
-If you want to enable both the sections and the variables just write:
-
-```javascript
-properties.config ({ variables: true, sections: true });
-```
-
 ##### Customize tokens #####
-You can also add new characters that can be used to write comments or to separate keys from values. For example, we want parse a text that uses `;` to write comments:
+
+You can also add new characters that can be used to write comments or to separate keys from values. For example, we want to parse a text that uses `;` to write comments:
 
 ```javascript
-properties.config ({ allowedComments: [";"] });
+properties.parse (text, { comments: [";"] });
 ```
 
-The properties specification says that `#` and `!` can be used to write comments. These characters will always be allowed, so the `allowedComments` property adds `;` to the valid set of tokens to write comments.
+The .properties specification says that `#` and `!` can be used to write comments. These characters will always be allowed, so the `comments` property adds `;` to the valid set of tokens.
 
 Similarly, you can add new characters to separate keys from values:
 
 ```javascript
-properties.config ({ allowedSeparators: ["-", ">"] });
+properties.parse ({ separators: ["-", ">"] });
 ```
 
-`allowedComments` and `allowedSeparators` are used to parse the files. If you want to stringify an object and write comments with `; ` and separators with ` - ` you have to use `comment` and `separator`:
+`comments` and `separators` are used when parsing strings. If you want to stringify an object and write comments with `; ` and separators with ` - ` you have to use `comment` and `separator` properties:
 
 ```javascript
-properties.config ({ comment: "; ", separator: " - " });
+properties.stringify ({ comment: "; ", separator: " - " });
 ```
 
-To reset to the default values:
-
-```javascript
-properties.config ({
-	comment: null,
-	allowedComments: [],
-	separator: null,
-	allowedSeparators: []
-});
-```
+Take into account that `comment` and `separator` can contain blank spaces (space, \t or \f) but `comments` and `separators` properties expect an array of single characters.
 
 ##### INI files #####
+
 Enabling the sections and adding `;` to the set of valid characters to write comments this module can also parse and stringify INI files:
 
 ```javascript
-properties.config ({
+properties.parse (text, {
 	sections: true,
 	comment: "; ",
-	allowedComments: [";"]
+	comments: [";"]
 });
 ```
 
-Take into account that `comment` and `separator` can contain blank spaces (space, \t or \f) but `allowedComments` and `allowedSeparators` expect an array of characters.
-
 #### Methods ####
 
-- [properties.config([settings])](#config)
 - [properties.load(file[, settings], callback)](#load)
 - [properties.parse(str[, settings])](#parse)
 - [properties.store(file, obj[, settings], callback)](#store)
 - [properties.stringify(obj[, settings])](#stringify)
 
-<a name="config"></a>
-__properties.config([settings])__  
-Enables and configures additional features.
-
-The possible settings are:
-
-- comment. _String_. The characters used to write comments. It's used when the object is stringified. Default is `#`.
-- separator. _String_. The characters used to separate keys from values. It's used when the object is stringified. Default is `=`.
-- allowedComments. _Array_. An array of characters that can be used to parse comments. `#` and `!` are always considered comment tokens.
-- allowedSeparators. _Array_. An array of characters that can be used to parse key-value separators. `=`, `:` and `<blank space>` are always considered separator tokens.
-- sections. _Boolean_. Enables the sections usage. Default is false.
-- variables. _Boolean_. Enables the variables usage. Default is false.
-
 <a name="load"></a>
 __properties.load(file[, settings], callback)__  
-Loads a properties file. The callback receives the error and the loaded properties. The loaded properties are just a JavaScript object in literal notation.
+Loads a .properties file. The callback receives the error and the loaded properties. The loaded properties are just a JavaScript object in literal notation. The access to the file is buffered.
 
 The possible settings are:
 
 - encoding. _String_. `ascii` or `utf8`. Default is `utf8`.
 - bufferSize. _Number_. The buffer size used while reading the file. Default is 16KB.
+- comments. _Array_. An array of characters that are used to parse comments. `#` and `!` are always considered comment tokens.
+- separators. _Array_. An array of characters that are used to parse key-value separators. `=`, `:` and `<blank space>` are always considered separator tokens.
+- sections. _Boolean_. Enables the sections. Default is false.
+- variables. _Boolean_. Enables the variables. Default is false.
 - reviver. _Function_. Callback executed for each property and section. Its funcionality is similar than the json reviver callback. The reviver receives two parameters, the key and the value. The returned value will be stored in the final object. If the function returns undefined the property is not added. If sections are enabled the reviver receives a third parameter, the section. When a section is found, the key and the value are set to null. The returnd value will be used to store the section, if it's undefined the section is not added.
 
   For example, a reviver that does nothing:
 
 	```javascript
-	properties.config ({ sections: true });
-	
 	var reviver = function (key, value, section){
 		console.log (key, value, section);
 		
@@ -299,7 +253,7 @@ The possible settings are:
 		return value;
 	}
 	
-	properties.load ("file", { reviver: reviver }, function (error, props){
+	properties.load ("file", { reviver: reviver, sections: true }, function (error, props){
 		console.log (props);
 		
 		/*
@@ -380,8 +334,12 @@ var props = {
 The possible settings are:
 - encoding. _String_. `ascii` or `utf8`. If `ascii` is used, all the characters with code greater than 127 are converted to its unicode string representation. Default is `utf8`.
 - bufferSize. _Number_. The buffer size used while writing the file. Default is 16KB.
-- header. _String_. A comment to write at the beginning of the file.
-- pretty. _Boolean_. If true, the stringified properties are well formatted: tabbed and word wrapped at 80 columns.
+- comment. _String_. The characters used to write comments. Default is `#`.
+- separator. _String_. The characters used to separate keys from values. Default is `=`.
+- sections. _Boolean_. Enables the sections. Default is false.
+- variables. _Boolean_. Enables the variables. Default is false.
+- header. _String_. A comment that is written at the beginning of the file.
+- pretty. _Boolean_. If true, the stringified properties are pretty printed: tabbed and word wrapped at 80 columns.
 - replacer. _Function_. The same as the reviver function but if the returned value is undefined the property or section is not stringified. Receives two parameters and optionally three if section are enabled.
 
 The comments (from properties and header) can be written as a multi-line comment, for example, if you write a property:

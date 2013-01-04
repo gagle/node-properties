@@ -2,14 +2,14 @@
 
 var properties = require ("../../lib/properties");
 
-properties.config ({
+var config = {
 	//Enables the variable substitution
 	variables: true,
 	//Enables the sections
 	sections: true
-});
+};
 
-properties.load ("var", function (error, p){
+properties.load (__dirname + "/var", config, function (error, p){
 	if (error) return console.log (error);
 	console.log (p);
 	

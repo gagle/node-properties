@@ -4,12 +4,26 @@ var fs = require ("fs");
 
 var properties = require ("../../lib/properties");
 
-properties.config ({
+var replacer = function (key, value, section){
+	if (key === null){
+		//Section found, all sections are added
+		return section;
+	}
+	
+	//All the keys are stored except private_key (undefined is returned)
+	if (key !== "private_key") return value;
+};
+
+var config = {
 	//Enables the sections
 	sections: true,
 	//Token used to write comments
-	comment: ";"
-});
+	comment: ";",
+	//The output is pretty printed
+	pretty: true,
+	//Called for every property and section
+	replacer: replacer
+};
 
 var p = {
 	web: {
@@ -55,24 +69,10 @@ var p = {
 	public_key: "1234-ABCD-5678-EFGH"
 };
 
-//The replacer is called for every property and section
-var replacer = function (key, value, section){
-	if (key === null){
-		//Section found, all sections are added
-		return section;
-	}
-	
-	//All the keys are stored except private_key (undefined is returned)
-	if (key !== "private_key") return value;
-};
+fs.writeFileSync (__dirname + "/ini", properties.stringify (p, config),
+		"utf8");
 
-fs.writeFileSync ("ini", properties.stringify (p, {
-	//The output is well formatted
-	pretty: true,
-	replacer: replacer
-}), "utf8");
-
-console.log (fs.readFileSync ("ini", "utf8"));
+console.log (fs.readFileSync (__dirname + "/ini", "utf8"));
 
 /*
 Prints:

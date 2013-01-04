@@ -9,117 +9,6 @@ var EOL = WIN ? [0x0D, 0x0A] : [0x0A];
 var strEOL = WIN ? "\r\n" : "\n";
 
 describe ("properties", function (){
-	describe ("config", function (){
-		it ("should configure how the properties are processed", function (done){
-			properties.config ({
-				comment: "!",
-				separator: "	"
-			});
-			var props = {
-				k: {
-					$comment: "asd",
-					$value: 1
-				}
-			};
-			properties.store ("file", props, function (error){
-				if (error) return done (error);
-				FS.readFile ("file", "utf8", function (error, data){
-					if (error) return done (error);
-					ASSERT.equal (data, "!asd" + strEOL + "k	1" + strEOL);
-					properties.config ({
-						comment: null,
-						separator: null
-					});
-					done ();
-				});
-			});
-		});
-		
-		it ("can parse .ini files changing the allowed tokens",
-				function (done){
-					properties.config ({
-						allowedComments: [";"],
-						sections: true
-					});
-					properties.load ("ini", function (error, props){
-						if (error) return done (error);
-						ASSERT.deepEqual (props, {
-							a: 1,
-							section1: {
-								a: 1
-							}
-						});
-						properties.config ({
-							allowedComments: [],
-							sections: false
-						});
-						done ();
-					});
-				});
-				
-		it ("can stringify .ini files changing the allowed tokens",
-				function (done){
-					properties.config ({
-						comment: ";",
-						sections: true
-					});
-					var props = {
-						a: {
-							$comment: "a",
-							$value: {
-								a: 1
-							}
-						}
-					};
-					ASSERT.equal (properties.stringify (props).replace (/\r/g, ""),
-							";a\n[a]\na=1\n");
-					properties.config ({
-						comment: null,
-						sections: false
-					});
-					done ();
-				});
-		
-		it ("can change the comment and separator allowed tokens", function (done){
-			properties.config ({
-				comment: "?",
-				allowedComments: [".", "?"],
-				separator: "-",
-				allowedSeparators: ["-"]
-			});
-			var props = {
-				a: {
-					$comment: "a",
-					$value: 1
-				}
-			};
-			ASSERT.equal (properties.stringify (props).replace (/\r/g, ""),
-							"?a\na-1\n");
-			props = {
-				a: 1,
-				b: 2
-			};
-			ASSERT.deepEqual (properties.parse (".a\n?b\n#c\na=1\nb-2"), props);
-			properties.config ({
-				comment: null,
-				allowedComments: [],
-				separator: null,
-				allowedSeparators: []
-			});
-			done ();
-		});
-		
-		afterEach (function (done){
-			FS.exists ("file", function (exists){
-				if (exists){
-					FS.unlink ("file", done);
-				}else{
-					done ();
-				}
-			});
-		});
-	});
-	
 	describe ("load", function (){
 		it ("should load properties", function (done){
 			properties.load ("in", function (error, props){
@@ -163,7 +52,6 @@ describe ("properties", function (){
 			var reviver = function (key, value){
 				if (key === "聵") return value;
 			};
-			
 			properties.load ("in", { reviver: reviver }, function (error, props){
 				if (error) return done (error);
 					ASSERT.deepEqual (props, {
@@ -174,8 +62,7 @@ describe ("properties", function (){
 		});
 		
 		it ("can read sections", function (done){
-			properties.config ({ sections: true });
-			properties.load ("sections", function (error, data){
+			properties.load ("sections", { sections: true }, function (error, data){
 				if (error) return done (error);
 				ASSERT.deepEqual (data, {
 					a: 1,
@@ -193,7 +80,6 @@ describe ("properties", function (){
 						a: 1
 					}
 				});
-				properties.config ({ sections: false });
 				done ();
 			});
 		});
@@ -206,7 +92,6 @@ describe ("properties", function (){
 		});
 		
 		it ("can apply a reviver to the sections", function (done){
-			properties.config ({ sections: true });
 			var reviver = function (key, value, section){
 				if (key === null){
 					return section === "s1" ? section : undefined;
@@ -214,7 +99,7 @@ describe ("properties", function (){
 				return value;
 			};
 			
-			properties.load ("sections", { reviver: reviver },
+			properties.load ("sections", { reviver: reviver, sections: true },
 					function (error, data){
 						if (error) return done (error);
 						ASSERT.deepEqual (data, {
@@ -223,14 +108,13 @@ describe ("properties", function (){
 								a: 1
 							}
 						});
-						properties.config ({ sections: false });
 						done ();
 					});
 		});
 		
 		it ("can substitute variables, no sections", function (done){
-			properties.config ({ variables: true });
-			properties.load ("expansion_no_sections", function (error, props){
+			properties.load ("expansion_no_sections", { variables: true },
+					function (error, props){
 				if (error) return done (error);
 				ASSERT.deepEqual (props, {
 					a: null,
@@ -241,17 +125,15 @@ describe ("properties", function (){
 					_c_d_: "e",
 					r: "{{{|}}end$}}{{|"
 				});
-				properties.config ({ variables: false });
 				done ();
 			});
 		});
 		
 		it ("can substitute variables, sections", function (done){
-			properties.config ({
+			properties.load ("expansion_sections", {
 				variables: true,
 				sections: true
-			});
-			properties.load ("expansion_sections", function (error, props){
+			}, function (error, props){
 				if (error) return done (error);
 				ASSERT.deepEqual (props, {
 					a: "1",
@@ -275,10 +157,6 @@ describe ("properties", function (){
 						"456": "123"
 					}
 				});
-				properties.config ({
-					variables: false,
-					sections: false
-				});
 				done ();
 			});
 		});
@@ -286,30 +164,107 @@ describe ("properties", function (){
 		it ("should return error when the variable is malformed",
 				function (done){
 					try{
-						properties.config ({ variables: true });
-						properties.parse ("a=1\nb=${${a}");
+						properties.parse ("a=1\nb=${${a}", { variables: true });
 						ASSERT.fail ();
 					}catch (e){
 						ASSERT.equal (e.code, "MALFORMED_VARIABLE");
 						ASSERT.equal (e.string, "${${a}");
 					}
-					properties.config ({ variables: false });
 					done ();
 				});
 		
 		it ("should return error when the section is not found",
 				function (done){
 					try{
-						properties.config ({ variables: true, sections: true });
-						properties.parse ("b=${s1|a}");
+						properties.parse ("b=${s1|a}", { variables: true,
+								sections: true });
 						ASSERT.fail ();
 					}catch (e){
 						ASSERT.equal (e.code, "SECTION_VARIABLE_NOT_FOUND");
 						ASSERT.equal (e.section ,"s1");
 					}
-					properties.config ({ variables: false });
 					done ();
 				});
+		
+		it ("should configure how the properties are processed", function (done){
+			var props = {
+				k: {
+					$comment: "asd",
+					$value: 1
+				}
+			};
+			properties.store ("file", props, {
+				comment: "!",
+				separator: "	"
+			}, function (error){
+				if (error) return done (error);
+				FS.readFile ("file", "utf8", function (error, data){
+					if (error) return done (error);
+					ASSERT.equal (data, "!asd" + strEOL + "k	1" + strEOL);
+					done ();
+				});
+			});
+		});
+		
+		it ("can parse .ini files changing the allowed tokens",
+				function (done){
+					properties.load ("ini", {
+						comments: [";"],
+						sections: true
+					}, function (error, props){
+						if (error) return done (error);
+						ASSERT.deepEqual (props, {
+							a: 1,
+							section1: {
+								a: 1
+							}
+						});
+						done ();
+					});
+				});
+				
+		it ("can stringify .ini files changing the allowed tokens",
+				function (done){
+					var props = {
+						a: {
+							$comment: "a",
+							$value: {
+								a: 1
+							}
+						}
+					};
+					ASSERT.equal (properties.stringify (props, {
+						comment: ";",
+						sections: true
+					}).replace (/\r/g, ""), ";a\n[a]\na=1\n");
+					done ();
+				});
+		
+		it ("can change the comment and separator allowed tokens", function (done){
+			var props = {
+				a: {
+					$comment: "a",
+					$value: 1
+				}
+			};
+			ASSERT.equal (properties.stringify (props, {
+				comment: "?",
+				comments: [".", "?"],
+				separator: "-",
+				separators: ["-"]
+			}).replace (/\r/g, ""), "?a\na-1\n");
+			props = {
+				a: 1,
+				b: 2
+			};
+			ASSERT.deepEqual (properties.parse (".a\n?b\n#c\na=1\nb-2", {
+				comment: "?",
+				comments: [".", "?"],
+				separator: "-",
+				separators: ["-"]
+			}), props);
+			done ();
+		});
 		
 		after (function (done){
 			FS.exists ("file", function (exists){
@@ -389,7 +344,6 @@ describe ("properties", function (){
 		
 		it ("should store sections and properties with and without metadata",
 				function (done){
-			properties.config ({ sections: true });
 			var props = {
 				a: "a value",
 				b: null,
@@ -429,11 +383,10 @@ describe ("properties", function (){
 					a: 1
 				}
 			};
-			properties.store ("file", props, function (error){
+			properties.store ("file", props, { sections: true }, function (error){
 				if (error) return done (error);
 				FS.readFile ("file", "utf8", function (error, data){
 					if (error) return done (error);
-					properties.config ({ sections: false });
 					var content = "a=a value\nb=\n#c comment\nc=c value\n#d comment\n" +
 							"d=\n#e comment\ne=\nf=f value\n[g]\n#h section\n[h]\na=1\n" +
 							"#b comment\nb=2\nc=[object Object]\n[i]\na=1\nb=2\n[]\na=1\n";
@@ -526,7 +479,6 @@ describe ("properties", function (){
 		});
 		
 		it ("can use a replacer with sections enabled, function", function (done){
-			properties.config ({ sections: true });
 			var replacer = function (key, value, section){
 				if (key === null){
 					return section !== "a" ? section : undefined;
@@ -541,20 +493,18 @@ describe ("properties", function (){
 				b: 1,
 				c: {}
 			};
-			properties.store ("file", props, { replacer: replacer },
+			properties.store ("file", props, { replacer: replacer, sections: true },
 					function (error){
 						if (error) return done (error);
 						FS.readFile ("file", "utf8", function (error, data){
 							if (error) return done (error);
 							ASSERT.equal (data.replace (/\r/g, ""), "b=1\n[c]\n");
-							properties.config ({ sections: false });
 							done ();
 						});
 					});
 		});
 		
 		it ("can use a replacer with sections enabled, array", function (done){
-			properties.config ({ sections: true });
 			var props = {
 				a: {
 					b: 1,
@@ -563,13 +513,12 @@ describe ("properties", function (){
 				b: 1,
 				c: {}
 			};
-			properties.store ("file", props, { replacer: ["b", "c"] },
-					function (error){
+			properties.store ("file", props, { replacer: ["b", "c"],
+					sections: true }, function (error){
 						if (error) return done (error);
 						FS.readFile ("file", "utf8", function (error, data){
 							if (error) return done (error);
 							ASSERT.equal (data.replace (/\r/g, ""), "b=1\n[c]\n");
-							properties.config ({ sections: false });
 							done ();
 						});
 					});
@@ -692,7 +641,6 @@ describe ("properties", function (){
 		it ("should obtain the same properties when parsing a stringified " +
 				"properties, sections enabled",
 				function (done){
-			properties.config ({ sections: true });
 			var props = {
 				a: 1,
 				b: null,
@@ -703,8 +651,8 @@ describe ("properties", function (){
 					g: null
 				}
 			};
-			ASSERT.deepEqual (properties.parse (properties.stringify (props)),
-					props);
+			ASSERT.deepEqual (properties.parse (properties.stringify (props,
+					{ sections: true }), { sections: true }), props);
 			done ();
 		});
 		

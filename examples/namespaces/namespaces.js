@@ -3,13 +3,6 @@
 var util = require ("util");
 var properties = require ("../../lib/properties");
 
-properties.config ({
-	//Enables the sections
-	sections: true
-});
-
-var myProps = {};
-
 var reviver = function (key, value, section){
 	//We want to convert the dotted sections to nested json objects (namespaces)
 	
@@ -35,7 +28,16 @@ var reviver = function (key, value, section){
 	return value;
 };
 
-properties.load ("namespaces", { reviver: reviver }, function (error, p){
+var config = {
+	//Enables the sections
+	sections: true,
+	//Called for every property and section
+	reviver: reviver
+};
+
+var myProps = {};
+
+properties.load (__dirname + "/namespaces", config, function (error, p){
 	if (error) return console.log (error);
 	console.log (p);
 	console.log (util.inspect (myProps, true, null));

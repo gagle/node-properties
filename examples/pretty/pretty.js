@@ -2,10 +2,19 @@
 
 var properties = require ("../../lib/properties");
 
-properties.config ({
+var header =
+		"MyApp\n" +
+		"Authors: You and Me\n" +
+		"Date: 23:59:59 31/12/12";
+
+var config = {
 	//Enables the sections
-	sections: true
-});
+	sections: true,
+	//Writes a comment at the beginning of the file
+	header: header,
+	//The output is pretty printed
+	pretty: true
+};
 
 var p = {
 	users: {
@@ -30,12 +39,6 @@ var p = {
 	}
 };
 
-var header =
-		"MyApp\n" +
-		"Authors: You and Me\n" +
-		"Date: 23:59:59 31/12/12";
-
-properties.store ("pretty", p, { header: header, pretty: true },
-		function (error){
+properties.store (__dirname + "/pretty", p, config, function (error){
 	if (error) return console.log (error);
 });
