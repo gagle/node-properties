@@ -337,7 +337,6 @@ The possible settings are:
 - comment. _String_. The characters used to write comments. Default is `#`.
 - separator. _String_. The characters used to separate keys from values. Default is `=`.
 - sections. _Boolean_. Enables the sections. Default is false.
-- variables. _Boolean_. Enables the variables. Default is false.
 - header. _String_. A comment that is written at the beginning of the file.
 - pretty. _Boolean_. If true, the stringified properties are pretty printed: tabbed and word wrapped at 80 columns.
 - replacer. _Function_. The same as the reviver function but if the returned value is undefined the property or section is not stringified. Receives two parameters and optionally three if section are enabled.
