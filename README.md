@@ -284,7 +284,7 @@ The possible settings are:
 
 <a name="parse"></a>
 __properties.parse(str[, settings])__
-Does the same as [load()](#load) but does not perform any I/O access, the input is the given string. The only setting property is the reviver. Only throws exceptions if the variable substitution is enabled.
+Does the same as [load()](#load) but does not perform any I/O access, the input is the given string. The function can throw exceptions when then variables are enabled, otherwise is not necessary to wrap it with a try-catch.
 
 <a name="store"></a>
 __properties.store(file, obj[, settings], callback)__  
@@ -367,4 +367,4 @@ Please, note that the ECMAScript specification does not guarantee the order of t
 
 <a name="stringify"></a>
 __properties.stringify(obj[, settings])__
-Does the same as [store()](#store) but does not perform any I/O access, the output is a string. The possible setting properties are the pretty boolean and the reviver.
+Does the same as [store()](#store) but does not perform any I/O access, the output is a string.
