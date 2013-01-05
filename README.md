@@ -12,19 +12,19 @@ This module implements the Java .properties specification and gives to you a pow
 ```text
 a = x
 [s1]
-b = x
+b = y
 [s2]
-c = x
+c = z
 ```
 
 ```javascript
 {
 	"a": "x",
 	"s1": {
-		"b": "x"
+		"b": "y"
 	},
 	"s2": {
-		"c": "x"
+		"c": "z"
 	}
 }
 ```
