@@ -657,6 +657,9 @@ describe ("properties", function (){
 		});
 		
 		it ("should pretty print the properties", function (done){
+			ASSERT.equal (properties.stringify ({ a: 1, b: 2 }, { pretty: true }),
+					"a = 1" + strEOL + "b = 2" + strEOL);
+		
 			var props = {
 				abc: {
 					$comment: "aaaaaaa bbbbbb cccccc dddddd eeeeee ffffff gggggg hhhhh" +
@@ -694,12 +697,12 @@ describe ("properties", function (){
 								"mmmmm nnnnnn oooooo pppppp qqqqqq rrrrrr ssssss tttttt uuuu" +
 								"uu\n# vvvvvv wwwwww xxxxxx yyyyyy zzzzzz\nabc         = aaa" +
 								"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" +
-								"aa\\\n              aaaaaaaaaaaa\n\n# bbbbbbbbbbbbbbbbbbbbb" +
-								"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\na" +
-								"nother_abc = aaaaaa bbbbbb cccccc dddddd eeeeee ffffff gggg" +
-								"gg hhhhhh iiiiii j\\\n              jjjjj kkkkkk llllll mmm" +
-								"mmm nnnnnn oooooo pppppp qqqqqq rrrrrr ss\\\n              " +
-								"ssss  tttttt uuuuuu vvvvvv wwwwww xxxxxx yyyyyy zzzzzz\n";
+								"aa\\\n              aaaaaaaaaaaa\n# bbbbbbbbbbbbbbbbbbbbbbb" +
+								"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\nano" +
+								"ther_abc = aaaaaa bbbbbb cccccc dddddd eeeeee ffffff gggggg" +
+								" hhhhhh iiiiii j\\\n              jjjjj kkkkkk llllll mmmmm" +
+								"m nnnnnn oooooo pppppp qqqqqq rrrrrr ss\\\n              ss" +
+								"ss  tttttt uuuuuu vvvvvv wwwwww xxxxxx yyyyyy zzzzzz\n";
 								
 						FS.readFile ("file", "utf8", function (error, data){
 							if (error) return done (error);
