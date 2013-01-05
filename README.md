@@ -7,7 +7,7 @@ _Node.js project_
 
 Version: 0.3.2
 
-This module implements the Java .properties specification and gives to you a powerful set of features that can be enabled. Json files can be used to store complex data structures such as arrays or nested objects, but if you only want to save some properties, e.g. the database uri connection and credentials, valid json files can become a bit overloaded due to the metadata characters: curly braces, colons, commas and especially a lot of double quotes. Compare this two versions:
+This module implements the Java .properties specification and gives to you a powerful set of features that can be enabled. Json files can be used to store complex data structures such as arrays or nested objects, but if you only want to save some properties, e.g. the database uri connection and credentials, valid json files can become a bit overloaded due to the metadata characters: curly braces, colons, commas and especially a lot of double quotes. Compare these two versions:
 
 ```text
 a = x
