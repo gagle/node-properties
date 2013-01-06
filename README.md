@@ -192,7 +192,7 @@ properties.parse ({ separators: ["-", ">"] });
 `comments` and `separators` are used when parsing strings. If you want to stringify an object and write comments with `; ` and separators with ` - ` you have to use `comment` and `separator` properties:
 
 ```javascript
-properties.stringify ({ comment: "; ", separator: " - " });
+properties.stringify (text, { comment: "; ", separator: " - " });
 ```
 
 Take into account that `comment` and `separator` can contain blank spaces (space, \t or \f) but `comments` and `separators` properties expect an array of single characters.
