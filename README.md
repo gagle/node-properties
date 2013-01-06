@@ -199,13 +199,17 @@ Take into account that `comment` and `separator` can contain blank spaces (space
 
 ##### INI files #####
 
-Enabling the sections and adding `;` to the set of valid characters to write comments this module can also parse and stringify INI files:
+If you enable the sections and add `;` to the set of valid comment characters, this module can also parse and stringify INI files:
 
 ```javascript
 properties.parse (text, {
 	sections: true,
-	comment: "; ",
 	comments: [";"]
+});
+
+properties.stringify (text, {
+	sections: true,
+	comment: "; "
 });
 ```
 
