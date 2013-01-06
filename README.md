@@ -186,7 +186,7 @@ The .properties specification says that `#` and `!` can be used to write comment
 Similarly, you can add new characters to separate keys from values:
 
 ```javascript
-properties.parse ({ separators: ["-", ">"] });
+properties.parse (text, { separators: ["-", ">"] });
 ```
 
 `comments` and `separators` are used when parsing strings. If you want to stringify an object and write comments with `; ` and separators with ` - ` you have to use `comment` and `separator` properties:
