@@ -207,7 +207,7 @@ properties.parse (text, {
 	comments: [";"]
 });
 
-properties.stringify (text, {
+properties.stringify (obj, {
 	sections: true,
 	comment: "; "
 });
