@@ -671,7 +671,7 @@ describe ("properties", function (){
 				},
 				another_abc: {
 					$comment: "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb" +
-							"bbbbbbbbbbbbbbbbbbbbbb",
+							"bbbbbbbbbbbbbbbbbbbbbbb",
 					$value: "aaaaaa bbbbbb cccccc dddddd eeeeee ffffff gggggg hhhhhh i" +
 							"iiiii jjjjjj kkkkkk llllll mmmmmm nnnnnn oooooo pppppp qqqqqq" +
 							" rrrrrr ssssss  tttttt uuuuuu vvvvvv wwwwww xxxxxx yyyyyy zzz" +
@@ -695,14 +695,14 @@ describe ("properties", function (){
 								"dddddddddddddd\n# eee\n\n# aaaaaaa bbbbbb cccccc dddddd eee" +
 								"eee ffffff gggggg hhhhhh iiiiii jjjjjj kkkkkk\n# llllllll m" +
 								"mmmmm nnnnnn oooooo pppppp qqqqqq rrrrrr ssssss tttttt uuuu" +
-								"uu\n# vvvvvv wwwwww xxxxxx yyyyyy zzzzzz\nabc         = aaa" +
+								"uu vvvvvv\n# wwwwww xxxxxx yyyyyy zzzzzz\nabc         = aaa" +
 								"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" +
-								"aa\\\n              aaaaaaaaaaaa\n# bbbbbbbbbbbbbbbbbbbbbbb" +
-								"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\nano" +
-								"ther_abc = aaaaaa bbbbbb cccccc dddddd eeeeee ffffff gggggg" +
-								" hhhhhh iiiiii j\\\n              jjjjj kkkkkk llllll mmmmm" +
-								"m nnnnnn oooooo pppppp qqqqqq rrrrrr ss\\\n              ss" +
-								"ss  tttttt uuuuuu vvvvvv wwwwww xxxxxx yyyyyy zzzzzz\n";
+								"aaa\\\n              aaaaaaaaaaa\n# bbbbbbbbbbbbbbbbbbbbbbb" +
+								"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\nan" +
+								"other_abc = aaaaaa bbbbbb cccccc dddddd eeeeee ffffff ggggg" +
+								"g hhhhhh iiiiii jj\\\n              jjjj kkkkkk llllll mmmm" +
+								"mm nnnnnn oooooo pppppp qqqqqq rrrrrr ssss\\\n             " +
+								" ss  tttttt uuuuuu vvvvvv wwwwww xxxxxx yyyyyy zzzzzz\n";
 								
 						FS.readFile ("file", "utf8", function (error, data){
 							if (error) return done (error);
