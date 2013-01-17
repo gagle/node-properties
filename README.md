@@ -5,7 +5,7 @@ _Node.js project_
 
 #### .properties parser/stringifier ####
 
-Version: 0.3.2
+Version: 0.3.3
 
 This module implements the Java .properties specification and gives to you a powerful set of features that can be enabled. Json files can be used to store complex data structures such as arrays or nested objects, but if you only want to save some properties, e.g. the database uri connection and credentials, valid json files can become a bit overloaded due to the metadata characters: curly braces, colons, commas and especially a lot of double quotes. Compare these two versions:
 
@@ -287,7 +287,7 @@ The possible settings are:
 	```
 
 <a name="parse"></a>
-__properties.parse(str[, settings])__
+__properties.parse(str[, settings])__  
 Does the same as [load()](#load) but does not perform any I/O access, the input is the given string. The function can throw exceptions when then variables are enabled, otherwise is not necessary to wrap it with a try-catch.
 
 <a name="store"></a>
@@ -370,5 +370,5 @@ Please, note that the ECMAScript specification does not guarantee the order of t
 > V8 gives no guarantees on the enumeration order for array indices (i.e., a property name that can be parsed as a 32-bit unsigned integer).
 
 <a name="stringify"></a>
-__properties.stringify(obj[, settings])__
+__properties.stringify(obj[, settings])__  
 Does the same as [store()](#store) but does not perform any I/O access, the output is a string.

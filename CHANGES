@@ -1,3 +1,6 @@
+v0.3.3 (12 Jan 2013)
+	Fixed column width in pretty feature.
+
 v0.3.2 (04 Jan 2013)
 	Removed "config()".
 
