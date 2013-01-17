@@ -34,8 +34,8 @@ var p = {
 					"pretty printed",
 			$value: "root"
 		},
-		secret_password: "a very long password because I'm afraid bad people " +
-				"can try to use brute force to hack this database"
+		secret_password: "a very long password because I'm afraid that bad " +
+				"people can try to use brute force to hack this database"
 	}
 };
 
