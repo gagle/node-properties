@@ -39,6 +39,7 @@ var myProps = {};
 
 properties.load (__dirname + "/namespaces", config, function (error, p){
 	if (error) return console.log (error);
+	
 	console.log (p);
 	console.log (util.inspect (myProps, true, null));
 	

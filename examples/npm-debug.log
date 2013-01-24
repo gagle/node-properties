@@ -1,0 +1,32 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'C:\\Program Files\\nodejs\\\\node.exe',
+1 verbose cli   'C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'publish',
+1 verbose cli   '-f' ]
+2 info using npm@1.2.2
+3 info using node@v0.8.18
+4 verbose node symlink C:\Program Files\nodejs\\node.exe
+5 verbose publish [ '.' ]
+6 verbose read json D:\Programming\Projects\JavaScript\properties\examples\package.json
+7 verbose cache add [ '.', null ]
+8 verbose cache add name=undefined spec="." args=[".",null]
+9 verbose parsed url { pathname: '.', path: '.', href: '.' }
+10 silly lockFile 3a52ce78- .
+11 verbose lock . C:\Users\GLL\AppData\Roaming\npm-cache\3a52ce78-.lock
+12 verbose read json package.json
+13 silly lockFile 3a52ce78- .
+14 error addLocal Could not install .
+15 error Error: ENOENT, open 'D:\Programming\Projects\JavaScript\properties\examples\package.json'
+16 error If you need help, you may report this log at:
+16 error     <http://github.com/isaacs/npm/issues>
+16 error or email it to:
+16 error     <npm-@googlegroups.com>
+17 error System Windows_NT 6.1.7601
+18 error command "C:\\Program Files\\nodejs\\\\node.exe" "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "publish" "-f"
+19 error cwd D:\Programming\Projects\JavaScript\properties\examples
+20 error node -v v0.8.18
+21 error npm -v 1.2.2
+22 error path D:\Programming\Projects\JavaScript\properties\examples\package.json
+23 error code ENOENT
+24 error errno 34
+25 verbose exit [ 34, true ]

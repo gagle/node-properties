@@ -16,14 +16,15 @@ var reviver = function (key, value, section){
 var config = {
 	//Enables the sections
 	sections: true,
-	//Allowed character comments: #, ! (default) and ;
+	//Allowed comment characters: #, ! (default) and ;
 	comments: [";"],
 	//Called for every property and section
 	reviver: reviver
 };
 
-properties.load (__dirname + "/ini", config, function (error, p){
+properties.load (__dirname + "/in", config, function (error, p){
 	if (error) return console.log (error);
+	
 	console.log (p);
 	
 	/*

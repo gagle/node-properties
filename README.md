@@ -35,7 +35,7 @@ The properties are parsed the right way, reading character by character instead 
 
 There are several additional features you can use, some of them are: sections, variables, define your custom comment and key-value separator characters, replacers and revivers similar to the json callbacks, pretty print the stringified properties, convert special characters to their unicode string representation, write comments, parse/stringify INI files and much more.
 
-The disk access is buffered to reduce the memory footprint. The default buffer size is 16KB, a quite large for a simple properties file. Most often you'll have small files (less than 1KB, maybe 2KB), so a single I/O call will be done, but it's better to support buffering, just in case. If you prefer, you can avoid the buffers and work with strings with the [parse()](#parse) and [stringify()](#stringify) functions, so you decide how to do the I/O access -typically you'll use fs.readFile() and fs.writeFile()- 
+The disk access is buffered to reduce the memory footprint. The default buffer size is 16KB, a quite large for a simple properties file. Most often you'll have small files (less than 1KB, maybe 2KB), so a single I/O call will be done, but it's better to support buffering, just in case. If you prefer, you can avoid the buffers and work with strings with the [parse()](#parse) and [stringify()](#stringify) functions, so you decide how to do the I/O access -typically you'll use fs.readFile() and fs.writeFile()-. 
 
 The properties are case sensitive.
 
@@ -129,7 +129,7 @@ Additional information:
 * Different sections can have keys with the same name.
 * The keys added before the first section are considered global and don't belong to any section.
 * It's not possible to nest sections inside other sections.
-* Duplicate sections replaces the previous section with the same name, they are not merged.
+* A duplicate section replaces the previous section with the same name, they are not merged.
 
 Sections are disabled by default.
 
@@ -183,7 +183,7 @@ properties.parse (text, { comments: [";"] });
 
 The .properties specification says that `#` and `!` can be used to write comments. These characters will always be allowed, so the `comments` property adds `;` to the valid set of tokens.
 
-Similarly, you can add new characters to separate keys from values:
+Similarly, you can add new characters that are parsed as a key-value separator:
 
 ```javascript
 properties.parse (text, { separators: ["-", ">"] });
@@ -222,7 +222,7 @@ properties.stringify (obj, {
 
 <a name="load"></a>
 __properties.load(file[, settings], callback)__  
-Loads a .properties file. The callback receives the error and the loaded properties. The loaded properties are just a JavaScript object in literal notation. The access to the file is buffered.
+Loads a file. The callback receives the error and the loaded properties. The loaded properties are just a JavaScript object in literal notation. The access to the file is buffered.
 
 The possible settings are:
 
@@ -232,9 +232,19 @@ The possible settings are:
 - separators. _Array_. An array of characters that are used to parse key-value separators. `=`, `:` and `<blank space>` are always considered separator tokens.
 - sections. _Boolean_. Enables the sections. Default is false.
 - variables. _Boolean_. Enables the variables. Default is false.
-- reviver. _Function_. Callback executed for each property and section. Its funcionality is similar than the json reviver callback. The reviver receives two parameters, the key and the value. The returned value will be stored in the final object. If the function returns undefined the property is not added. If sections are enabled the reviver receives a third parameter, the section. When a section is found, the key and the value are set to null. The returnd value will be used to store the section, if it's undefined the section is not added.
+- reviver. _Function_. Callback executed for each property and section. Its funcionality is similar to the json reviver callback. The reviver receives two parameters, the key and the value. The returned value will be stored in the final object. If the function returns undefined the property is not added. If sections are enabled the reviver receives a third parameter, the section. When a section is found, the key and the value are set to null. The returned value will be used to set section's name, if it's undefined the section is not added.
 
   For example, a reviver that does nothing:
+	
+	file:
+	
+	```text
+	a = 1
+	[section1]
+	a = 1
+	[section2]
+	a = 1
+	```
 
 	```javascript
 	var reviver = function (key, value, section){
@@ -244,10 +254,10 @@ The possible settings are:
 		Prints:
 		
 		a 1 null
-		null null "section 1"
-		a 1 section 1
-		null null "section 2"
-		a 1 section 2
+		null null section1
+		a 1 section1
+		null null section2
+		a 1 section2
 		*/
 		
 		if (key === null){
@@ -265,25 +275,15 @@ The possible settings are:
 		
 		{
 			a: 1,
-			"section 1": {
+			section1: {
 				a: 1
 			},
-			"section 2": {
+			section2: {
 				a: 1
 			}
 		}
 		*/
 	});
-	```
-	
-	file:
-	
-	```text
-	a = 1
-	[section 1]
-	a = 1
-	[section 2]
-	a = 1
 	```
 
 <a name="parse"></a>
@@ -303,20 +303,20 @@ var props = {
 	a: "a value",
 	b: null,
 	c: {
-		comment: "c comment",
-		value: "c value"
+		$comment: "c comment",
+		$value: "c value"
 	},
 	d: {
-		comment: "d comment",
-		value: null
+		$comment: "d comment",
+		$value: null
 	},
 	e: {
-		comment: "e comment"
+		$comment: "e comment"
 		//No value, the same as d
 	},
 	f: {
 		//No comment, the same as a
-		value: "f value"
+		$value: "f value"
 	},
 	g: {
 		//No comment and no value, the same as b if sections are disabled
@@ -343,14 +343,14 @@ The possible settings are:
 - sections. _Boolean_. Enables the sections. Default is false.
 - header. _String_. A comment that is written at the beginning of the file.
 - pretty. _Boolean_. If true, the stringified properties are pretty printed: tabbed and word wrapped at 80 columns.
-- replacer. _Function_. The same as the reviver function but if the returned value is undefined the property or section is not stringified. Receives two parameters and optionally three if section are enabled.
+- replacer. _Function_. The same as the reviver function but if the returned value is undefined the property or section is not stringified. Receives two parameters and optionally three if sections are enabled.
 
-The comments (from properties and header) can be written as a multi-line comment, for example, if you write a property:
+The comments (from properties and header) can be written as a multi-line comments, for example, if you write a property:
 
 ```javascript
 a: {
-	comment: "line 1\nline2"
-	value: "b"
+	$comment: "line 1\nline2"
+	$value: "b"
 }
 ```
 
@@ -364,7 +364,7 @@ a=b
 
 The line separator could also be `\r\n`. Line separators are only used to split the comment, that is, if you're on Linux and write a comment `line1\r\nline2`, a `\n` will be used to write these lines.
 
-Please, note that the ECMAScript specification does not guarantee the order of the object properties, so the module cannot guaranteee that the properties will be stored with the same order. This modules guarantees that if sections are enabled, the global properties will be written before the sections to avoid possible errors.
+Please, note that the ECMAScript specification does not guarantee the order of the object properties, so this module cannot guarantee that the properties will be stored with the same order. This module guarantees that if sections are enabled, the global properties (properties that doesn't belong to any section) will be written before the sections to avoid possible errors.
 
 > ECMA-262 does not specify enumeration order. The de facto standard is to match insertion order, which V8 also does, but with one exception:
 > V8 gives no guarantees on the enumeration order for array indices (i.e., a property name that can be parsed as a 32-bit unsigned integer).

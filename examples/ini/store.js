@@ -6,18 +6,18 @@ var properties = require ("../../lib/properties");
 
 var replacer = function (key, value, section){
 	if (key === null){
-		//Section found, all sections are added
-		return section;
+		//Section found, all sections are added except private_section
+		return section !== "private_section" ? section : undefined;
 	}
 	
-	//All the keys are stored except private_key (undefined is returned)
+	//All the keys are stored except private_key
 	if (key !== "private_key") return value;
 };
 
 var config = {
 	//Enables the sections
 	sections: true,
-	//Token used to write comments
+	//Character used to write comments
 	comment: ";",
 	//The output is pretty printed
 	pretty: true,
@@ -26,6 +26,9 @@ var config = {
 };
 
 var p = {
+	private_section: {
+		my_secret: "secret_thing"
+	},
 	web: {
 		$comment: "Web server instance",
 		$value: {
@@ -69,34 +72,36 @@ var p = {
 	public_key: "1234-ABCD-5678-EFGH"
 };
 
-fs.writeFileSync (__dirname + "/ini", properties.stringify (p, config),
-		"utf8");
+properties.store (__dirname + "/out", p, config, function (error){
+	if (error) return console.log (error);
+	
+	console.log (fs.readFileSync (__dirname + "/out", "utf8"));
+	
+	/*
+		Prints:
 
-console.log (fs.readFileSync (__dirname + "/ini", "utf8"));
+		public_key  = 1234-ABCD-5678-EFGH
 
-/*
-Prints:
+		; Web server instance
+		[web]
+		host        = localhost
+		port        = 8080
 
-public_key  = 1234-ABCD-5678-EFGH
+		; Default paths, relative from paths.home
+		[paths]
+		home        = ../
+		; Configuration files
+		conf        = conf
+		; System logs
+		logs        = logs
+		; Source files
+		src         = src
+		; Built files
+		build       = build
+		; Internationalization resources
+		locales     = locales
+		; Documentation
+		docs        = docs
+	*/
+});
 
-; Web server instance
-[web]
-host        = localhost
-port        = 8080
-
-; Default paths, relative from paths.home
-[paths]
-home        = ../
-; Configuration files
-conf        = conf
-; System logs
-logs        = logs
-; Source files
-src         = src
-; Built files
-build       = build
-; Internationalization resources
-locales     = locales
-; Documentation
-docs        = docs
-*/
