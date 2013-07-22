@@ -1,30 +1,19 @@
 {
 	"name": "properties",
-	"version": "0.3.3",
+	"version": "1.0.0",
 	"description": ".properties parser/stringifier",
-	"keywords": ["properties", ".properties", "ini", ".ini", "parser"],
+	"keywords": ["properties", "ini", "parser", "stringifier"],
 	"author": {
 		"name": "Gabriel Llamas",
-		"email": "gaglekas@gmail.com"
+		"email": "gagle@outlook.com"
 	},
 	"repository": {
 		"type": "git",
-		"url": "git://github.com/Gagle/Node-Properties.git"
+		"url": "git://github.com/gagle/node-properties.git"
 	},
 	"engines": {
-		"node": "*"
+		"node": ">=0.10"
 	},
-	"dependencies": {
-		"buffered-reader": "*",
-		"buffered-writer": "*",
-		"error-provider": "*"
-	},
-	"devDependencies": {
-		"mocha-runner": "*"
-	},
-	"licenses": [{
-		"type": "MIT",
-		"url": "http://www.opensource.org/licenses/mit-license.html"
-	}],
-	"main": "lib/properties"
+	"license": "MIT",
+	"main": "lib"
 }

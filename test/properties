@@ -1,0 +1,47 @@
+#Whitespace
+               
+   a1    b
+a2 b
+a3     =b
+     a4=      b
+a5   =     b
+    =     b
+		a6    =
+a7
+      a8
+a9=b
+a10			:b
+
+!Escape
+\
+a\11 = b
+a12   =\b
+a1\3
+a14  \
+      b
+a15  \
+  \
+b
+a16\===b
+    \\     \\\
+  \
+	\\  
+a\\n\\\\17  \\n\\\\b
+a18 b\n\t
+\     \ 
+\n \n
+
+#Unicode
+聵 : 聵
+↑		↓
+a19		\u00c9
+\u2190=\u2192
+
+#Type conversion
+a20 true
+a21 false
+a22 123
+a23 [1, 2, \
+		3]
+a24 : { "1"\
+		: { "2": 3 }}
