@@ -1,0 +1,10 @@
+[Me]
+what = mail
+name = me
+e${Me|what} = me@me.com
+user = {\
+	"num": 1,\
+	"friends": ["${Me|name}"],\
+	"name": "${Me|name}",\
+	"e${Me|what}": "${Me|email}"\
+}

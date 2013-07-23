@@ -1,15 +1,16 @@
 v1.0.0 (xx Jul 2013)
 	Complete refactor.
-	Improved speed by ~16%. This new version only iterates the data one time,
-		while the previous version was a direct port from the Java source code and
-		was iterating four times over the same data.
+	This new version only iterates the data one time, while the previous version
+		was a direct port from the Java source code and was iterating four times
+		over the same data.
 	All the dependencies have been removed.
-	Added "json" parameter. When it is enabled stringified JSON arrays and objects
-		are parsed into objects.
+	Added "json" parameter. When it is enabled stringified json arrays and objects
+		are parsed.
 	Removed "bufferSize" and "encoding" parameters. Files are read using a 16KB
 		buffer size and utf8 encoding.
 	Fixed some unusual bugs with escaped backslashes.
 	Some bugfixes with whitespace values.
+	Some bugfixes with the sections.
 
 v0.3.3 (12 Jan 2013)
 	Fixed column width in pretty feature.

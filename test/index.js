@@ -40,6 +40,7 @@ var tests = {
 				a22: 123,
 				a23: [1, 2, 3],
 				a24: { "1": { "2": 3 }},
+				"[a]": null
 			});
 			
 			done ();
@@ -94,6 +95,147 @@ var tests = {
 			assert.ifError (error);
 			
 			assert.deepEqual (p, {});
+			
+			done ();
+		});
+	},
+	"custom separator and comment tokens": function (done){
+		var settings = { comments: ";", separators: "→", data: true };
+		properties.parse (";a\n!a\na1:b\na2→b", settings, function (error, p){
+			assert.ifError (error);
+			
+			assert.deepEqual (p, {
+				a1: "b",
+				a2: "b"
+			});
+			
+			done ();
+		});
+	},
+	"sections": function (done){
+		properties.parse ("sections", { sections: true }, function (error, p){
+			assert.ifError (error);
+			
+			assert.deepEqual (p, {
+				a: 1,
+				s1: {
+					a: 1
+				},
+				s2: {
+					a: 1
+				},
+				s3: {},
+				"a=1": {
+					"b[": "a]c"
+				},
+				"": {
+					a: 1
+				},
+				"a\\t\ta→聵": {
+					a: 1
+				}
+			});
+			
+			done ();
+		});
+	},
+	"reviver with sections": function (done){
+		var reviver = function (key, value, section){
+			if (reviver.isSection) return section !== "a=1";
+			return value;
+		};
+		
+		properties.parse ("sections", { sections: true, reviver: reviver },
+				function (error, p){
+			assert.ifError (error);
+			
+			assert.deepEqual (p, {
+				a: 1,
+				s1: {
+					a: 1
+				},
+				s2: {
+					a: 1
+				},
+				s3: {},
+				"": {
+					a: 1
+				},
+				"a\\t\ta→聵": {
+					a: 1
+				}
+			});
+			
+			done ();
+		});
+	},
+	"variables": function (done){
+		var settings = { variables: true, json: false };
+		properties.parse ("variables", settings, function (error, p){
+			assert.ifError (error);
+			
+			assert.deepEqual (p, {
+				a: null,
+				"": "c",
+				get: "s",
+				"s1|temp": "d",
+				b: "d",
+				_c_d_: "e",
+				r: "{{{|}}end$}}{{|"
+			});
+			
+			done ();
+		});
+	},
+	"variables with sections": function (done){
+		var settings = { variables: true, sections: true, json: false };
+		properties.parse ("variables-sections", settings, function (error, p){
+			assert.ifError (error);
+			
+			assert.deepEqual (p, {
+				a: "1",
+				t: {
+					get: "s"
+				},
+				s1: {
+					e2: "ee",
+					greet: "say hi",
+					a: "am",
+					b: "{say hi}, {name}!"
+				},
+				s2: {
+					a: "12",
+					"12": "34"
+				},
+				"": {
+					"1_a_12_34": "12 months",
+					obvious: "1 year = 12 months",
+					"123": "456",
+					"456": "123"
+				}
+			});
+			
+			done ();
+		});
+	},
+	"variables with json": function (done){
+		var settings = { variables: true, sections: true };
+		properties.parse ("variables-json", settings, function (error, p){
+			assert.ifError (error);
+			
+			assert.deepEqual (p, {
+				Me: {
+					what: "mail",
+					name: "me",
+					email: "me@me.com",
+					user: {
+						num: 1,
+						friends: ["me"],
+						name: "me",
+						email: "me@me.com"
+					}
+				}
+			});
 			
 			done ();
 		});
