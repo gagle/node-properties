@@ -5,7 +5,9 @@ var properties = require ("../lib");
 
 var tests = {
 	"load properties": function (done){
-		properties.parse ("properties", function (error, p){
+		var options = { path: true, json: true };
+		
+		properties.parse ("properties", options, function (error, p){
 			assert.ifError (error);
 			
 			assert.deepEqual (p, {
@@ -40,14 +42,15 @@ var tests = {
 				a22: 123,
 				a23: [1, 2, 3],
 				a24: { "1": { "2": 3 }},
-				"[a]": null
+				"[a]": null,
+				a25: null
 			});
 			
 			done ();
 		});
 	},
 	"load properties (empty key, empty value)": function (done){
-		properties.parse (":", { data: true }, function (error, p){
+		properties.parse (":", function (error, p){
 			assert.ifError (error);
 			
 			assert.deepEqual (p, {
@@ -59,8 +62,7 @@ var tests = {
 	},
 	"load properties (no json)": function (done){
 		properties.parse ("a1 true\na2 false\na3 123\na4 [1, 2, \\\n		" +
-				"3]\na5 : { \"1\"\\\n		: { \"2\": 3 }}", { data: true, json: false },
-				function (error, p){
+				"3]\na5 : { \"1\"\\\n		: { \"2\": 3 }}", function (error, p){
 			assert.ifError (error);
 			
 			assert.deepEqual (p, {
@@ -78,9 +80,9 @@ var tests = {
 		var reviver = function (key, value){
 			if (key === "a") return 1;
 		};
+		var options = { reviver: reviver };
 		
-		properties.parse ("a b\nc d", { data: true, reviver: reviver },
-				function (error, p){
+		properties.parse ("a b\nc d", options, function (error, p){
 			assert.ifError (error);
 			
 			assert.deepEqual (p, {
@@ -91,7 +93,7 @@ var tests = {
 		});
 	},
 	"empty data": function (done){
-		properties.parse ("", { data: true }, function (error, p){
+		properties.parse ("", function (error, p){
 			assert.ifError (error);
 			
 			assert.deepEqual (p, {});
@@ -100,8 +102,9 @@ var tests = {
 		});
 	},
 	"custom separator and comment tokens": function (done){
-		var settings = { comments: ";", separators: "→", data: true };
-		properties.parse (";a\n!a\na1:b\na2→b", settings, function (error, p){
+		var options = { comments: ";", separators: "→" };
+		
+		properties.parse (";a\n!a\na1:b\na2→b", options, function (error, p){
 			assert.ifError (error);
 			
 			assert.deepEqual (p, {
@@ -113,7 +116,9 @@ var tests = {
 		});
 	},
 	"sections": function (done){
-		properties.parse ("sections", { sections: true }, function (error, p){
+		var options = { sections: true, path: true };
+		
+		properties.parse ("sections", options, function (error, p){
 			assert.ifError (error);
 			
 			assert.deepEqual (p, {
@@ -144,9 +149,9 @@ var tests = {
 			if (reviver.isSection) return section !== "a=1";
 			return value;
 		};
+		var options = { sections: true, reviver: reviver, path: true };
 		
-		properties.parse ("sections", { sections: true, reviver: reviver },
-				function (error, p){
+		properties.parse ("sections", options, function (error, p){
 			assert.ifError (error);
 			
 			assert.deepEqual (p, {
@@ -170,8 +175,9 @@ var tests = {
 		});
 	},
 	"variables": function (done){
-		var settings = { variables: true, json: false };
-		properties.parse ("variables", settings, function (error, p){
+		var options = { variables: true, json: false, path: true };
+		
+		properties.parse ("variables", options, function (error, p){
 			assert.ifError (error);
 			
 			assert.deepEqual (p, {
@@ -188,8 +194,9 @@ var tests = {
 		});
 	},
 	"variables with sections": function (done){
-		var settings = { variables: true, sections: true, json: false };
-		properties.parse ("variables-sections", settings, function (error, p){
+		var options = { variables: true, sections: true, json: false, path: true };
+		
+		properties.parse ("variables-sections", options, function (error, p){
 			assert.ifError (error);
 			
 			assert.deepEqual (p, {
@@ -219,12 +226,13 @@ var tests = {
 		});
 	},
 	"variables with json": function (done){
-		var settings = { variables: true, sections: true };
-		properties.parse ("variables-json", settings, function (error, p){
+		var options = { variables: true, sections: true, path: true, json: true };
+		
+		properties.parse ("variables-json", options, function (error, p){
 			assert.ifError (error);
 			
 			assert.deepEqual (p, {
-				Me: {
+				profile: {
 					what: "mail",
 					name: "me",
 					email: "me@me.com",

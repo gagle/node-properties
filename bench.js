@@ -12,7 +12,7 @@ speedy.run ({
 		pOld.parse (data, { sections: true });
 	},
 	"new": function (){
-		pNew.parse (data, { data: true, sections: true }, function (){});
+		pNew.parse (data, { sections: true });
 	}
 });
 
@@ -32,9 +32,9 @@ Total time: ~6000ms (6s 0ms)
 Higher is better (ops/sec)
 
 old
-  11,980 ± 0.2%
+  11,132 ± 0.0%
 new
-  12,130 ± 0.4%
+  17,670 ± 0.2%
 
-Elapsed time: 6112ms (6s 112ms)
+Elapsed time: 6131ms (6s 131ms)
 */

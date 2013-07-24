@@ -1,10 +1,10 @@
-[Me]
+[profile]
 what = mail
 name = me
-e${Me|what} = me@me.com
+e${profile|what} = me@me.com
 user = {\
 	"num": 1,\
-	"friends": ["${Me|name}"],\
-	"name": "${Me|name}",\
-	"e${Me|what}": "${Me|email}"\
+	"friends": ["${profile|name}"],\
+	"name": "${profile|name}",\
+	"e${profile|what}": "${profile|email}"\
 }

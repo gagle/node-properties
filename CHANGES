@@ -1,11 +1,13 @@
 v1.0.0 (xx Jul 2013)
 	Complete refactor.
-	This new version only iterates the data one time, while the previous version
-		was a direct port from the Java source code and was iterating four times
-		over the same data.
+	Improved speed by ~37%. This new version only iterates the data one time,
+		while the previous version was a direct port from the Java source code and
+		was iterating four times over the same data.
 	All the dependencies have been removed.
+	"load()" and "store" have been removed and "parse()" and "stringify()" can
+		read and write to files with the "path" setting.
 	Added "json" parameter. When it is enabled stringified json arrays and objects
-		are parsed.
+		are parsed into javascript arrays and objects.
 	Removed "bufferSize" and "encoding" parameters. Files are read using a 16KB
 		buffer size and utf8 encoding.
 	Fixed some unusual bugs with escaped backslashes.
