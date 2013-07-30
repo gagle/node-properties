@@ -16,12 +16,12 @@ speedy.run ({
 	}
 });
 
-//Note: ini doesn't convert the values to numbers
+//Note: ini doesn't do a type conversion (values to numbers)
 
 /*
 File: ini-vs-properties.js
 
-Node v0.10.13
+Node v0.10.15
 V8 v3.14.5.9
 Speedy v0.0.8
 
@@ -34,9 +34,9 @@ Total time: ~6000ms (6s 0ms)
 Higher is better (ops/sec)
 
 ini
-  24,815 ± 0.3%
+  24,518 ± 0.4%
 properties
-  22,449 ± 0.2%
+  23,710 ± 0.2%
 
-Elapsed time: 6140ms (6s 140ms)
+Elapsed time: 6131ms (6s 131ms)
 */

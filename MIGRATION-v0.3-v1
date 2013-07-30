@@ -1,0 +1,2 @@
+- Se elimina "load()" y "store()" y "parse()" y "stringify()" leen o escriben
+	a archivo usando el parámetro "path".

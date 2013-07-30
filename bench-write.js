@@ -9,17 +9,17 @@ var data = fs.readFileSync ("./test/properties", { encoding: "utf8" });
 
 speedy.run ({
 	old: function (){
-		pOld.parse (data, { sections: true });
+		pOld.stringify ({}, { header: "a\nb\n" });
 	},
 	"new": function (){
-		pNew.parse (data, { sections: true });
+		pNew.stringify ({}, { header: "a\nb\n" });
 	}
 });
 
 /*
-File: bench.js
+File: bench-write.js
 
-Node v0.10.13
+Node v0.10.15
 V8 v3.14.5.9
 Speedy v0.0.8
 
@@ -32,9 +32,9 @@ Total time: ~6000ms (6s 0ms)
 Higher is better (ops/sec)
 
 old
-  11,132 ± 0.0%
+  362,241 ± 0.0%
 new
-  17,670 ± 0.2%
+  3,353,011 ± 0.0%
 
-Elapsed time: 6131ms (6s 131ms)
+Elapsed time: 6162ms (6s 162ms)
 */

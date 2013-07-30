@@ -1,8 +1,9 @@
 v1.0.0 (xx Jul 2013)
 	Complete refactor.
-	Improved speed by ~37%. This new version only iterates the data one time,
-		while the previous version was a direct port from the Java source code and
-		was iterating four times over the same data.
+	Improved reading speed by ~40%. This new version only iterates the data
+		onetime, while the previous version was a direct port from the Java source
+		code and was iterating four times over the same data.
+	Improved writing speed by ~90%.
 	All the dependencies have been removed.
 	"load()" and "store" have been removed and "parse()" and "stringify()" can
 		read and write to files with the "path" setting.
@@ -13,6 +14,7 @@ v1.0.0 (xx Jul 2013)
 	Fixed some unusual bugs with escaped backslashes.
 	Some bugfixes with whitespace values.
 	Some bugfixes with the sections.
+	Some bugfixes with "stringify()".
 
 v0.3.3 (12 Jan 2013)
 	Fixed column width in pretty feature.
