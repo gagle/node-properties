@@ -1,2 +1,2 @@
-- Se elimina "load()" y "store()" y "parse()" y "stringify()" leen o escriben
-	a archivo usando el parámetro "path".
+- "load()" and "store()" have been removed. Now "parse()" and "stringify()" can
+  read and write from/to files using the "path" option.
