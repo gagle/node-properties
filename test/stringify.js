@@ -2,8 +2,10 @@
 
 var assert = require ("assert");
 var properties = require ("../lib");
+var fs = require ("fs");
 
-var EOL = process.platform === "win32" ? "\r\n" : "\n";
+var WIN = process.platform === "win32";
+var EOL = WIN ? "\r\n" : "\n";
 
 var tests = {
 	"comments multiline": function (done){
@@ -70,6 +72,25 @@ var tests = {
 		};
 		data = properties.stringify ({}, options);
 		expected = "\\u2191abc" + EOL + "\\u2191defgh" + EOL + EOL
+		assert.strictEqual (data, expected);
+		
+		//Consecutive bigger lines
+		options = { pretty: true, columns: 5,
+			header: "abcdef abcdef"
+		};
+		data = properties.stringify ({}, options);
+		expected = "#abcdef" + EOL + "#abcdef" + EOL + EOL
+		assert.strictEqual (data, expected);
+		
+		//Random text
+		options = { pretty: true, columns: 10,
+			header: fs.readFileSync ("text", { encoding: "utf8" })
+		};
+		data = properties.stringify ({}, options);
+		expected = fs.readFileSync ("text-pretty", { encoding: "utf8" });
+		if (WIN){
+			expected = expected.replace (/\n/g, EOL);
+		}
 		assert.strictEqual (data, expected);
 		
 		done ();

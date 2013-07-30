@@ -3,7 +3,7 @@
 var speedy = require ("speedy");
 var fs = require ("fs");
 var ini = require ("ini");
-var properties = require ("../lib");
+var properties = require ("../../lib");
 
 var data = fs.readFileSync ("properties", { encoding: "utf8" });
 

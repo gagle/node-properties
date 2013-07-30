@@ -1,7 +1,7 @@
 "use strict";
 
 var speedy = require ("speedy");
-var properties = require ("../lib");
+var properties = require ("../../lib");
 var fs = require ("fs");
 
 var jsonData = fs.readFileSync ("json", { encoding: "utf8" });
