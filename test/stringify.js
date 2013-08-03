@@ -11,7 +11,7 @@ var tests = {
 	"comments multiline": function (done){
 		var stringifier = properties.stringifier ().header ("a\nb\r\nc\n");
 		var data = properties.stringify (stringifier);
-		var expected = "#a" + EOL + "#b" + EOL + "#c" + EOL + "#" + EOL + EOL;
+		var expected = "# a" + EOL + "# b" + EOL + "# c" + EOL + "# " + EOL + EOL;
 		assert.strictEqual (data, expected);
 		
 		done ();
@@ -20,7 +20,7 @@ var tests = {
 		var options = { unicode: true };
 		var stringifier = properties.stringifier ().header ("   a\t↓   ");
 		var data = properties.stringify (stringifier, options);
-		var expected = "#   a\t\\u2193   " + EOL + EOL;
+		var expected = "#    a\t\\u2193   " + EOL + EOL;
 		assert.strictEqual (data, expected);
 		
 		done ();
@@ -30,8 +30,8 @@ var tests = {
 		var stringifier = properties.stringifier ()
 				.property ({ comment: "asd", key: "   a\t↓   ", value: "   a\t↓   " });
 		var data = properties.stringify (stringifier, options);
-		var expected = "#asd" + EOL + "\\ \\ \\ a\\t\\u2193\\ \\ \\ =\\ \\ \\ a" +
-				"\\t\\u2193   ";
+		var expected = "# asd" + EOL + "\\ \\ \\ a\\t\\u2193\\ \\ \\  = \\ \\ " +
+				"\\ a\\t\\u2193   ";
 		assert.strictEqual (data, expected);
 		
 		done ();
@@ -41,7 +41,7 @@ var tests = {
 		var stringifier = properties.stringifier ()
 				.property ({ comment: "asd", key: "a", value: "b" });
 		var data = properties.stringify (stringifier, options);
-		var expected = ";asd" + EOL + "a-b";
+		var expected = "; asd" + EOL + "a - b";
 		assert.strictEqual (data, expected);
 		
 		done ();
@@ -50,7 +50,7 @@ var tests = {
 		var stringifier = properties.stringifier ()
 				.property ({ value: "b" });
 		var data = properties.stringify (stringifier);
-		var expected = "=b";
+		var expected = " = b";
 		assert.strictEqual (data, expected);
 		
 		done ();
@@ -59,7 +59,7 @@ var tests = {
 		var stringifier = properties.stringifier ()
 				.property ({ key: "a" });
 		var data = properties.stringify (stringifier);
-		var expected = "a=";
+		var expected = "a = ";
 		assert.strictEqual (data, expected);
 		
 		done ();
@@ -68,7 +68,7 @@ var tests = {
 		var stringifier = properties.stringifier ()
 				.property ();
 		var data = properties.stringify (stringifier);
-		var expected = "=";
+		var expected = " = ";
 		assert.strictEqual (data, expected);
 		
 		done ();
@@ -104,10 +104,24 @@ var tests = {
 				.property ({ key: "a", value: "a value" })
 				.property ({ comment: "b comment", key: "b", value: "b value" });
 		var data = properties.stringify (stringifier);
-		var expected = "#a" + EOL + "#b" + EOL + "#" + EOL + EOL + "a=a value" +
-				EOL + "b=" + EOL + "#c comment" + EOL + "c=c value" + EOL +
-				"#d comment" + EOL + "d=" + EOL + "[]" + EOL + "#h section" + EOL +
-				"[h]" + EOL + "a=a value" + EOL + "#b comment" + EOL + "b=b value";
+		var expected = "# a" + EOL + "# b" + EOL + "# " + EOL + EOL +
+				"a = a value" + EOL + "b = " + EOL + "# c comment" + EOL +
+				"c = c value" + EOL + "# d comment" + EOL + "d = " + EOL + "[]" + EOL +
+				"# h section" + EOL + "[h]" + EOL + "a = a value" + EOL +
+				"# b comment" + EOL + "b = b value";
+		assert.strictEqual (data, expected);
+		
+		done ();
+	},
+	"stringifier converter": function (done){
+		var o = {
+			a: 1,
+			b: [1, 2],
+			"1": 1
+		};
+		
+		var data = properties.stringify (o);
+		var expected = "1 = 1" + EOL + "a = 1" + EOL + "b = [1,2]";
 		assert.strictEqual (data, expected);
 		
 		done ();
@@ -127,7 +141,17 @@ var tests = {
 			}
 		};
 		var data = properties.stringify (stringifier, options);
-		var expected = "a=A VALUE" + EOL + "[a]" + EOL + "a=a value";
+		var expected = "a = A VALUE" + EOL + "[a]" + EOL + "a = a value";
+		assert.strictEqual (data, expected);
+		
+		done ();
+	},
+	"arrays and objects": function (done){
+		var stringifier = properties.stringifier ()
+				.property ({ key: "a", value: [1, 2] })
+				.property ({ key: "b", value: { a: 1 } });
+		var data = properties.stringify (stringifier);
+		var expected = "a = [1,2]" + EOL + "b = {\"a\":1}";
 		assert.strictEqual (data, expected);
 		
 		done ();
