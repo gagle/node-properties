@@ -81,15 +81,18 @@ var tests = {
 	"reviver": function (done){
 		var options = {
 			reviver: function (key, value){
-				if (key === "a") return 1;
+				if (key === "a") return "b";
+				if (key === "b") return;
+				return this.assert ();
 			}
 		};
 		
-		properties.parse ("a b\nc d", options, function (error, p){
+		properties.parse ("a 1\nb 1\nc 1", options, function (error, p){
 			assert.ifError (error);
 			
 			assert.deepEqual (p, {
-				a: 1
+				a: "b",
+				c: 1
 			});
 			
 			done ();
@@ -147,11 +150,11 @@ var tests = {
 			done ();
 		});
 	},
-	/*"sections random": function (done){
+	"sections random": function (done){
 		var data = "#a\n#b\n#\n\na=a value\nb=\n#c comment\nc=c value\n#d comment" +
 				"\nd=\n[]\n#h section\n[h]\na=a value\n#b comment\nb=b value";
-		var p = properties.parse (data);
-		console.log(p)
+		var p = properties.parse (data, { sections: true });
+		
 		assert.deepEqual (p, {
 			a: "a value",
 			b: null,
@@ -165,7 +168,7 @@ var tests = {
 		});
 		
 		done ();
-	},*/
+	},
 	"reviver with sections": function (done){
 		var reviver = function (key, value, section){
 			if (this.isSection) return section !== "a=1";

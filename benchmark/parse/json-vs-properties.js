@@ -17,7 +17,7 @@ speedy.run ({
 });
 
 //Note: JSON.parse is written in native code by the people that made the V8
-//engine!
+//engine! Their uses are quite different.
 
 /*
 File: json-vs-properties.js
@@ -35,9 +35,9 @@ Total time: ~6000ms (6s 0ms)
 Higher is better (ops/sec)
 
 json
-  379,892 ± 0.0%
+  357,496 ± 0.0%
 properties
-  21,609 ± 0.2%
+  41,965 ± 0.1%
 
 Elapsed time: 6131ms (6s 131ms)
 */

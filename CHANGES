@@ -5,6 +5,8 @@ v1.0.0 (xx Jul 2013)
 		code and was iterating four times over the same data.
 	Improved writing speed by ~77%.
 	All the dependencies have been removed.
+	The properties should be stringified using a Stringifier instead of giving a
+		raw object because numeric keys are iterated before any other key.
 	"load()" and "store" have been removed and "parse()" and "stringify()" can
 		read and write from/to files with the "path" option.
 	Added "json" option to "parse()". When it is enabled stringified json arrays

@@ -1,21 +1,19 @@
 "use strict";
 
-var properties = require ("../../lib/properties");
+var properties = require ("../../lib");
 
-var config = {
-	//Enables the variable substitution
+var options = {
+	path: true,
 	variables: true,
-	//Enables the sections
 	sections: true
 };
 
-properties.load (__dirname + "/var", config, function (error, p){
-	if (error) return console.log (error);
+properties.parse ("variables", options, function (error, p){
+	if (error) return console.error (error);
+	
 	console.log (p);
 	
 	/*
-	Prints:
-	
 	{
 		domain1: "app1",
 		domain2: "app2",

@@ -12,11 +12,9 @@ speedy.run ({
 		ini.parse (data);
 	},
 	properties: function (){
-		properties.parse (data, { sections: true });
+		properties.parse (data, { sections: true, comments: ";" });
 	}
 });
-
-//Note: ini doesn't do a type conversion (values to numbers)
 
 /*
 File: ini-vs-properties.js
@@ -34,9 +32,9 @@ Total time: ~6000ms (6s 0ms)
 Higher is better (ops/sec)
 
 ini
-  24,518 ± 0.4%
+  25,630 ± 0.6%
 properties
-  23,710 ± 0.2%
+  31,688 ± 0.4%
 
-Elapsed time: 6131ms (6s 131ms)
+Elapsed time: 6140ms (6s 140ms)
 */
