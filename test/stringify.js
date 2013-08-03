@@ -1,4 +1,4 @@
-"use strict";
+//"use strict";
 
 var assert = require ("assert");
 var properties = require ("../lib");
@@ -9,88 +9,125 @@ var EOL = WIN ? "\r\n" : "\n";
 
 var tests = {
 	"comments multiline": function (done){
-		var options = { header: "a\nb\r\nc\n" };
-		var data = properties.stringify ({}, options);
+		var builder = properties.builder ().header ("a\nb\r\nc\n");
+		var data = properties.stringify (builder);
 		var expected = "#a" + EOL + "#b" + EOL + "#c" + EOL + "#" + EOL + EOL;
 		assert.strictEqual (data, expected);
 		
 		done ();
 	},
 	"comments whitespace, escape and unicode": function (done){
-		var options = { header: "   a\t↓   ", unicode: true };
-		var data = properties.stringify ({}, options);
+		var options = { unicode: true };
+		var builder = properties.builder ().header ("   a\t↓   ");
+		var data = properties.stringify (builder, options);
 		var expected = "#   a\t\\u2193   " + EOL + EOL;
 		assert.strictEqual (data, expected);
 		
 		done ();
 	},
-	"comments pretty": function (done){
-		//Smaller length
-		var options = { pretty: true, columns: 10,
-			header: "abc   "
-		};
-		var data = properties.stringify ({}, options);
-		var expected = "#abc   " + EOL + EOL;
+	"key and value whitespace, escape and unicode": function (done){
+		var options = { unicode: true };
+		var builder = properties.builder ()
+				.property ({ comment: "asd", key: "   a\t↓   ", value: "   a\t↓   " });
+		var data = properties.stringify (builder, options);
+		var expected = "#asd" + EOL + "\\ \\ \\ a\\t\\u2193\\ \\ \\ =\\ \\ \\ a" +
+				"\\t\\u2193   ";
 		assert.strictEqual (data, expected);
 		
-		//Same length
-		options = { pretty: true, columns: 10,
-			header: "abc defgh"
-		};
-		data = properties.stringify ({}, options);
-		expected = "#abc defgh" + EOL + EOL;
+		done ();
+	},
+	"custom comment and separator": function (done){
+		var options = { comment: ";", separator: "-" };
+		var builder = properties.builder ()
+				.property ({ comment: "asd", key: "a", value: "b" });
+		var data = properties.stringify (builder, options);
+		var expected = ";asd" + EOL + "a-b";
 		assert.strictEqual (data, expected);
 		
-		//Bigger length, limit inside word
-		options = { pretty: true, columns: 10,
-			header: "abc defghqwe"
-		};
-		data = properties.stringify ({}, options);
-		expected = "#abc" + EOL + "#defghqwe" + EOL + EOL;
+		done ();
+	},
+	"no key": function (done){
+		var builder = properties.builder ()
+				.property ({ value: "b" });
+		var data = properties.stringify (builder);
+		var expected = "=b";
 		assert.strictEqual (data, expected);
 		
-		//Bigger length, limit inside whitespace
-		options = { pretty: true, columns: 10,
-			header: "abc defgh    \tqwe qwe\n"
-		};
-		data = properties.stringify ({}, options);
-		expected = "#abc defgh" + EOL + "#qwe qwe" + EOL + "#" + EOL + EOL;
+		done ();
+	},
+	"no value": function (done){
+		var builder = properties.builder ()
+				.property ({ key: "a" });
+		var data = properties.stringify (builder);
+		var expected = "a=";
 		assert.strictEqual (data, expected);
 		
-		//More than one char as a comment token
-		options = { pretty: true, columns: 10, comment: "# ",
-			header: "abc defgh    \tqwe qweop\n"
-		};
-		data = properties.stringify ({}, options);
-		expected = "# abc" + EOL + "# defgh" + EOL + "# qwe" + EOL + "# qweop" +
-				EOL + "# " + EOL + EOL;
+		done ();
+	},
+	"no key and no value": function (done){
+		var builder = properties.builder ()
+				.property ();
+		var data = properties.stringify (builder);
+		var expected = "=";
 		assert.strictEqual (data, expected);
 		
-		//Unicode comment token, word bigger than a line with trailing whitespaces
-		options = { pretty: true, columns: 10, unicode: true, comment: "↑",
-			header: "abc defgh        "
-		};
-		data = properties.stringify ({}, options);
-		expected = "\\u2191abc" + EOL + "\\u2191defgh" + EOL + EOL
+		done ();
+	},
+	"section, whitespace, escape and unicode": function (done){
+		var options = { unicode: true };
+		var builder = properties.builder ()
+				.section ({ name: "   a\t↓   " });
+		var data = properties.stringify (builder, options);
+		var expected = "[   a\\t\\u2193   ]";
 		assert.strictEqual (data, expected);
 		
-		//Consecutive bigger lines
-		options = { pretty: true, columns: 5,
-			header: "abcdef abcdef"
-		};
-		data = properties.stringify ({}, options);
-		expected = "#abcdef" + EOL + "#abcdef" + EOL + EOL
+		done ();
+	},
+	"empty section": function (done){
+		var builder = properties.builder ()
+				.section ();
+		var data = properties.stringify (builder);
+		var expected = "[]";
 		assert.strictEqual (data, expected);
 		
-		//Random text
-		options = { pretty: true, columns: 10,
-			header: fs.readFileSync ("text", { encoding: "utf8" })
+		done ();
+	},
+	"builder": function (done){
+		var builder = properties.builder ()
+				.header ("a\nb\n")
+				.property ({ key: "a", value: "a value" })
+				.property ({ key: "b" })
+				.property ({ comment: "c comment", key: "c", value: "c value" })
+				.property ({ comment: "d comment", key: "d" })
+				.section ()
+				.section ({ comment: "h section", name: "h" })
+				.property ({ key: "a", value: "a value" })
+				.property ({ comment: "b comment", key: "b", value: "b value" });
+		var data = properties.stringify (builder);
+		var expected = "#a" + EOL + "#b" + EOL + "#" + EOL + EOL + "a=a value" +
+				EOL + "b=" + EOL + "#c comment" + EOL + "c=c value" + EOL +
+				"#d comment" + EOL + "d=" + EOL + "[]" + EOL + "#h section" + EOL +
+				"[h]" + EOL + "a=a value" + EOL + "#b comment" + EOL + "b=b value";
+		assert.strictEqual (data, expected);
+		
+		done ();
+	},
+	"replacer": function (done){
+		var builder = properties.builder ()
+				.property ({ key: "a", value: "a value" })
+				.section ("a")
+				.property ({ key: "a", value: "a value" })
+				.section ("b")
+				.property ({ key: "a", value: "a value" });
+		var options = {
+			replacer: function (key, value, section){
+				if (section === "b") return;
+				if (!section && key === "a") return "A VALUE";
+				return this.assert ();
+			}
 		};
-		data = properties.stringify ({}, options);
-		expected = fs.readFileSync ("text-pretty", { encoding: "utf8" });
-		if (WIN){
-			expected = expected.replace (/\n/g, EOL);
-		}
+		var data = properties.stringify (builder, options);
+		var expected = "a=A VALUE" + EOL + "[a]" + EOL + "a=a value";
 		assert.strictEqual (data, expected);
 		
 		done ();

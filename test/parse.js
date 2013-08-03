@@ -4,7 +4,7 @@ var assert = require ("assert");
 var properties = require ("../lib");
 
 var tests = {
-	"load properties": function (done){
+	"parse": function (done){
 		var options = { path: true, json: true };
 		
 		properties.parse ("properties", options, function (error, p){
@@ -24,6 +24,7 @@ var tests = {
 				a10: "b",
 				a11: "b",
 				a12: "b",
+				"a121   ": "b",
 				a13: null,
 				a14: "b",
 				a15: "b",
@@ -37,6 +38,7 @@ var tests = {
 				"↑": "↓",
 				a19: "É",
 				"←": "→",
+				"→": "→",
 				a20: true,
 				a21: false,
 				a22: 123,
@@ -49,7 +51,7 @@ var tests = {
 			done ();
 		});
 	},
-	"load properties (empty key, empty value)": function (done){
+	"parse (no key, no value)": function (done){
 		properties.parse (":", function (error, p){
 			assert.ifError (error);
 			
@@ -60,7 +62,7 @@ var tests = {
 			done ();
 		});
 	},
-	"load properties (no json)": function (done){
+	"parse (no json)": function (done){
 		properties.parse ("a1 true\na2 false\na3 123\na4 [1, 2, \\\n		" +
 				"3]\na5 : { \"1\"\\\n		: { \"2\": 3 }}", function (error, p){
 			assert.ifError (error);
@@ -77,10 +79,11 @@ var tests = {
 		});
 	},
 	"reviver": function (done){
-		var reviver = function (key, value){
-			if (key === "a") return 1;
+		var options = {
+			reviver: function (key, value){
+				if (key === "a") return 1;
+			}
 		};
-		var options = { reviver: reviver };
 		
 		properties.parse ("a b\nc d", options, function (error, p){
 			assert.ifError (error);
@@ -102,9 +105,9 @@ var tests = {
 		});
 	},
 	"custom separator and comment tokens": function (done){
-		var options = { comments: ";", separators: "→" };
+		var options = { comments: ";", separators: "-" };
 		
-		properties.parse (";a\n!a\na1:b\na2→b", options, function (error, p){
+		properties.parse (";a\n!a\na1:b\na2-b", options, function (error, p){
 			assert.ifError (error);
 			
 			assert.deepEqual (p, {
@@ -144,9 +147,28 @@ var tests = {
 			done ();
 		});
 	},
+	/*"sections random": function (done){
+		var data = "#a\n#b\n#\n\na=a value\nb=\n#c comment\nc=c value\n#d comment" +
+				"\nd=\n[]\n#h section\n[h]\na=a value\n#b comment\nb=b value";
+		var p = properties.parse (data);
+		console.log(p)
+		assert.deepEqual (p, {
+			a: "a value",
+			b: null,
+			c: "c value",
+			d: null,
+			"": {},
+			h: {
+				a: "a value",
+				b: "b value"
+			}
+		});
+		
+		done ();
+	},*/
 	"reviver with sections": function (done){
 		var reviver = function (key, value, section){
-			if (reviver.isSection) return section !== "a=1";
+			if (this.isSection) return section !== "a=1";
 			return value;
 		};
 		var options = { sections: true, reviver: reviver, path: true };

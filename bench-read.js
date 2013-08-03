@@ -32,9 +32,9 @@ Total time: ~6000ms (6s 0ms)
 Higher is better (ops/sec)
 
 old
-  12,601 ± 0.0%
+  11,332 ± 0.1%
 new
-  20,815 ± 0.2%
+  20,725 ± 0.2%
 
-Elapsed time: 6131ms (6s 131ms)
+Elapsed time: 6141ms (6s 141ms)
 */

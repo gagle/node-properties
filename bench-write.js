@@ -6,13 +6,48 @@ var pNew = require ("./lib");
 var fs = require ("fs");
 
 var data = fs.readFileSync ("./test/properties", { encoding: "utf8" });
+var o = {
+    a: "a value",
+    b: null,
+    c: {
+        $comment: "c comment",
+        $value: "c value"
+    },
+    d: {
+        $comment: "d comment",
+        $value: null
+    },
+    g: {},
+    h: {
+        $comment: "h section",
+        $value: {
+            a: "a value",
+            b: {
+                $comment: "b comment",
+                $value: "b value"
+            }
+        }
+    }
+};
+
+var builder = pNew.builder ()
+		.header ("a\nb\n")
+		.property ({ key: "a", value: "a value" })
+		.property ({ key: "b" })
+		.property ({ comment: "c comment", key: "c", value: "c value" })
+		.property ({ comment: "d comment", key: "d" })
+		.section ()
+		.section ({ comment: "h section", name: "h" })
+		.property ({ key: "a", value: "a value" })
+		.property ({ comment: "b comment", key: "b", value: "b value" });
+
 
 speedy.run ({
 	old: function (){
-		pOld.stringify ({}, { header: "a\nb\n" });
+		pOld.stringify (o, { header: "a\nb\n", sections: true });
 	},
 	"new": function (){
-		pNew.stringify ({}, { header: "a\nb\n" });
+		pNew.stringify (builder);
 	}
 });
 
@@ -32,9 +67,9 @@ Total time: ~6000ms (6s 0ms)
 Higher is better (ops/sec)
 
 old
-  362,241 ± 0.0%
+  80,140 ± 0.4%
 new
-  3,353,011 ± 0.0%
+  355,202 ± 0.0%
 
-Elapsed time: 6162ms (6s 162ms)
+Elapsed time: 6140ms (6s 140ms)
 */
