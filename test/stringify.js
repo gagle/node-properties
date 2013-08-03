@@ -9,8 +9,8 @@ var EOL = WIN ? "\r\n" : "\n";
 
 var tests = {
 	"comments multiline": function (done){
-		var builder = properties.builder ().header ("a\nb\r\nc\n");
-		var data = properties.stringify (builder);
+		var stringifier = properties.stringifier ().header ("a\nb\r\nc\n");
+		var data = properties.stringify (stringifier);
 		var expected = "#a" + EOL + "#b" + EOL + "#c" + EOL + "#" + EOL + EOL;
 		assert.strictEqual (data, expected);
 		
@@ -18,8 +18,8 @@ var tests = {
 	},
 	"comments whitespace, escape and unicode": function (done){
 		var options = { unicode: true };
-		var builder = properties.builder ().header ("   a\t↓   ");
-		var data = properties.stringify (builder, options);
+		var stringifier = properties.stringifier ().header ("   a\t↓   ");
+		var data = properties.stringify (stringifier, options);
 		var expected = "#   a\t\\u2193   " + EOL + EOL;
 		assert.strictEqual (data, expected);
 		
@@ -27,9 +27,9 @@ var tests = {
 	},
 	"key and value whitespace, escape and unicode": function (done){
 		var options = { unicode: true };
-		var builder = properties.builder ()
+		var stringifier = properties.stringifier ()
 				.property ({ comment: "asd", key: "   a\t↓   ", value: "   a\t↓   " });
-		var data = properties.stringify (builder, options);
+		var data = properties.stringify (stringifier, options);
 		var expected = "#asd" + EOL + "\\ \\ \\ a\\t\\u2193\\ \\ \\ =\\ \\ \\ a" +
 				"\\t\\u2193   ";
 		assert.strictEqual (data, expected);
@@ -38,36 +38,36 @@ var tests = {
 	},
 	"custom comment and separator": function (done){
 		var options = { comment: ";", separator: "-" };
-		var builder = properties.builder ()
+		var stringifier = properties.stringifier ()
 				.property ({ comment: "asd", key: "a", value: "b" });
-		var data = properties.stringify (builder, options);
+		var data = properties.stringify (stringifier, options);
 		var expected = ";asd" + EOL + "a-b";
 		assert.strictEqual (data, expected);
 		
 		done ();
 	},
 	"no key": function (done){
-		var builder = properties.builder ()
+		var stringifier = properties.stringifier ()
 				.property ({ value: "b" });
-		var data = properties.stringify (builder);
+		var data = properties.stringify (stringifier);
 		var expected = "=b";
 		assert.strictEqual (data, expected);
 		
 		done ();
 	},
 	"no value": function (done){
-		var builder = properties.builder ()
+		var stringifier = properties.stringifier ()
 				.property ({ key: "a" });
-		var data = properties.stringify (builder);
+		var data = properties.stringify (stringifier);
 		var expected = "a=";
 		assert.strictEqual (data, expected);
 		
 		done ();
 	},
 	"no key and no value": function (done){
-		var builder = properties.builder ()
+		var stringifier = properties.stringifier ()
 				.property ();
-		var data = properties.stringify (builder);
+		var data = properties.stringify (stringifier);
 		var expected = "=";
 		assert.strictEqual (data, expected);
 		
@@ -75,25 +75,25 @@ var tests = {
 	},
 	"section, whitespace, escape and unicode": function (done){
 		var options = { unicode: true };
-		var builder = properties.builder ()
+		var stringifier = properties.stringifier ()
 				.section ({ name: "   a\t↓   " });
-		var data = properties.stringify (builder, options);
+		var data = properties.stringify (stringifier, options);
 		var expected = "[   a\\t\\u2193   ]";
 		assert.strictEqual (data, expected);
 		
 		done ();
 	},
 	"empty section": function (done){
-		var builder = properties.builder ()
+		var stringifier = properties.stringifier ()
 				.section ();
-		var data = properties.stringify (builder);
+		var data = properties.stringify (stringifier);
 		var expected = "[]";
 		assert.strictEqual (data, expected);
 		
 		done ();
 	},
-	"builder": function (done){
-		var builder = properties.builder ()
+	"stringifier": function (done){
+		var stringifier = properties.stringifier ()
 				.header ("a\nb\n")
 				.property ({ key: "a", value: "a value" })
 				.property ({ key: "b" })
@@ -103,7 +103,7 @@ var tests = {
 				.section ({ comment: "h section", name: "h" })
 				.property ({ key: "a", value: "a value" })
 				.property ({ comment: "b comment", key: "b", value: "b value" });
-		var data = properties.stringify (builder);
+		var data = properties.stringify (stringifier);
 		var expected = "#a" + EOL + "#b" + EOL + "#" + EOL + EOL + "a=a value" +
 				EOL + "b=" + EOL + "#c comment" + EOL + "c=c value" + EOL +
 				"#d comment" + EOL + "d=" + EOL + "[]" + EOL + "#h section" + EOL +
@@ -113,7 +113,7 @@ var tests = {
 		done ();
 	},
 	"replacer": function (done){
-		var builder = properties.builder ()
+		var stringifier = properties.stringifier ()
 				.property ({ key: "a", value: "a value" })
 				.section ("a")
 				.property ({ key: "a", value: "a value" })
@@ -126,7 +126,7 @@ var tests = {
 				return this.assert ();
 			}
 		};
-		var data = properties.stringify (builder, options);
+		var data = properties.stringify (stringifier, options);
 		var expected = "a=A VALUE" + EOL + "[a]" + EOL + "a=a value";
 		assert.strictEqual (data, expected);
 		
