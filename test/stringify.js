@@ -66,7 +66,7 @@ var tests = {
 	},
 	"no key and no value": function (done){
 		var stringifier = properties.stringifier ()
-				.property ();
+				.property ({});
 		var data = properties.stringify (stringifier);
 		var expected = " = ";
 		assert.strictEqual (data, expected);
@@ -85,7 +85,7 @@ var tests = {
 	},
 	"empty section": function (done){
 		var stringifier = properties.stringifier ()
-				.section ();
+				.section ({});
 		var data = properties.stringify (stringifier);
 		var expected = "[]";
 		assert.strictEqual (data, expected);
@@ -99,15 +99,15 @@ var tests = {
 				.property ({ key: "b" })
 				.property ({ comment: "c comment", key: "c", value: "c value" })
 				.property ({ comment: "d comment", key: "d" })
-				.section ()
+				.section ({})
 				.section ({ comment: "h section", name: "h" })
 				.property ({ key: "a", value: "a value" })
 				.property ({ comment: "b comment", key: "b", value: "b value" });
 		var data = properties.stringify (stringifier);
 		var expected = "# a" + EOL + "# b" + EOL + "# " + EOL + EOL +
 				"a = a value" + EOL + "b = " + EOL + "# c comment" + EOL +
-				"c = c value" + EOL + "# d comment" + EOL + "d = " + EOL + "[]" + EOL +
-				"# h section" + EOL + "[h]" + EOL + "a = a value" + EOL +
+				"c = c value" + EOL + "# d comment" + EOL + "d = " + EOL + EOL + "[]" +
+				EOL + EOL + "# h section" + EOL + "[h]" + EOL + "a = a value" + EOL +
 				"# b comment" + EOL + "b = b value";
 		assert.strictEqual (data, expected);
 		
@@ -135,13 +135,13 @@ var tests = {
 				.property ({ key: "a", value: "a value" });
 		var options = {
 			replacer: function (key, value, section){
-				if (section === "b") return;
-				if (!section && key === "a") return "A VALUE";
+				if (this.isSection && section === "b") return;
+				if (this.isProperty && !section && key === "a") return "A VALUE";
 				return this.assert ();
 			}
 		};
 		var data = properties.stringify (stringifier, options);
-		var expected = "a = A VALUE" + EOL + "[a]" + EOL + "a = a value";
+		var expected = "a = A VALUE" + EOL + EOL + "[a]" + EOL + "a = a value";
 		assert.strictEqual (data, expected);
 		
 		done ();

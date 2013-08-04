@@ -272,6 +272,184 @@ var tests = {
 			
 			done ();
 		});
+	},
+	"namespaces": function (done){
+		var options = { path: true, variables: true, namespaces: true };
+		
+		properties.parse ("namespaces", options, function (error, p){
+			assert.ifError (error);
+			
+			assert.deepEqual (p, {
+				a: {
+					a: 1,
+					b: 1,
+					c: 11
+				},
+				b: {
+					a: "a",
+					b: "aa"
+				},
+				c: true,
+				d: {
+					a: {
+						a: "[\"a\", 1, \"a\", 1]",
+						b: "{ \"a\": [\"a\", 1, \"a\", 1] }"
+					}
+				}
+			});
+			
+			done ();
+		});
+	},
+	"namespaces with json": function (done){
+		var options = { path: true, variables: true, namespaces: true, json: true };
+		
+		properties.parse ("namespaces", options, function (error, p){
+			assert.ifError (error);
+			
+			assert.deepEqual (p, {
+				a: {
+					a: 1,
+					b: 1,
+					c: 11
+				},
+				b: {
+					a: "a",
+					b: "aa"
+				},
+				c: true,
+				d: {
+					a: {
+						a: ["a", 1, "a", 1],
+						b: {
+							a: ["a", 1, "a", 1]
+						}
+					}
+				}
+			});
+			
+			done ();
+		});
+	},
+	"namespaces with json and sections": function (done){
+		var options = {
+			path: true, variables: true, namespaces: true, json: true, sections: true
+		};
+		
+		properties.parse ("namespaces-sections", options, function (error, p){
+			assert.ifError (error);
+			
+			assert.deepEqual (p, {
+				a: {
+					a: 1,
+					b: 1,
+					c: 11
+				},
+				s1: {
+					b: {
+						a: "a",
+						b: "aa"
+					}
+				},
+				s2: {
+					c: true
+				},
+				s3: {
+					d: {
+						a: {
+							a: ["a", 1, "a", 1],
+							b: {
+								a: ["a", 1, "a", 1]
+							}
+						}
+					}
+				}
+			});
+			
+			done ();
+		});
+	},
+	"namespaces with json and reviver": function (done){
+		var options = {
+			path: true,
+			variables: true,
+			namespaces: true,
+			json: true,
+			reviver: function (key, value){
+				if (key[0] === "c") return;
+				return this.assert ();
+			}
+		};
+		
+		properties.parse ("namespaces", options, function (error, p){
+			assert.ifError (error);
+			
+			assert.deepEqual (p, {
+				a: {
+					a: 1,
+					b: 1,
+					c: 11
+				},
+				b: {
+					a: "a",
+					b: "aa"
+				},
+				d: {
+					a: {
+						a: ["a", 1, "a", 1],
+						b: {
+							a: ["a", 1, "a", 1]
+						}
+					}
+				}
+			});
+			
+			done ();
+		});
+	},
+	"namespaces with reviver, json and sections": function (done){
+		var options = {
+			path: true,
+			variables: true,
+			namespaces: true,
+			json: true,
+			sections: true,
+			reviver: function (key, value, section){
+				if (this.isSection && section === "s2") return;
+				if (this.isProperty && key === "b.a") return "b";
+				return this.assert ();
+			}
+		};
+		
+		properties.parse ("namespaces-sections", options, function (error, p){
+			assert.ifError (error);
+			
+			assert.deepEqual (p, {
+				a: {
+					a: 1,
+					b: 1,
+					c: 11
+				},
+				s1: {
+					b: {
+						a: "b",
+						b: "ba"
+					}
+				},
+				s3: {
+					d: {
+						a: {
+							a: ["b", 1, "a", 1],
+							b: {
+								a: ["b", 1, "a", 1]
+							}
+						}
+					}
+				}
+			});
+			
+			done ();
+		});
 	}
 };
 

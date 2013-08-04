@@ -15,7 +15,8 @@
 		"node": ">=0.10"
 	},
 	"devDependencies": {
-		"ini": "*"
+		"ini": "*",
+		"speedy": "*"
 	},
 	"license": "MIT",
 	"main": "lib"

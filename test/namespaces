@@ -1,0 +1,11 @@
+a.a 1
+a.b 1
+a.c ${aa}${a.b}
+
+b.a a
+b.b ${b.a}a
+
+c true
+
+d.a.a = ["${b.a}", ${a.a}, "a", 1]
+d.a.b = { "a": ${d.a.a} }

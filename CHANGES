@@ -1,21 +1,24 @@
-v1.0.0 (xx Jul 2013)
-	Complete refactor.
+v1.0.0 (xx Aug 2013)
+	Complete refactor from scratch.
 	Improved reading speed by ~45%. This new version only iterates the data
 		one time while the previous version was a direct port from the Java source
 		code and was iterating four times over the same data.
 	Improved writing speed by ~77%.
 	All the dependencies have been removed.
 	The properties should be stringified using a Stringifier instead of giving a
-		raw object because numeric keys are iterated before any other key.
+		raw object if the sections are enabled. See the readme for further details.
 	"load()" and "store" have been removed and "parse()" and "stringify()" can
 		read and write from/to files with the "path" option.
 	Added "json" option to "parse()". When it is enabled stringified json arrays
 		and objects are parsed into javascript arrays and objects.
+	Added "namespaces" option to "parse()". When it is enabled the dots in the
+		keys will be interpreted as namespaces.
 	Removed "bufferSize" and "encoding" options. Files are read using a 16KB
 		buffer size and utf8 encoding.
 	Removed the "pretty" option from "stringify()". The required code to
 		accomplish the column limit is too complex and the feature is rarely used.
-		The overall stringify speed is faster.
+		This option contains bugs in the previous versions. The overall stringify
+		speed is faster.
 	The stringify replacer must be a function. Cannot be an array like in previous
 		versions.
 	Fixed some unusual bugs with escaped backslashes.

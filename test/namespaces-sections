@@ -1,0 +1,14 @@
+a.a 1
+a.b 1
+a.c ${a.a}${a.b}
+
+[s1]
+b.a a
+b.b ${s1|b.a}a
+
+[s2]
+c true
+
+[s3]
+d.a.a = ["${s1|b.a}", ${a.a}, "a", 1]
+d.a.b = { "a": ${s3|d.a.a} }

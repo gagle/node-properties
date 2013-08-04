@@ -32,9 +32,9 @@ Total time: ~6000ms (6s 0ms)
 Higher is better (ops/sec)
 
 ini
-  25,630 ± 0.6%
+  32,014 ± 0.2%
 properties
-  31,688 ± 0.4%
+  43,682 ± 0.2%
 
 Elapsed time: 6140ms (6s 140ms)
 */

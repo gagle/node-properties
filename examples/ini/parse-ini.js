@@ -4,7 +4,9 @@ var fs = require ("fs");
 var properties = require ("../../lib");
 
 var data = fs.readFileSync ("ini", { encoding: "utf8" });
+
 var obj = properties.parse (data, { sections: true, comments: ";" });
+
 console.log (obj);
 
 /*

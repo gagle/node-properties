@@ -5,46 +5,48 @@ var properties = require ("../../lib");
 
 var options = {
 	path: true,
+	variables: true,
+	json: true,
 	sections: true,
-	reviver: function (key, value, section){
-		if (this.isSection){
-			var holder = p;
-			section.split (".").forEach (function (o){
-				if (!(o in holder)){
-					holder[o] = {};
-				}
-				holder = holder[o];
-			});
-		}else{
-			var holder = p;
-			if (section){
-				section.split (".").forEach (function (o){
-					holder = holder[o];
-				});
-			}
-			holder[key] = value;
-		}
-		
-		return this.assert ();
-	}
+	namespaces: true
 };
 
-var p = {};
-
-properties.parse ("namespaces", options, function (error){
+properties.parse ("namespaces", options, function (error, p){
 	if (error) return console.error (error);
 	
 	console.log (util.inspect (p, { depth: null }));
 	
 	/*
 	{
-		level: 0,
-		a: {
-			level: 1,
-			b: {
-				level: 2,
-				c: {
-					level: 3
+		app: {
+			name: "App",
+			version: "0.0.1",
+			title: "App v0.0.1"
+		},
+		path: {
+			home: "./app",
+			test: "./app/test",
+			web: "./app/web"
+		},
+		log: {
+			basename: "app",
+			max_size: "1kb",
+			type: "cycle",
+			backups: 1
+		},
+		db: {
+			host: "10.10.10.10",
+			port: 1234,
+			pool: {
+				min: 5,
+				max: 10
+			}
+		},
+		cool: {
+			things: {
+				array: ["10.10.10.10", 1234, "string", 123],
+				object: {
+					array: ["10.10.10.10", 1234, "string", 123]
 				}
 			}
 		}

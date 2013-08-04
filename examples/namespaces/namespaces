@@ -1,7 +1,28 @@
-level 0
-[a]
-level 1
-[a.b]
-level 2
-[a.b.c]
-level 3
+app.name App
+app.version 0.0.1
+app.title ${app.name} v${app.version}
+
+path.home ./app
+path.test ${path.home}/test
+path.web ${path.home}/web
+path.web.logs ${path.web}/logs
+path.web.controllers ${path.web}/controllers
+path.web.views ${path.web}/views
+
+log.basename app
+log.max_size 1kb
+log.type cycle
+log.backups 1
+
+# Sections are also pretty useful!
+[db]
+host 10.10.10.10
+port 1234
+pool.min 5
+pool.max 10
+
+[cool]
+# When json is enabled, the value part of a property line must be valid json
+# data, that's why all the strings are surrounded with ".
+things.array = ["${db|host}", ${db|port}, "string", 123]
+things.object = { "array": ${cool|things.array} }
