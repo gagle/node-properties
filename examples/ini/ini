@@ -19,5 +19,5 @@ timeout = 10000
 
 [i18n]
 default = en-US
-cache								true
-timeout							3600000
+cache = true
+timeout = 3600000

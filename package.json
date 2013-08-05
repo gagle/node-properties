@@ -2,7 +2,7 @@
 	"name": "properties",
 	"version": "1.0.0",
 	"description": ".properties parser/stringifier",
-	"keywords": ["properties", "ini", "parser", "stringifier"],
+	"keywords": ["properties", "ini", "parser", "stringifier", "config"],
 	"author": {
 		"name": "Gabriel Llamas",
 		"email": "gagle@outlook.com"

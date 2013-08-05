@@ -1,0 +1,13 @@
+[app]
+name App
+version 0.0.1
+
+[web]
+hostname ${web.hostname}
+port ${web.port}
+
+[db]
+hostname ${db.hostname}
+port ${db.port}
+pool.min 5
+pool.max 10

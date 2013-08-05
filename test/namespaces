@@ -1,6 +1,6 @@
 a.a 1
 a.b 1
-a.c ${aa}${a.b}
+a.c ${a.a}${a.b}
 
 b.a a
 b.b ${b.a}a

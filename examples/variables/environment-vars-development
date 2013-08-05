@@ -1,0 +1,7 @@
+[web]
+hostname localhost
+port 1337
+
+[db]
+hostname 10.10.10.10
+port 1234

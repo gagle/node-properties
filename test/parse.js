@@ -121,6 +121,21 @@ var tests = {
 			done ();
 		});
 	},
+	"custom separator and comment tokens, strict": function (done){
+		var options = { comments: ";", separators: "-", strict: true };
+		
+		properties.parse (";a\n!a\na1:b\na2-b", options, function (error, p){
+			assert.ifError (error);
+			
+			assert.deepEqual (p, {
+				"!a": null,
+				"a1:b": null,
+				a2: "b"
+			});
+			
+			done ();
+		});
+	},
 	"sections": function (done){
 		var options = { sections: true, path: true };
 		
@@ -200,7 +215,7 @@ var tests = {
 		});
 	},
 	"variables": function (done){
-		var options = { variables: true, json: false, path: true };
+		var options = { variables: true, path: true };
 		
 		properties.parse ("variables", options, function (error, p){
 			assert.ifError (error);
@@ -218,8 +233,43 @@ var tests = {
 			done ();
 		});
 	},
+	"variables, no recursion": function (done){
+		var options = { variables: true };
+		
+		properties.parse ("a=${a}", options, function (error, p){
+			assert.ok (error);
+			
+			done ();
+		});
+	},
+	"variables with external vars": function (done){
+		var options = { variables: true, vars: { "a.a": 2 } };
+		
+		properties.parse ("b=${a.a}", options, function (error, p){
+			assert.ifError (error);
+			
+			assert.deepEqual (p, {
+				b: 2
+			});
+			
+			done ();
+		});
+	},
+	"variables with external vars and namespaces": function (done){
+		var options = { variables: true, namespaces: true, vars: { a: { a: 2 } } };
+		
+		properties.parse ("b=${a.a}", options, function (error, p){
+			assert.ifError (error);
+			
+			assert.deepEqual (p, {
+				b: 2
+			});
+			
+			done ();
+		});
+	},
 	"variables with sections": function (done){
-		var options = { variables: true, sections: true, json: false, path: true };
+		var options = { variables: true, sections: true, path: true };
 		
 		properties.parse ("variables-sections", options, function (error, p){
 			assert.ifError (error);

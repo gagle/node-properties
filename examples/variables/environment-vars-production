@@ -1,0 +1,7 @@
+[web]
+hostname 0.0.0.0
+port 80
+
+[db]
+hostname 10.10.10.20
+port 1234

@@ -13,6 +13,12 @@ v1.0.0 (xx Aug 2013)
 		and objects are parsed into javascript arrays and objects.
 	Added "namespaces" option to "parse()". When it is enabled the dots in the
 		keys will be interpreted as namespaces.
+	Added "vars" option to "parse()". When the variables are enabled and a
+		variable does not exist it first looks into the "vars" object before
+		throwing an error. It can be used to pass environment variables.
+	Added "strict" option to "parse()". When it is enabled the parser will only
+		consider as coments and separators the tokens included in the "comments"
+		and "separators" options.
 	Removed "bufferSize" and "encoding" options. Files are read using a 16KB
 		buffer size and utf8 encoding.
 	Removed the "pretty" option from "stringify()". The required code to
