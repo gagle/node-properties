@@ -14,7 +14,7 @@ log.max_size 1kb
 log.type cycle
 log.backups 1
 
-# Sections are also pretty useful!
+# Sections are also pretty useful! You don't need to write "db." all the time
 [db]
 host 10.10.10.10
 port 1234

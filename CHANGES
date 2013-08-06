@@ -1,6 +1,6 @@
 v1.0.0 (xx Aug 2013)
 	Complete refactor from scratch.
-	Improved reading speed by ~45%. This new version only iterates the data
+	Improved reading speed by ~46%. This new version only iterates the data
 		one time while the previous version was a direct port from the Java source
 		code and was iterating four times over the same data.
 	Improved writing speed by ~77%.

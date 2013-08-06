@@ -30,8 +30,8 @@ properties.parse (file, { path: true, sections: true }, function (error, env){
 	
 	//Load the main configuration using as external vars the specific environment
 	//properties
-	//Tip: If the namespaces option is enabled you can get a value like this:
-	//${web.hostname}, and you can pass the env object as an external var
+	//Tip: If the namespaces option is enabled you can read a value like this:
+	//${web.hostname}, and you can directly pass the env object as an external var
 	var options = {
 		path: true,
 		variables: true,

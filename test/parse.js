@@ -500,6 +500,19 @@ var tests = {
 			
 			done ();
 		});
+	},
+	"include": function (done){
+		var options = { path: true, include: true };
+		
+		properties.parse ("include", options, function (error, p){
+			assert.ifError (error);
+			
+			assert.deepEqual (p, {
+			
+			});
+			
+			done ();
+		});
 	}
 };
 

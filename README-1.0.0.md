@@ -15,13 +15,109 @@ This is a .properties file parser/stringifier but it can also parse/stringify .i
 
 #### Installation ####
 
+[![NPM](https://nodei.co/npm/properties.png?mini=true)](https://npmjs.org/package/properties)
+
+#### Documentation ####
+
+- [JSON](#json)
+- [Sections](#sections)
+- [Variables](#variables)
+- [Namespaces](#namespaces)
+- [INI](#ini)
+
+#### Functions ####
+
+- [_module_.stringifier([obj]) : Stringifier](#stringifier)
+- [_module_.stringify(obj[, options][, callback]) : undefined | String](#stringify)
+- [_module_.parse(data[, options][, callback]) : undefined | Object](#parse)
+
+#### Objects ####
+
+- [Stringifier](#Stringifier)
+
+---
+
+<a name="json"></a>
+__JSON__
+
+By default the value of a property is converted to a Number, Boolean or String. When the `json` option is enabled the value can be also parsed to Array or Object. The value must be a valid json data.
+
+This is a very powerful feature because you can parse arrays. You can also parse objects but I recommend to use [namespaces](#namespaces) because with objects you have to surround with double quotes each key and if you want to write a multiline object you need to escape the line break.
+
 ```
-npm install properties
+a = ["string", 1, true]
 ```
 
-#### Variables ####
+if the namespaces are enabled the following two properties create the same object:
 
-When the `variables` option is enabled you can get the value of another key.
+```
+a = {\
+	"b": 1\
+}
+a.b = 1
+```
+
+Creates:
+
+```javascript
+{
+	a: {
+		b: 1
+	}	
+}
+```
+
+Therefore, is much more easier and clear to write `a.b = 1` instead of `a = { "b": 1 }`.
+
+You can also use [variables](#variables). Remember that the value must be a valid json data, the strings must be double quoted.
+
+```
+a = string
+b = 1
+c = ["${a}", ${b}]
+```
+
+---
+
+<a name="sections"></a>
+__Sections__
+
+INI sections can be enabled with the `sections` option. With them you can better organize your configuration data.
+
+```
+app_name App
+
+[web]
+hostname 10.10.10.10
+port 1234
+
+[db]
+hostname 10.10.10.20
+port 4321
+```
+
+Creates:
+
+```javascript
+{
+	app_name: "App",
+	web: {
+		hostname: "10.10.10.10",
+		port: 1234
+	},
+	db: {
+		hostname: "10.10.10.20",
+		port: 4321
+	}
+}
+```
+
+---
+
+<a name="variables"></a>
+__Variables__
+
+When the `variables` option is enabled you can get the value of another key. The value is read __before__ the type conversion. Imagine them like the C macros. They simply copy the characters, they don't care if the value is a number or a string.
 
 ```
 a = 1
@@ -53,15 +149,95 @@ d = ${s${a}|${s${a}|a}}
 
 You can also pass external variables with the `vars` option and use their value while the file is being parsed. This is an extremly useful feature because you don't need to change anything from your configuration files if you want to dynamically assign the value of the properties. It could be used to load different configurations depending on the environment. Look at the [vars](https://github.com/gagle/node-properties/blob/master/examples/variables/vars.js) and [environment-vars](https://github.com/gagle/node-properties/blob/master/examples/variables/environment-vars.js) examples for further details.
 
-#### Functions ####
+---
 
-- [_module_.stringifier([obj]) : Stringifier](#stringifier)
-- [_module_.stringify(obj[, options][, callback]) : undefined | String](#stringify)
-- [_module_.parse(data[, options][, callback]) : undefined | Object](#parse)
+<a name="namespaces"></a>
+__Namespaces__
 
-#### Objects ####
+When the `namespaces` option is enabled dot separated keys are parsed as namespaces, that is, they are interpreted as javascript objects.
 
-- [Stringifier](#Stringifier)
+```
+a.b = 1
+a.c.d = 2
+
+```
+
+These properties creates the following object:
+
+```javascript
+{
+	a: {
+		b: 1,
+		c: {
+			d: 2
+		}
+	}
+}
+```
+
+You can also use sections and variables:
+
+```
+[s1]
+a.b = 1
+# a.c.d = 1
+a.c.d = ${s1|a.b}
+
+```
+
+```javascript
+{
+	s1: {
+		a: {
+			b: 1,
+			c: {
+				d: 1
+			}
+		}
+	}
+}
+```
+
+The external variables can also be read using namespaces:
+
+```javascript
+var options = {
+	vars: {
+		a: {
+			b: 1
+		}
+	}
+};
+```
+
+```
+# a = 1
+a = ${a.b}
+```
+
+Look at the [namespaces](https://github.com/gagle/node-properties/blob/master/examples/namespaces/namespaces.js) example for further details.
+
+---
+
+<a name="ini"></a>
+__INI__
+
+This module implements the .properties specification but there are some options that can be enabled, some of them are the `sections`, `comments`, `separators` and `strict`. With these four options this module can parse INI files. There isn't an official INI specification, each program implements its own features, but there is a de facto standard that says that INI files are just .properties files with sections and the `=` token as a separator.
+
+If you want to parse INI files hen enable these options:
+
+```javascript
+var options = {
+	sections: true,
+	comments: ";", //Some INI files also consider # as a comment, if so, add it, comments: [";", "#"]
+	separators: "=",
+	strict: true
+};
+```
+
+The `strict` option says that __only__ the tokens that are specified in the `comments` and `separators` options are used to parse the file. If `strict` is not enabled, the default .properties comment (`#`, `!`) and separator (`=`, `:`) tokens are also used to parse comments and separators.
+
+Note: The whitespace (` `, `\t`, `\f`) is still considered a separator even if `strict` is true.
 
 ---
 
