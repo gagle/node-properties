@@ -35,6 +35,13 @@ This is a .properties file parser/stringifier but it can also parse/stringify .i
 
 - [Stringifier](#Stringifier)
 
+#### Migration from v0.3 to v1
+
+- `load()` and `store()` have been removed. Now `parse()` and `stringify()` can read and write from/to files using the `path` option.
+- `stringify()` has been refactored. Now a `Stringifier` can be used to stringify an object if you want to write sections or comments.
+- The `pretty` option has been removed from `stringify()`.
+- The `replacer` from `stringify()` must be a function. Cannot be an array like in previous versions.
+
 ---
 
 <a name="json"></a>
@@ -48,7 +55,7 @@ This is a very powerful feature because you can parse arrays. You can also parse
 a = ["string", 1, true]
 ```
 
-if the namespaces are enabled the following two properties create the same object:
+If the namespaces are enabled the following two properties create the same object:
 
 ```
 a = {\
