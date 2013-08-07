@@ -24,7 +24,7 @@ This is a .properties file parser/stringifier but it can also parse/stringify [i
 - [Variables](#variables)
 - [Namespaces](#namespaces)
 - [INI](#ini)
-- [Import files](#include)
+- [Importing files](#include)
 - [Useful options that you should always use](#useful)
 
 #### Functions ####
@@ -253,7 +253,7 @@ Note: The whitespace (`<space>`, `\t`, `\f`) is still considered a separator eve
 ---
 
 <a name="include"></a>
-__Import files__
+__Importing files__
 
 When the `include` option is enabled, the `include` key allows you import files. If the path is a directory is tries to load a file named `index.properties`. The paths are relative from the main file, the path you pass the to [parse()](#parse) function.
 
