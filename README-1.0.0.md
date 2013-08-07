@@ -134,6 +134,8 @@ a = 1
 b = ${a}
 ```
 
+Note: If you are using the `include` option take into account that the variables are local to the file, they cannot be used to access the properties of other files.
+
 If you need to get the value of a key that belongs to a section prefix the key with the section followed by `|`.
 
 ```

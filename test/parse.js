@@ -504,11 +504,46 @@ var tests = {
 	"include": function (done){
 		var options = { path: true, include: true };
 		
-		properties.parse ("include", options, function (error, p){
+		properties.parse (".", options, function (error, p){
 			assert.ifError (error);
 			
 			assert.deepEqual (p, {
 				a: 3,
+				b: 2
+			});
+			
+			done ();
+		});
+	},
+	"include with data": function (done){
+		var options = { include: true };
+		
+		properties.parse ("include include-1", options, function (error, p){
+			assert.ifError (error);
+			
+			assert.deepEqual (p, {
+				a: 2,
+				b: 2
+			});
+			
+			done ();
+		});
+	},
+	"include with variables": function (done){
+		var options = {
+			path: true,
+			include: true,
+			variables: true,
+			vars: {
+				a: 2
+			}
+		};
+		
+		properties.parse ("include-variables-1", options, function (error, p){
+			assert.ifError (error);
+			
+			assert.deepEqual (p, {
+				a: 1,
 				b: 2
 			});
 			

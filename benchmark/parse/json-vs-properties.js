@@ -35,9 +35,9 @@ Total time: ~6000ms (6s 0ms)
 Higher is better (ops/sec)
 
 json
-  356,473 ± 0.1%
+  360,282 ± 0.0%
 properties
-  39,764 ± 0.0%
+  39,700 ± 0.2%
 
-Elapsed time: 6090ms (6s 90ms)
+Elapsed time: 6062ms (6s 62ms)
 */

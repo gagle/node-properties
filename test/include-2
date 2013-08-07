@@ -1,2 +1,3 @@
 include include-2
+include include-1
 b: 2
