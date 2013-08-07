@@ -1,4 +1,5 @@
 a: 1
+b: 1
 include include-1
 include include-2
 a: 3

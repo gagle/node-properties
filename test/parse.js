@@ -275,7 +275,7 @@ var tests = {
 			assert.ifError (error);
 			
 			assert.deepEqual (p, {
-				a: "1",
+				a: 1,
 				t: {
 					get: "s"
 				},
@@ -286,14 +286,14 @@ var tests = {
 					b: "{say hi}, {name}!"
 				},
 				s2: {
-					a: "12",
-					"12": "34"
+					a: 12,
+					"12": 34
 				},
 				"": {
 					"1_a_12_34": "12 months",
 					obvious: "1 year = 12 months",
-					"123": "456",
-					"456": "123"
+					"123": 456,
+					"456": 123
 				}
 			});
 			
@@ -508,7 +508,8 @@ var tests = {
 			assert.ifError (error);
 			
 			assert.deepEqual (p, {
-			
+				a: 3,
+				b: 2
 			});
 			
 			done ();

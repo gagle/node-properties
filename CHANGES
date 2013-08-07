@@ -19,6 +19,8 @@ v1.0.0 (xx Aug 2013)
 	Added "strict" option to "parse()". When it is enabled the parser will only
 		consider as coments and separators the tokens included in the "comments"
 		and "separators" options.
+	Added "include" option to "parse()". The "include" key can be used to import
+		other files.
 	Removed "bufferSize" and "encoding" options. Files are read using a 16KB
 		buffer size and utf8 encoding.
 	Removed the "pretty" option from "stringify()". The required code to
