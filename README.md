@@ -15,7 +15,9 @@ This is a .properties file parser/stringifier but it can also parse/stringify [i
 
 #### Installation ####
 
-[![NPM](https://nodei.co/npm/properties.png?mini=true)](https://npmjs.org/package/properties)
+```
+npm install properties
+```
 
 #### Documentation ####
 
