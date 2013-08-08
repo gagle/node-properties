@@ -305,7 +305,7 @@ There are too many options that you can enable but, which of them should you use
 Wrapping this module it's also a good idea. This is a good starting point:
 
 ```javascript
-//properties.js
+//config.js
 
 var properties = require ("properties");
 
@@ -340,9 +340,9 @@ module.exports.load = function (path, cb){
 Usage:
 
 ```javascript
-var properties = require ("./properties");
+var config = require ("./config");
 
-properties.load (function (error, config){
+config.load (function (error, obj){
 	if (error) return console.error (error);
 	
 	...

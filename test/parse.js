@@ -539,12 +539,35 @@ var tests = {
 			}
 		};
 		
-		properties.parse ("include-variables-1", options, function (error, p){
+		properties.parse ("../test/include-variables-1", options,
+				function (error, p){
 			assert.ifError (error);
 			
 			assert.deepEqual (p, {
 				a: 1,
 				b: 2
+			});
+			
+			done ();
+		});
+	},
+	"include with namespaces": function (done){
+		var options = {
+			path: true,
+			include: true,
+			namespaces: true,
+		};
+		
+		properties.parse ("include-namespaces-1", options, function (error, p){
+			assert.ifError (error);
+			
+			assert.deepEqual (p, {
+				a: {
+					b: 1,
+					c: {
+						d: 1
+					}
+				}
 			});
 			
 			done ();
