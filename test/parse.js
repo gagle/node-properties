@@ -331,7 +331,7 @@ var tests = {
 			
 			assert.deepEqual (p, {
 				a: {
-					a: 1,
+					"": 1,
 					b: 1,
 					c: 11
 				},
@@ -359,7 +359,7 @@ var tests = {
 			
 			assert.deepEqual (p, {
 				a: {
-					a: 1,
+					"": 1,
 					b: 1,
 					c: 11
 				},
@@ -436,7 +436,7 @@ var tests = {
 			
 			assert.deepEqual (p, {
 				a: {
-					a: 1,
+					"": 1,
 					b: 1,
 					c: 11
 				},

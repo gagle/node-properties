@@ -1,11 +1,11 @@
-a.a 1
+a. 1
 a.b 1
-a.c ${a.a}${a.b}
+a.c ${a.}${a.b}
 
 b.a a
 b.b ${b.a}a
 
 c true
 
-d.a.a = ["${b.a}", ${a.a}, "a", 1]
+d.a.a = ["${b.a}", ${a.}, "a", 1]
 d.a.b = { "a": ${d.a.a} }

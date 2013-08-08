@@ -1,12 +1,12 @@
-v1.0.0 (xx Aug 2013)
+v1.0.0 (08 Aug 2013)
 	Complete refactor from scratch.
-	Improved reading speed by ~46%. This new version only iterates the data
-		one time while the previous version was a direct port from the Java source
-		code and was iterating four times over the same data.
+	Improved reading speed by ~45%. This new version iterates the data only once
+		while the previous version was a direct port from the Java source code and
+		was iterating four times over the same data.
 	Improved writing speed by ~77%.
 	All the dependencies have been removed.
-	The properties should be stringified using a Stringifier instead of giving a
-		raw object if the sections are enabled. See the readme for further details.
+	If the sections are enabled the properties should be stringified using a
+		Stringifier instead of giving a raw object.
 	"load()" and "store" have been removed and "parse()" and "stringify()" can
 		read and write from/to files with the "path" option.
 	Added "json" option to "parse()". When it is enabled stringified json arrays
@@ -29,9 +29,9 @@ v1.0.0 (xx Aug 2013)
 		speed is faster.
 	The stringify replacer must be a function. Cannot be an array like in previous
 		versions.
-	Fixed some unusual bugs with escaped backslashes.
+	Some bugfixes with escaped backslashes.
 	Some bugfixes with whitespace values.
-	Some bugfixes with the sections.
+	Some bugfixes with sections.
 	Some bugfixes with "stringify()".
 
 v0.3.3 (12 Jan 2013)
