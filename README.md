@@ -375,7 +375,7 @@ properties.parse ({ ... }, function (error, obj){
 Options:
 
 - __path__ - _Boolean_  
-		By default `parse()` reads a String. If you want to read a file set this option to true. If this option is used the callback is mandatory. It takes 2 parameters, a possible error and the object with all the properties.
+		By default `parse()` reads a String. If you want to read a file set this option to true. If this option is used the callback is mandatory. It gets 2 parameters, a possible error and the object with all the properties.
 - __comments__ - _String_ | _Array_  
 	Allows you to add additional comment tokens. The token must be a single printable non-whitespae ascii character. If the `strict` option is not set, the tokens `#` and `!` are parsed as comment tokens.
 	
@@ -409,7 +409,7 @@ Options:
 
 	The reviver it's exatcly the same as the replacer from [stringify()](#stringify). The same function can be reused.
 
-	The callback takes 3 parameters: key, value and section.  
+	The callback gets 3 parameters: key, value and section.  
 	A property has a key and a value and can belong to a section. If it's a global property the section is set to null. If __undefined__ is returned the property will be removed from the final object, otherwise the returned value will be used as the property value.  
 	If the key and the value are set to null then it's a section line. If it returns a falsy value it won't be added to the final object, the entire section -including all the properties- will be discarded. If it returns a truthy value the section is parsed.
 	
@@ -504,7 +504,7 @@ properties.stringify ({ ... }, function (error, str){
 Options:
 
 - __path__ - _String_  
-	By default `stringify()` returns a String and you decide what to do with it. If you want to write the final string to a file, give the path of a file. If this option is used the callback is mandatory. It takes two parameters, a possible error and the final string.
+	By default `stringify()` returns a String and you decide what to do with it. If you want to write the final string to a file, give the path of a file. If this option is used the callback is mandatory. It gets two parameters, a possible error and the final string.
 - __comment__ - _String_  
 	The token to use to write comments. It must be a single printable non-whitespace ascii character. Default is `#`.
 - __separator__ - _String_  
@@ -520,7 +520,7 @@ Options:
 
 	The replacer it's exatcly the same as the reviver from [parse()](#parse). The same function can be reused.
 
-	The callback takes three parameters: key, value and section.  
+	The callback gets three parameters: key, value and section.  
 	A property has a key and a value and can belong to a section. If it's a global property the section is set to null. If __undefined__ is returned the property won't be stringified, otherwise the returned value will be used as the property value.  
 	If the key and the value are set to null then it's a section line. If it returns a falsy value it won't be added to the final string, the entire section -including all the properties- will be discarded. If it returns a truthy value the section is stringified.
 	
@@ -597,7 +597,7 @@ b = [1,2,3]
 <a name="Stringifier_section"></a>
 __Stringifier#section(obj) : Stringifier__
 
-Writes a section line. It takes an object with two options: `name` and `comment`. The name is converted into a string. If you don't need to write a comment you can pass the name instead of an object. Returns the stringifier being used.
+Writes a section line. It gets an object with two options: `name` and `comment`. The name is converted into a string. If you don't need to write a comment you can pass the name instead of an object. Returns the stringifier being used.
 
 ```javascript
 stringifier.section ("my section");
