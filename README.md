@@ -557,7 +557,8 @@ Options:
 ---
 
 <a name="Stringifier"></a>
-__Stringifier__  
+__Stringifier__
+
 This class is used when you want to add sections or comments to the final string.
 
 To create a stringifier use the [stringifier()](#stringifier) function.
