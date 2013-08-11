@@ -471,7 +471,7 @@ ___module_.stringify(obj[, options][, callback]) : undefined | String__
 
 Stringifies an object or a [Stringifier](#Stringifier).
 
-If you don't need to add sections nor comments simply pass an object, otherwise use a stringifier.
+If you don't need to add sections nor comments simply pass an object, otherwise use a Stringifier.
 
 If a callback is given, the result is returned as the second parameter.
 
@@ -543,7 +543,7 @@ __Stringifier__
 
 This class is used when you want to add sections or comments to the final string.
 
-To create a stringifier use the [stringifier()](#stringifier) function.
+To create a Stringifier use the [stringifier()](#stringifier) function.
 
 __Methods__
 
@@ -554,12 +554,12 @@ __Methods__
 <a name="Stringifier_header"></a>
 __Stringifier#header(comment) : Stringifier__
 
-Writes a header comment. It will be written to the top of the final string. Returns the stringifier being used.
+Writes a header comment. It will be written to the top of the final string. Returns the Stringifier being used.
 
 <a name="Stringifier_property"></a>
 __Stringifier#property(obj) : Stringifier__
 
-Writes a property line. It takes an object with three options: `key`, `value` and `comment`. Both the key and the value are converted into a string automatically. Returns the stringifier being used.
+Writes a property line. It takes an object with three options: `key`, `value` and `comment`. Both the key and the value are converted into a string automatically. Returns the Stringifier being used.
 
 ```javascript
 stringifier
