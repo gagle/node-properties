@@ -454,29 +454,7 @@ ___module_.stringifier([obj]) : Stringifier__
 
 Creates a new `Stringifier`. This class helps to stringify data when you want to add sections or comments.
 
-This is needed because ecma-262 does not specify an enumeration order when objects are iterated with a for-in loop. The de facto standard is to match insertion order, which V8 also does, but with one exception, numeric property names (those that can be parsed as a Number) are executed before any other key.
-
-```javascript
-var o = {
-	a: null,
-	b: null,
-	"0": null,
-	"1": null
-};
-
-for (var p in o) console.log (p);
-
-/*
-0
-1
-a
-b
-*/
-```
-
-Stringified json objects don't care about the order because each object is a namespace. Pure .properties files don't care because all the file is a unique namespace, but ini files have a problem because there could be global properties that don't belong to any section, to any namespace. If a numeric key is under a section, when it is stringified this key is added above of the all the data, so it is stringified as a global property when in fact it belongs to a section.
-
-The `Stringifier` solves this issue and also allows you to write comments. The function accepts a parameter. If you pass an object it will be converted to a stringifier. It is not very useful because [stringify()](#stringify) already converts automatically the object to a stringifier. If you need to stringify an object several times convert it first to a stringifier.
+The function accepts a parameter. If you pass an object it will be converted to a Stringifier. It's not very useful because [stringify()](#stringify) already converts automatically the object to a Stringifier.
 
 ```javascript
 var obj = { ... };
