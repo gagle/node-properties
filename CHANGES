@@ -1,3 +1,6 @@
+v1.0.1 (11 Aug 2013)
+	Some bugfixes including files.
+
 v1.0.0 (08 Aug 2013)
 	Complete refactor from scratch.
 	Improved reading speed by ~45%. This new version iterates the data only once

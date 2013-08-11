@@ -556,6 +556,7 @@ var tests = {
 			path: true,
 			include: true,
 			namespaces: true,
+			sections: true
 		};
 		
 		properties.parse ("include-namespaces-1", options, function (error, p){
@@ -563,12 +564,27 @@ var tests = {
 			
 			assert.deepEqual (p, {
 				a: {
-					b: 1,
+					b: {
+						c: 2
+					},
 					c: {
 						d: 1
 					}
 				}
 			});
+			
+			done ();
+		});
+	},
+	"include inside section": function (done){
+		var options = {
+			path: true,
+			include: true,
+			sections: true
+		};
+		
+		properties.parse ("include-section-1", options, function (error, p){
+			assert.ok (error);
 			
 			done ();
 		});

@@ -5,7 +5,7 @@ _Node.js project_
 
 #### .properties parser/stringifier ####
 
-Version: 1.0.0
+Version: 1.0.1
 
 [Specification](http://docs.oracle.com/javase/7/docs/api/java/util/Properties.html#load%28java.io.Reader%29)
 
@@ -261,7 +261,11 @@ Note: The whitespace (`<space>`, `\t`, `\f`) is still considered a separator eve
 <a name="include"></a>
 __Importing files__
 
-When the `include` option is enabled, the `include` key allows you import files. If the path is a directory is tries to load a file named `index.properties`. The paths are relative from the main file, the path you pass the to [parse()](#parse) function.
+When the `include` option is enabled, the `include` key allows you import files. If the path is a directory it tries to load the file `index.properties`. The paths are relative from the main file, the path that you pass to the [parse()](#parse) function.
+
+The imported files are merged with the current file, they can replace old data.
+
+The _include_ keywords cannot appear inside a section, they must be global properties.
 
 ```
 include a/file
