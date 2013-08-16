@@ -533,7 +533,7 @@ var tests = {
 			done ();
 		});
 	},
-	"include, empty file": function (done){
+	"include empty file": function (done){
 		var options = { include: true };
 		
 		properties.parse ("include include-empty", options, function (error, p){
@@ -614,6 +614,23 @@ var tests = {
 		
 		properties.parse ("include-section-1", options, function (error, p){
 			assert.ok (error);
+			
+			done ();
+		});
+	},
+	"include relative from current file": function (done){
+		var options = {
+			include: true,
+			sections: true
+		};
+		
+		properties.parse ("include include-relative-1", options,
+				function (error, p){
+			assert.ifError (error);
+			
+			assert.deepEqual (p, {
+				a: 1
+			});
 			
 			done ();
 		});

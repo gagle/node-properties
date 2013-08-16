@@ -16,13 +16,13 @@ properties.parse (".", options, function (error, p){
 	/*
 	{
 		en: {
-			text1: "Hello"
+			id0: "Hello"
 		},
 		es: {
-			text1: "Hola"
+			id0: "Hola"
 		},
 		de: {
-			text1: "Hallo"
+			id0: "Hallo"
 		}
 	}
 	*/

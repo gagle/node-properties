@@ -1,3 +1,6 @@
+v1.0.3 (16 Aug 2013)
+	The paths from the imported files are relative to the current file.
+
 v1.0.2 (16 Aug 2013)
 	Minor bugfixes with sections that don't end with "]".
 
