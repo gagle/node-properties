@@ -165,6 +165,24 @@ var tests = {
 			done ();
 		});
 	},
+	"sections, incomplete": function (done){
+		var options = { sections: true, include: true };
+		
+		assert.throws (function (){
+			properties.parse ("[a\n", options);
+		});
+		
+		assert.throws (function (){
+			properties.parse ("[a", options);
+		});
+		
+		properties.parse ("include include-section-error-1", options,
+				function (error, p){
+			assert.ok (error);
+			
+			done ();
+		});
+	},
 	"sections random": function (done){
 		var data = "#a\n#b\n#\n\na=a value\nb=\n#c comment\nc=c value\n#d comment" +
 				"\nd=\n[]\n#h section\n[h]\na=a value\n#b comment\nb=b value";
@@ -511,6 +529,17 @@ var tests = {
 				a: 3,
 				b: 2
 			});
+			
+			done ();
+		});
+	},
+	"include, empty file": function (done){
+		var options = { include: true };
+		
+		properties.parse ("include include-empty", options, function (error, p){
+			assert.ifError (error);
+			
+			assert.deepEqual (p, {});
 			
 			done ();
 		});
