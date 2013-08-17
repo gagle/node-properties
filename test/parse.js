@@ -629,7 +629,7 @@ var tests = {
 			assert.ifError (error);
 			
 			assert.deepEqual (p, {
-				a: 1
+				a: 2
 			});
 			
 			done ();
