@@ -171,7 +171,7 @@ You can also pass external variables with the `vars` option and use their value 
 <a name="namespaces"></a>
 __Namespaces__
 
-When the `namespaces` option is enabled dot separated keys are parsed as namespaces, that is, they are interpreted as javascript objects.
+When the `namespaces` option is enabled dot separated keys are parsed as namespaces, that is, they are interpreted as JavaScript objects.
 
 ```
 a.b = 1
@@ -179,7 +179,7 @@ a.c.d = 2
 
 ```
 
-These properties creates the following object:
+These properties create the following object:
 
 ```javascript
 {
