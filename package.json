@@ -3,14 +3,8 @@
 	"version": "1.0.3",
 	"description": ".properties parser/stringifier",
 	"keywords": ["properties", "ini", "parser", "stringifier", "config"],
-	"author": {
-		"name": "Gabriel Llamas",
-		"email": "gagle@outlook.com"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git://github.com/gagle/node-properties.git"
-	},
+	"author": "Gabriel Llamas <gagle@outlook.com>",
+	"repository": "git://github.com/gagle/node-properties.git",
 	"engines": {
 		"node": ">=0.10"
 	},
