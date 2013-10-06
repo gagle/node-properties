@@ -5,27 +5,29 @@ var fs = require ("fs");
 var ini = require ("ini");
 var properties = require ("../../lib");
 
-var data = fs.readFileSync ("properties", { encoding: "utf8" });
+var propertiesData = fs.readFileSync ("properties", { encoding: "utf8" });
+var iniData = fs.readFileSync ("ini", { encoding: "utf8" });
 var options = {
 	sections: true,
 	comments: ";",
 	separators: "=",
-	strict: true
+	strict: true,
+	json: true
 };
 
 speedy.run ({
 	ini: function (){
-		ini.parse (data);
+		ini.parse (iniData);
 	},
 	properties: function (){
-		properties.parse (data, options);
+		properties.parse (propertiesData, options);
 	}
 });
 
 /*
 File: ini-vs-properties.js
 
-Node v0.10.15
+Node v0.10.20
 V8 v3.14.5.9
 Speedy v0.0.8
 
@@ -38,9 +40,9 @@ Total time: ~6000ms (6s 0ms)
 Higher is better (ops/sec)
 
 ini
-  31,797 ± 0.2%
+  23,542 ± 0.2%
 properties
-  43,560 ± 0.0%
+  31,156 ± 0.2%
 
-Elapsed time: 6061ms (6s 61ms)
+Elapsed time: 6162ms (6s 162ms)
 */

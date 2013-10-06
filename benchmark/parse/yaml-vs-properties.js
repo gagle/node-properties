@@ -1,27 +1,25 @@
 "use strict";
 
 var speedy = require ("speedy");
+var yaml = require ("js-yaml");
 var properties = require ("../../lib");
 var fs = require ("fs");
 
-var jsonData = fs.readFileSync ("json", { encoding: "utf8" });
 var propertiesData = fs.readFileSync ("properties", { encoding: "utf8" });
+var yamlData = fs.readFileSync ("yaml", { encoding: "utf8" });
 var options = { sections: true, namespaces: true, json: true };
 
 speedy.run ({
-	json: function (){
-		JSON.parse (jsonData);
+	yaml: function (){
+		yaml.safeLoad (yamlData);
 	},
 	properties: function (){
 		properties.parse (propertiesData, options);
 	}
 });
 
-//Note: JSON.parse is written in native code by the people that made the V8
-//engine! Their uses are quite different.
-
 /*
-File: json-vs-properties.js
+File: yaml-vs-properties.js
 
 Node v0.10.20
 V8 v3.14.5.9
@@ -35,10 +33,10 @@ Total time: ~6000ms (6s 0ms)
 
 Higher is better (ops/sec)
 
-json
-  362,515 ± 0.0%
+yaml
+  14,565 ± 1.3%
 properties
-  23,823 ± 0.1%
+  23,653 ± 0.2%
 
-Elapsed time: 6146ms (6s 146ms)
+Elapsed time: 6147ms (6s 147ms)
 */
