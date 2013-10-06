@@ -10,7 +10,8 @@
 	},
 	"devDependencies": {
 		"ini": "*",
-		"speedy": "*"
+		"speedy": "*",
+		"js-yaml": "*"
 	},
 	"license": "MIT",
 	"main": "lib"
