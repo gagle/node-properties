@@ -18,7 +18,7 @@ speedy.run ({
 });
 
 //Note: JSON.parse is written in native code by the people that made the V8
-//engine! Their uses are quite different.
+//engine!
 
 /*
 File: json-vs-properties.js
