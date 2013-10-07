@@ -1,5 +1,6 @@
 v1.0.4 (07 Oct 2013)
 	When "namespaces" are in use the objects are merged correctly.
+	When "path" is used the callback is called correctly.
 
 v1.0.3 (16 Aug 2013)
 	The paths from the imported files are relative to the current file.
