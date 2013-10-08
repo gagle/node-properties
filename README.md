@@ -24,7 +24,7 @@ npm install properties
 - [JSON](#json)
 - [Sections](#sections)
 - [Variables](#variables)
-	- [Environment](#environment)
+  - [Environment](#environment)
 - [Namespaces](#namespaces)
 - [INI](#ini)
 - [Importing files](#include)
@@ -64,7 +64,7 @@ If the namespaces are enabled the following two properties create the same objec
 
 ```
 a = {\
-	"b": 1\
+  "b": 1\
 }
 a.b = 1
 ```
@@ -73,9 +73,9 @@ Creates:
 
 ```javascript
 {
-	a: {
-		b: 1
-	}	
+  a: {
+    b: 1
+  }	
 }
 ```
 
@@ -112,15 +112,15 @@ Creates:
 
 ```javascript
 {
-	app_name: "App",
-	web: {
-		hostname: "10.10.10.10",
-		port: 1234
-	},
-	db: {
-		hostname: "10.10.10.20",
-		port: 4321
-	}
+  app_name: "App",
+  web: {
+    hostname: "10.10.10.10",
+    port: 1234
+  },
+  db: {
+    hostname: "10.10.10.20",
+    port: 4321
+  }
 }
 ```
 
@@ -183,12 +183,12 @@ These properties create the following object:
 
 ```javascript
 {
-	a: {
-		b: 1,
-		c: {
-			d: 2
-		}
-	}
+  a: {
+    b: 1,
+    c: {
+      d: 2
+    }
+  }
 }
 ```
 
@@ -204,14 +204,14 @@ a.c.d = ${s1|a.b}
 
 ```javascript
 {
-	s1: {
-		a: {
-			b: 1,
-			c: {
-				d: 1
-			}
-		}
-	}
+  s1: {
+    a: {
+      b: 1,
+      c: {
+        d: 1
+      }
+    }
+  }
 }
 ```
 
@@ -219,11 +219,11 @@ The external variables can also be read using namespaces:
 
 ```javascript
 var options = {
-	vars: {
-		a: {
-			b: 1
-		}
-	}
+  vars: {
+    a: {
+      b: 1
+    }
+  }
 };
 ```
 
@@ -245,10 +245,10 @@ If you want to parse INI files hen enable these options:
 
 ```javascript
 var options = {
-	sections: true,
-	comments: ";", //Some INI files also consider # as a comment, if so, add it, comments: [";", "#"]
-	separators: "=",
-	strict: true
+  sections: true,
+  comments: ";", //Some INI files also consider # as a comment, if so, add it, comments: [";", "#"]
+  separators: "=",
+  strict: true
 };
 ```
 
@@ -281,34 +281,33 @@ __Useful options that you should always use__
 
 There are too many options that you can enable but, which of them should you use? Well, this depends on what you need but I like to enable the following ones:
 
-- __json__: Parsing arrays is always very useful.
 - __namespaces__: Extremly useful if you want to organize your configuration files using namespaces and access the data using javascript objects. For example:
-	
-	```
-	db.pool.min 5
-	db.pool.max 10
-	```
+  
+  ```
+  db.pool.min 5
+  db.pool.max 10
+  ```
 
-	Instead of:
-	
-	```
-	db_pool_min 5
-	db_pool_max 10
-	```
+  Instead of:
+  
+  ```
+  db_pool_min 5
+  db_pool_max 10
+  ```
 - __sections__: More organization. You don't need to write the first namespace level. For example:
 
-	```
-	[db]
-	pool.min 5
-	pool.max 10
-	```
-	
-	Instead of:
-	
-	```
-	db.pool.min 5
-	db.pool.max 10
-	```
+  ```
+  [db]
+  pool.min 5
+  pool.max 10
+  ```
+  
+  Instead of:
+  
+  ```
+  db.pool.min 5
+  db.pool.max 10
+  ```
 - __variables__: Writing the same thing again and again is a bad practice. Write it once and use a variable to copy the value wherever you want. With the variables enabled you can pass external variables to the file using the __vars__ option, which is pretty useful as shown in the [environment-vars](https://github.com/gagle/node-properties/blob/master/examples/variables/environment-vars.js) example.
 - __include__: Even more organization. I don't like to have a huge configuration file, I tend to have multiple smaller files. With this option I don't need to load all the files, I simply load the index file which includes all the files.
 
@@ -320,30 +319,29 @@ Wrapping this module it's also a good idea. This is a good starting point:
 var properties = require ("properties");
 
 var options = {
-	path: true,
-	json: true,
-	namespaces: true,
-	sections: true,
-	variables: true,
-	include: true
+  path: true,
+  namespaces: true,
+  sections: true,
+  variables: true,
+  include: true
 };
 
 var configDir = "./path/to/config/dir";
 
 module.exports.load = function (path, cb){
-	//NODE_ENV can be "production" or "development"
-	//Load specific configuration depending on the environment
-	properties.parse (configDir + "/" + process.env.NODE_ENV, options,
-			function (error, env){
-		if (error) return cb (error);
-		
-		//Pass the specific configuration as external variables to the common
-		//configuration
-		options.vars = env;
-		
-		//If the path is a directory it tries to load the "index.properties" file
-		properties.parse (configDir, options, cb);
-	});
+  //NODE_ENV can be "production" or "development"
+  //Load specific configuration depending on the environment
+  properties.parse (configDir + "/" + process.env.NODE_ENV, options,
+      function (error, env){
+    if (error) return cb (error);
+    
+    //Pass the specific configuration as external variables to the common
+    //configuration
+    options.vars = env;
+    
+    //If the path is a directory it tries to load the "index.properties" file
+    properties.parse (configDir, options, cb);
+  });
 };
 ```
 
@@ -353,9 +351,9 @@ Usage:
 var config = require ("./config");
 
 config.load (function (error, obj){
-	if (error) return console.error (error);
-	
-	...
+  if (error) return console.error (error);
+  
+  ...
 });
 ```
 
@@ -372,80 +370,80 @@ If a callback is given, the result is returned as the second parameter.
 obj = properties.parse ({ ... });
 
 properties.parse ({ ... }, function (error, obj){
-	//The "error" can be ignored, it is always null if the "path" option is not used
+  //The "error" can be ignored, it is always null if the "path" option is not used
 });
 ```
 
 Options:
 
 - __path__ - _Boolean_  
-		By default `parse()` reads a String. If you want to read a file set this option to true. If this option is used the callback is mandatory. It gets 2 parameters, a possible error and the object with all the properties.
+    By default `parse()` reads a String. If you want to read a file set this option to true. If this option is used the callback is mandatory. It gets 2 parameters, a possible error and the object with all the properties.
 - __comments__ - _String_ | _Array_  
-	Allows you to add additional comment tokens. The token must be a single printable non-whitespae ascii character. If the `strict` option is not set, the tokens `#` and `!` are parsed as comment tokens.
-	
-	```javascript
-	comments: ";"
-	comments: [";", "@"]
-	```
+  Allows you to add additional comment tokens. The token must be a single printable non-whitespae ascii character. If the `strict` option is not set, the tokens `#` and `!` are parsed as comment tokens.
+  
+  ```javascript
+  comments: ";"
+  comments: [";", "@"]
+  ```
 - __separators__ - _String_ | _Array_  
-	Allows you to add additional separator tokens. The token must be a single printable non-whitespae ascii character. If the `strict` option is not set, the tokens `=` and `:` are parsed as comment tokens.
-	
-	```javascript
-	separators: "-"
-	separators: ["-", ">"]
-	```
+  Allows you to add additional separator tokens. The token must be a single printable non-whitespae ascii character. If the `strict` option is not set, the tokens `=` and `:` are parsed as comment tokens.
+  
+  ```javascript
+  separators: "-"
+  separators: ["-", ">"]
+  ```
 - __strict__ - _Boolean_  
-	This option can be used with the comments and separators options. If is set to true __only__ the tokens specified in these options are used to parse comments and separators.
+  This option can be used with the comments and separators options. If is set to true __only__ the tokens specified in these options are used to parse comments and separators.
 - __json__ - _Boolean_  
-	Tries to parse the property value as an array or object. See the [json](#json) section for further details.
+  Tries to parse the property value as an array or object. See the [json](#json) section for further details.
 - __sections__ - _Boolean_  
-	Parses INI sections. See the [ini](#ini) section for further details.
+  Parses INI sections. See the [ini](#ini) section for further details.
 - __namespaces__ - _Boolean_  
-	Parses dot separated keys as javascript objects. See the [namespaces](#namespaces) section for further details.
+  Parses dot separated keys as javascript objects. See the [namespaces](#namespaces) section for further details.
 - __variables__ - _Boolean_  
-	Allows you to read the value of a key while the file is being parsed. See the [variables](#variables) section for further details.
+  Allows you to read the value of a key while the file is being parsed. See the [variables](#variables) section for further details.
 - __vars__ - _Boolean_  
-	External variables can be passed to the file if the variables option is enabled. See the [variables](#variables) section for further details.
+  External variables can be passed to the file if the variables option is enabled. See the [variables](#variables) section for further details.
 - __include__ - _Boolean_  
-	Files can be linked and imported with the `include` key.  If this option is used the callback is mandatory. See the [include](#include) section for further details.
+  Files can be linked and imported with the `include` key.  If this option is used the callback is mandatory. See the [include](#include) section for further details.
 - __reviver__ - _Boolean_  
-	Each property or section can be removed or modified from the final object. It's similar to the reviver of the JSON.parse function.
+  Each property or section can be removed or modified from the final object. It's similar to the reviver of the JSON.parse function.
 
-	The reviver it's exatcly the same as the replacer from [stringify()](#stringify). The same function can be reused.
+  The reviver it's exatcly the same as the replacer from [stringify()](#stringify). The same function can be reused.
 
-	The callback gets 3 parameters: key, value and section.  
-	A property has a key and a value and can belong to a section. If it's a global property the section is set to null. If __undefined__ is returned the property will be removed from the final object, otherwise the returned value will be used as the property value.  
-	If the key and the value are set to null then it's a section line. If it returns a falsy value it won't be added to the final object, the entire section -including all the properties- will be discarded. If it returns a truthy value the section is parsed.
-	
-	For your convenience, to know if the line is a property or is a section, you can access to `this.isProperty` and `this.isSection` from inside the replacer function. Also, `this.assert()` can be used to return the _default_ value, the unmodified value that will be used to parse the line.
-	
-	`this.assert()` it's the same as:
-	
-	```javascript
-	if (this.isProperty){
-		return value;
-	}else{
-		//isSection
-		return true;
-	}
-	```
-	
-	For example, a reviver that does nothing and a reviver that removes all the lines:
-	
-	```javascript
-	function (key, value, section){
-		//Returns all the lines
-		return this.assert ();
-	}
-	```
-	
-	```javascript
-	function (key, value, section){
-		//Removes all the lines
-	}
-	```
-	
-	Look at the [reviver](https://github.com/gagle/node-properties/blob/master/examples/reviver/reviver.js) example for further details.
+  The callback gets 3 parameters: key, value and section.  
+  A property has a key and a value and can belong to a section. If it's a global property the section is set to null. If __undefined__ is returned the property will be removed from the final object, otherwise the returned value will be used as the property value.  
+  If the key and the value are set to null then it's a section line. If it returns a falsy value it won't be added to the final object, the entire section -including all the properties- will be discarded. If it returns a truthy value the section is parsed.
+  
+  For your convenience, to know if the line is a property or is a section, you can access to `this.isProperty` and `this.isSection` from inside the replacer function. Also, `this.assert()` can be used to return the _default_ value, the unmodified value that will be used to parse the line.
+  
+  `this.assert()` it's the same as:
+  
+  ```javascript
+  if (this.isProperty){
+    return value;
+  }else{
+    //isSection
+    return true;
+  }
+  ```
+  
+  For example, a reviver that does nothing and a reviver that removes all the lines:
+  
+  ```javascript
+  function (key, value, section){
+    //Returns all the lines
+    return this.assert ();
+  }
+  ```
+  
+  ```javascript
+  function (key, value, section){
+    //Removes all the lines
+  }
+  ```
+  
+  Look at the [reviver](https://github.com/gagle/node-properties/blob/master/examples/reviver/reviver.js) example for further details.
 
 ---
 
@@ -479,62 +477,62 @@ If a callback is given, the result is returned as the second parameter.
 str = properties.stringify ({ ... });
 
 properties.stringify ({ ... }, function (error, str){
-	//The "error" can be ignored, it is always null if the "path" option is not used
+  //The "error" can be ignored, it is always null if the "path" option is not used
 });
 ```
 
 Options:
 
 - __path__ - _String_  
-	By default `stringify()` returns a String and you decide what to do with it. If you want to write the final string to a file, give the path of a file. If this option is used the callback is mandatory. It gets two parameters, a possible error and the final string.
+  By default `stringify()` returns a String and you decide what to do with it. If you want to write the final string to a file, give the path of a file. If this option is used the callback is mandatory. It gets two parameters, a possible error and the final string.
 - __comment__ - _String_  
-	The token to use to write comments. It must be a single printable non-whitespace ascii character. Default is `#`.
+  The token to use to write comments. It must be a single printable non-whitespace ascii character. Default is `#`.
 - __separator__ - _String_  
-	The token to use to separate keys from values. It must be a single printable non-whitespace ascii character. Default is `=`.
+  The token to use to separate keys from values. It must be a single printable non-whitespace ascii character. Default is `=`.
 - __unicode__ - _Boolean_  
-	The .properties specification uses iso 8859-1 (latin-1) as a default encoding. In the other hand, Node.js has a utf8 default encoding. This means that if you want a full compatibility with Java, that is, you are generating a .properties file that is going to be read by a Java program, then set this option to true. This will encode all ascii extended and multibyte characters to their unicode string representation (`\uXXXX`).
+  The .properties specification uses iso 8859-1 (latin-1) as a default encoding. In the other hand, Node.js has a utf8 default encoding. This means that if you want a full compatibility with Java, that is, you are generating a .properties file that is going to be read by a Java program, then set this option to true. This will encode all ascii extended and multibyte characters to their unicode string representation (`\uXXXX`).
 
-	Non-printable control codes (control sets 0 and 1) are always encoded as a unicode strings except `\t`, `\n`, `\f` and `\r`.
-	
-	If you are in a system that can handle utf8 strings, e.g. Node.js, you don't need to use this option.
+  Non-printable control codes (control sets 0 and 1) are always encoded as a unicode strings except `\t`, `\n`, `\f` and `\r`.
+  
+  If you are in a system that can handle utf8 strings, e.g. Node.js, you don't need to use this option.
 - __replacer__ - _Function_
-	Each property or section can be removed or modified from the final string. It's similar to the replacer of the JSON.stringify function.
+  Each property or section can be removed or modified from the final string. It's similar to the replacer of the JSON.stringify function.
 
-	The replacer it's exatcly the same as the reviver from [parse()](#parse). The same function can be reused.
+  The replacer it's exatcly the same as the reviver from [parse()](#parse). The same function can be reused.
 
-	The callback gets three parameters: key, value and section.  
-	A property has a key and a value and can belong to a section. If it's a global property the section is set to null. If __undefined__ is returned the property won't be stringified, otherwise the returned value will be used as the property value.  
-	If the key and the value are set to null then it's a section line. If it returns a falsy value it won't be added to the final string, the entire section -including all the properties- will be discarded. If it returns a truthy value the section is stringified.
-	
-	For your convenience, to know if the line is a property or is a section, you can access to `this.isProperty` and `this.isSection` from inside the replacer function. Also, `this.assert()` can be used to return the _default_ value, the unmodified value that will be used to stringify the line.
-	
-	`this.assert()` it's the same as:
-	
-	```javascript
-	if (this.isProperty){
-		return value;
-	}else{
-		//isSection
-		return true;
-	}
-	```
-	
-	For example, a replacer that does nothing and a replacer that removes all the lines:
-	
-	```javascript
-	function (key, value, section){
-		//Returns all the lines
-		return this.assert ();
-	}
-	```
-	
-	```javascript
-	function (key, value, section){
-		//Removes all the lines
-	}
-	```
-	
-	Look at the [replacer](https://github.com/gagle/node-properties/blob/master/examples/replacer.js) example for further details.
+  The callback gets three parameters: key, value and section.  
+  A property has a key and a value and can belong to a section. If it's a global property the section is set to null. If __undefined__ is returned the property won't be stringified, otherwise the returned value will be used as the property value.  
+  If the key and the value are set to null then it's a section line. If it returns a falsy value it won't be added to the final string, the entire section -including all the properties- will be discarded. If it returns a truthy value the section is stringified.
+  
+  For your convenience, to know if the line is a property or is a section, you can access to `this.isProperty` and `this.isSection` from inside the replacer function. Also, `this.assert()` can be used to return the _default_ value, the unmodified value that will be used to stringify the line.
+  
+  `this.assert()` it's the same as:
+  
+  ```javascript
+  if (this.isProperty){
+    return value;
+  }else{
+    //isSection
+    return true;
+  }
+  ```
+  
+  For example, a replacer that does nothing and a replacer that removes all the lines:
+  
+  ```javascript
+  function (key, value, section){
+    //Returns all the lines
+    return this.assert ();
+  }
+  ```
+  
+  ```javascript
+  function (key, value, section){
+    //Removes all the lines
+  }
+  ```
+  
+  Look at the [replacer](https://github.com/gagle/node-properties/blob/master/examples/replacer.js) example for further details.
 
 ---
 
@@ -563,11 +561,11 @@ Writes a property line. It takes an object with three options: `key`, `value` an
 
 ```javascript
 stringifier
-	//No value
-	.property ({ key: "a" })
-	.property ({ key: "b", value: [1, 2, 3] })
-	//No key and no value
-	.property ({ comment: "empty" })
+  //No value
+  .property ({ key: "a" })
+  .property ({ key: "b", value: [1, 2, 3] })
+  //No key and no value
+  .property ({ comment: "empty" })
 
 /*
 a = 
