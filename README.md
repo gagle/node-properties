@@ -5,13 +5,11 @@ _Node.js project_
 
 #### .properties parser/stringifier ####
 
-Version: 1.0.4
+Version: 1.1.0
 
 [Specification](http://docs.oracle.com/javase/7/docs/api/java/util/Properties.html#load%28java.io.Reader%29)
 
-This module implements the Java .properties specification and adds additional features like ini sections, variables (key referencing), namespaces, importing files and much more.
-
-This is a .properties file parser/stringifier but it can also parse/stringify [ini](#ini) files.
+This module implements the Java .properties specification and adds additional features like [ini](#ini) sections, variables (key referencing), namespaces, importing files and much more.
 
 #### Installation ####
 
@@ -21,7 +19,6 @@ npm install properties
 
 #### Documentation ####
 
-- [JSON](#json)
 - [Sections](#sections)
 - [Variables](#variables)
   - [Environment](#environment)
@@ -33,7 +30,7 @@ npm install properties
 #### Functions ####
 
 - [_module_.parse(data[, options][, callback]) : undefined | Object](#parse)
-- [_module_.stringifier([obj]) : Stringifier](#stringifier)
+- [_module_.createStringifier() : Stringifier](#createStringifier)
 - [_module_.stringify(obj[, options][, callback]) : undefined | String](#stringify)
 
 #### Objects ####
@@ -46,48 +43,6 @@ npm install properties
 - `stringify()` has been refactored. Now a `Stringifier` can be used to stringify an object if you want to write sections or comments.
 - The `pretty` option has been removed from `stringify()`.
 - The `replacer` from `stringify()` must be a function. Cannot be an array like in previous versions.
-
----
-
-<a name="json"></a>
-__JSON__
-
-By default the value of a property is converted to a Number, Boolean or String. When the `json` option is enabled the value can be also parsed to Array or Object. The value must be a valid json data.
-
-This is a very powerful feature because you can parse arrays. You can also parse objects but I recommend to use [namespaces](#namespaces) because with objects you have to surround with double quotes each key and if you want to write a multiline object you need to escape the line break.
-
-```
-a = ["string", 1, true]
-```
-
-If the namespaces are enabled the following two properties create the same object:
-
-```
-a = {\
-  "b": 1\
-}
-a.b = 1
-```
-
-Creates:
-
-```javascript
-{
-  a: {
-    b: 1
-  }	
-}
-```
-
-Therefore, is much more easier and clear to write `a.b = 1` instead of `a = { "b": 1 }`.
-
-You can also use [variables](#variables). Remember that the value must be a valid json data, the strings must be double quoted.
-
-```
-a = string
-b = 1
-c = ["${a}", ${b}]
-```
 
 ---
 
@@ -394,8 +349,6 @@ Options:
   ```
 - __strict__ - _Boolean_  
   This option can be used with the comments and separators options. If is set to true __only__ the tokens specified in these options are used to parse comments and separators.
-- __json__ - _Boolean_  
-  Tries to parse the property value as an array or object. See the [json](#json) section for further details.
 - __sections__ - _Boolean_  
   Parses INI sections. See the [ini](#ini) section for further details.
 - __namespaces__ - _Boolean_  
@@ -409,59 +362,49 @@ Options:
 - __reviver__ - _Boolean_  
   Each property or section can be removed or modified from the final object. It's similar to the reviver of the JSON.parse function.
 
-  The reviver it's exatcly the same as the replacer from [stringify()](#stringify). The same function can be reused.
+  The reviver it's exactly the same as the replacer from [stringify()](#stringify). The same function can be reused.
 
   The callback gets 3 parameters: key, value and section.  
   A property has a key and a value and can belong to a section. If it's a global property the section is set to null. If __undefined__ is returned the property will be removed from the final object, otherwise the returned value will be used as the property value.  
   If the key and the value are set to null then it's a section line. If it returns a falsy value it won't be added to the final object, the entire section -including all the properties- will be discarded. If it returns a truthy value the section is parsed.
   
-  For your convenience, to know if the line is a property or is a section, you can access to `this.isProperty` and `this.isSection` from inside the replacer function. Also, `this.assert()` can be used to return the _default_ value, the unmodified value that will be used to parse the line.
+  For your convenience, to know if the line is a property or section you can access to `this.isProperty` and `this.isSection` from inside the replacer function. Also, `this.assert()` can be used to return the _default_ value, the unmodified value that will be used to parse the line.
   
   `this.assert()` it's the same as:
   
-  ```javascript
-  if (this.isProperty){
-    return value;
-  }else{
-    //isSection
-    return true;
-  }
-  ```
+    ```javascript
+    if (this.isProperty){
+      return value;
+    }else{
+      //isSection
+      return true;
+    }
+    ```
   
   For example, a reviver that does nothing and a reviver that removes all the lines:
   
-  ```javascript
-  function (key, value, section){
-    //Returns all the lines
-    return this.assert ();
-  }
-  ```
-  
-  ```javascript
-  function (key, value, section){
-    //Removes all the lines
-  }
-  ```
+    ```javascript
+    function (key, value, section){
+      //Returns all the lines
+      return this.assert ();
+    }
+    ```
+    
+    ```javascript
+    function (key, value, section){
+      //Removes all the lines
+    }
+    ```
   
   Look at the [reviver](https://github.com/gagle/node-properties/blob/master/examples/reviver/reviver.js) example for further details.
 
 ---
 
-<a name="stringifier"></a>
-___module_.stringifier([obj]) : Stringifier__
+<a name="createStringifier"></a>
+___module_.createStringifier() : Stringifier__
 
-Creates a new `Stringifier`. This class helps to stringify data when you want to add sections or comments.
+Returns a new [Stringifier](#Stringifier) instance.
 
-The function accepts a parameter. If you pass an object it will be converted to a Stringifier. It's not very useful because [stringify()](#stringify) already converts automatically the object to a Stringifier.
-
-```javascript
-var obj = { ... };
-var stringifier = properties.stringifier (obj);
-properties.stringify (stringifier);
-
-//The same as:
-properties.stringify ({ ... });
-```
 ---
 
 <a name="stringify"></a>
@@ -469,22 +412,30 @@ ___module_.stringify(obj[, options][, callback]) : undefined | String__
 
 Stringifies an object or a [Stringifier](#Stringifier).
 
-If you don't need to add sections nor comments simply pass an object, otherwise use a Stringifier.
+If you don't need to add sections nor comments simply pass an object, otherwise use a [Stringifier](#Stringifier).
 
-If a callback is given, the result is returned as the second parameter.
+The callback is only needed when the `path` option is used.
+
+Nested objects and arrays cannot be stringified like in JSON.stringify:
 
 ```javascript
-str = properties.stringify ({ ... });
-
-properties.stringify ({ ... }, function (error, str){
-  //The "error" can be ignored, it is always null if the "path" option is not used
+properties.stringify ({
+  a: [1, "a"],
+  b: {}
 });
+
+/*
+a = 1,a
+b = [object Object]
+*/
 ```
+
+This also applies to the [Stringifier](#Stringifier) keys and values.
 
 Options:
 
 - __path__ - _String_  
-  By default `stringify()` returns a String and you decide what to do with it. If you want to write the final string to a file, give the path of a file. If this option is used the callback is mandatory. It gets two parameters, a possible error and the final string.
+  By default `stringify()` returns a string. If you want to write it to a file, use this option and pass the path of a file. If this option is used the callback is mandatory. It gets two parameters, a possible error and the string.
 - __comment__ - _String_  
   The token to use to write comments. It must be a single printable non-whitespace ascii character. Default is `#`.
 - __separator__ - _String_  
@@ -504,33 +455,33 @@ Options:
   A property has a key and a value and can belong to a section. If it's a global property the section is set to null. If __undefined__ is returned the property won't be stringified, otherwise the returned value will be used as the property value.  
   If the key and the value are set to null then it's a section line. If it returns a falsy value it won't be added to the final string, the entire section -including all the properties- will be discarded. If it returns a truthy value the section is stringified.
   
-  For your convenience, to know if the line is a property or is a section, you can access to `this.isProperty` and `this.isSection` from inside the replacer function. Also, `this.assert()` can be used to return the _default_ value, the unmodified value that will be used to stringify the line.
+  For your convenience, to know if the line is a property or section you can access to `this.isProperty` and `this.isSection` from inside the replacer function. Also, `this.assert()` can be used to return the _default_ value, the unmodified value that will be used to stringify the line.
   
   `this.assert()` it's the same as:
   
-  ```javascript
-  if (this.isProperty){
-    return value;
-  }else{
-    //isSection
-    return true;
-  }
-  ```
+    ```javascript
+    if (this.isProperty){
+      return value;
+    }else{
+      //isSection
+      return true;
+    }
+    ```
   
   For example, a replacer that does nothing and a replacer that removes all the lines:
-  
-  ```javascript
-  function (key, value, section){
-    //Returns all the lines
-    return this.assert ();
-  }
-  ```
-  
-  ```javascript
-  function (key, value, section){
-    //Removes all the lines
-  }
-  ```
+    
+    ```javascript
+    function (key, value, section){
+      //Returns all the lines
+      return this.assert ();
+    }
+    ```
+    
+    ```javascript
+    function (key, value, section){
+      //Removes all the lines
+    }
+    ```
   
   Look at the [replacer](https://github.com/gagle/node-properties/blob/master/examples/replacer.js) example for further details.
 
@@ -541,7 +492,7 @@ __Stringifier__
 
 This class is used when you want to add sections or comments to the final string.
 
-To create a Stringifier use the [stringifier()](#stringifier) function.
+To create a Stringifier use the [createStringifier()](#createStringifier) function.
 
 __Methods__
 
@@ -569,7 +520,7 @@ stringifier
 
 /*
 a = 
-b = [1,2,3]
+b = 1,2,3
 # empty
  = 
 */

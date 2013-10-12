@@ -6,7 +6,6 @@ var properties = require ("../../lib");
 var options = {
 	path: true,
 	variables: true,
-	json: true,
 	sections: true,
 	namespaces: true
 };
@@ -40,14 +39,6 @@ properties.parse ("namespaces", options, function (error, p){
 			pool: {
 				min: 5,
 				max: 10
-			}
-		},
-		cool: {
-			things: {
-				array: ["10.10.10.10", 1234, "string", 123],
-				object: {
-					array: ["10.10.10.10", 1234, "string", 123]
-				}
 			}
 		}
 	}

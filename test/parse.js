@@ -5,7 +5,7 @@ var properties = require ("../lib");
 
 var tests = {
 	"parse": function (done){
-		var options = { path: true, json: true };
+		var options = { path: true };
 		
 		properties.parse ("properties", options, function (error, p){
 			assert.ifError (error);
@@ -42,10 +42,9 @@ var tests = {
 				a20: true,
 				a21: false,
 				a22: 123,
-				a23: [1, 2, 3],
-				a24: { "1": { "2": 3 }},
-				"[a]": null,
-				a25: null
+				a23: null,
+				a24: undefined,
+				"[a]": null
 			});
 			
 			done ();
@@ -318,29 +317,6 @@ var tests = {
 			done ();
 		});
 	},
-	"variables with json": function (done){
-		var options = { variables: true, sections: true, path: true, json: true };
-		
-		properties.parse ("variables-json", options, function (error, p){
-			assert.ifError (error);
-			
-			assert.deepEqual (p, {
-				profile: {
-					what: "mail",
-					name: "me",
-					email: "me@me.com",
-					user: {
-						num: 1,
-						friends: ["me"],
-						name: "me",
-						email: "me@me.com"
-					}
-				}
-			});
-			
-			done ();
-		});
-	},
 	"namespaces": function (done){
 		var options = { path: true, variables: true, namespaces: true };
 		
@@ -357,51 +333,15 @@ var tests = {
 					a: "a",
 					b: "aa"
 				},
-				c: true,
-				d: {
-					a: {
-						a: "[\"a\", 1, \"a\", 1]",
-						b: "{ \"a\": [\"a\", 1, \"a\", 1] }"
-					}
-				}
+				c: true
 			});
 			
 			done ();
 		});
 	},
-	"namespaces with json": function (done){
-		var options = { path: true, variables: true, namespaces: true, json: true };
-		
-		properties.parse ("namespaces", options, function (error, p){
-			assert.ifError (error);
-			
-			assert.deepEqual (p, {
-				a: {
-					"": 1,
-					b: 1,
-					c: 11
-				},
-				b: {
-					a: "a",
-					b: "aa"
-				},
-				c: true,
-				d: {
-					a: {
-						a: ["a", 1, "a", 1],
-						b: {
-							a: ["a", 1, "a", 1]
-						}
-					}
-				}
-			});
-			
-			done ();
-		});
-	},
-	"namespaces with json and sections": function (done){
+	"namespaces with sections": function (done){
 		var options = {
-			path: true, variables: true, namespaces: true, json: true, sections: true
+			path: true, variables: true, namespaces: true, sections: true
 		};
 		
 		properties.parse ("namespaces-sections", options, function (error, p){
@@ -421,28 +361,17 @@ var tests = {
 				},
 				s2: {
 					c: true
-				},
-				s3: {
-					d: {
-						a: {
-							a: ["a", 1, "a", 1],
-							b: {
-								a: ["a", 1, "a", 1]
-							}
-						}
-					}
 				}
 			});
 			
 			done ();
 		});
 	},
-	"namespaces with json and reviver": function (done){
+	"namespaces with reviver": function (done){
 		var options = {
 			path: true,
 			variables: true,
 			namespaces: true,
-			json: true,
 			reviver: function (key, value){
 				if (key[0] === "c") return;
 				return this.assert ();
@@ -461,26 +390,17 @@ var tests = {
 				b: {
 					a: "a",
 					b: "aa"
-				},
-				d: {
-					a: {
-						a: ["a", 1, "a", 1],
-						b: {
-							a: ["a", 1, "a", 1]
-						}
-					}
 				}
 			});
 			
 			done ();
 		});
 	},
-	"namespaces with reviver, json and sections": function (done){
+	"namespaces with reviver and sections": function (done){
 		var options = {
 			path: true,
 			variables: true,
 			namespaces: true,
-			json: true,
 			sections: true,
 			reviver: function (key, value, section){
 				if (this.isSection && section === "s2") return;
@@ -502,16 +422,6 @@ var tests = {
 					b: {
 						a: "b",
 						b: "ba"
-					}
-				},
-				s3: {
-					d: {
-						a: {
-							a: ["b", 1, "a", 1],
-							b: {
-								a: ["b", 1, "a", 1]
-							}
-						}
 					}
 				}
 			});

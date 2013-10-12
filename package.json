@@ -1,6 +1,6 @@
 {
 	"name": "properties",
-	"version": "1.0.4",
+	"version": "1.1.0",
 	"description": ".properties parser/stringifier",
 	"keywords": ["properties", "ini", "parser", "stringifier", "config"],
 	"author": "Gabriel Llamas <gagle@outlook.com>",
@@ -9,9 +9,9 @@
 		"node": ">=0.10"
 	},
 	"devDependencies": {
-		"ini": "*",
+		"ini": "1.1.x",
 		"speedy": "*",
-		"js-yaml": "*"
+		"js-yaml": "2.1.x"
 	},
 	"license": "MIT",
 	"main": "lib"

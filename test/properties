@@ -49,11 +49,8 @@ a19		\u00c9
 a20 true
 a21 false
 a22 123
-a23 [1, 2, \
-		3]
-a24 : { "1"\
-		: { "2": 3 }}
-a25 null
+a23 null
+a24 undefined
 
 #No sections
 [a]

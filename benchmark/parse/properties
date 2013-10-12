@@ -1,21 +1,15 @@
 [strings]
-s1 = v
-s2 = v
+s1 = string
 
 [numbers]
-n1 = 1
-n2 = 1
-n3 = 123.123
-n4 = 123.123
-
-[arrays]
-a1 = [1, 1, 123.123]
-a2 = [1, 1, 123.123]
+n1 = 123
+n2 = 123.123
 
 [objects]
-o1.a = 1
-o1.b = 1
+o1.a = string
+o1.b = 123
 o1.c = 123.123
-o2.a = 1
-o2.b = 1
+
+o2.a = string
+o2.b = 123
 o2.c = 123.123

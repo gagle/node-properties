@@ -7,7 +7,7 @@ var fs = require ("fs");
 
 var propertiesData = fs.readFileSync ("properties", { encoding: "utf8" });
 var yamlData = fs.readFileSync ("yaml", { encoding: "utf8" });
-var options = { sections: true, namespaces: true, json: true };
+var options = { sections: true, namespaces: true };
 
 speedy.run ({
 	yaml: function (){
@@ -34,9 +34,9 @@ Total time: ~6000ms (6s 0ms)
 Higher is better (ops/sec)
 
 yaml
-  13,418 ± 0.6%
+  20,551 ± 0.7%
 properties
-  24,224 ± 0.2%
+  35,885 ± 0.3%
 
-Elapsed time: 6090ms (6s 90ms)
+Elapsed time: 6146ms (6s 146ms)
 */

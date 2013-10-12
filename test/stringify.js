@@ -8,92 +8,74 @@ var WIN = process.platform === "win32";
 var EOL = WIN ? "\r\n" : "\n";
 
 var tests = {
-	"comments multiline": function (done){
-		var stringifier = properties.stringifier ().header ("a\nb\r\nc\n");
+	"comments multiline": function (){
+		var stringifier = properties.createStringifier ().header ("a\nb\r\nc\n");
 		var data = properties.stringify (stringifier);
 		var expected = "# a" + EOL + "# b" + EOL + "# c" + EOL + "# " + EOL + EOL;
 		assert.strictEqual (data, expected);
-		
-		done ();
 	},
-	"comments whitespace, escape and unicode": function (done){
+	"comments whitespace, escape and unicode": function (){
 		var options = { unicode: true };
-		var stringifier = properties.stringifier ().header ("   a\t↓   ");
+		var stringifier = properties.createStringifier ().header ("   a\t↓   ");
 		var data = properties.stringify (stringifier, options);
 		var expected = "#    a\t\\u2193   " + EOL + EOL;
 		assert.strictEqual (data, expected);
-		
-		done ();
 	},
-	"key and value whitespace, escape and unicode": function (done){
+	"key and value whitespace, escape and unicode": function (){
 		var options = { unicode: true };
-		var stringifier = properties.stringifier ()
+		var stringifier = properties.createStringifier ()
 				.property ({ comment: "asd", key: "   a\t↓   ", value: "   a\t↓   " });
 		var data = properties.stringify (stringifier, options);
 		var expected = "# asd" + EOL + "\\ \\ \\ a\\t\\u2193\\ \\ \\  = \\ \\ " +
 				"\\ a\\t\\u2193   ";
 		assert.strictEqual (data, expected);
-		
-		done ();
 	},
-	"custom comment and separator": function (done){
+	"custom comment and separator": function (){
 		var options = { comment: ";", separator: "-" };
-		var stringifier = properties.stringifier ()
+		var stringifier = properties.createStringifier ()
 				.property ({ comment: "asd", key: "a", value: "b" });
 		var data = properties.stringify (stringifier, options);
 		var expected = "; asd" + EOL + "a - b";
 		assert.strictEqual (data, expected);
-		
-		done ();
 	},
-	"no key": function (done){
-		var stringifier = properties.stringifier ()
+	"no key": function (){
+		var stringifier = properties.createStringifier ()
 				.property ({ value: "b" });
 		var data = properties.stringify (stringifier);
 		var expected = " = b";
 		assert.strictEqual (data, expected);
-		
-		done ();
 	},
-	"no value": function (done){
-		var stringifier = properties.stringifier ()
+	"no value": function (){
+		var stringifier = properties.createStringifier ()
 				.property ({ key: "a" });
 		var data = properties.stringify (stringifier);
 		var expected = "a = ";
 		assert.strictEqual (data, expected);
-		
-		done ();
 	},
-	"no key and no value": function (done){
-		var stringifier = properties.stringifier ()
+	"no key and no value": function (){
+		var stringifier = properties.createStringifier ()
 				.property ({});
 		var data = properties.stringify (stringifier);
 		var expected = " = ";
 		assert.strictEqual (data, expected);
-		
-		done ();
 	},
-	"section, whitespace, escape and unicode": function (done){
+	"section, whitespace, escape and unicode": function (){
 		var options = { unicode: true };
-		var stringifier = properties.stringifier ()
+		var stringifier = properties.createStringifier ()
 				.section ({ name: "   a\t↓   " });
 		var data = properties.stringify (stringifier, options);
 		var expected = "[   a\\t\\u2193   ]";
 		assert.strictEqual (data, expected);
-		
-		done ();
 	},
-	"empty section": function (done){
-		var stringifier = properties.stringifier ()
+	"empty section": function (){
+		var stringifier = properties.createStringifier ()
 				.section ({});
 		var data = properties.stringify (stringifier);
 		var expected = "[]";
 		assert.strictEqual (data, expected);
-		
-		done ();
 	},
-	"stringifier": function (done){
-		var stringifier = properties.stringifier ()
+	"stringifier": function (){
+		var stringifier = properties.createStringifier ()
 				.header ("a\nb\n")
 				.property ({ key: "a", value: "a value" })
 				.property ({ key: "b" })
@@ -110,24 +92,19 @@ var tests = {
 				EOL + EOL + "# h section" + EOL + "[h]" + EOL + "a = a value" + EOL +
 				"# b comment" + EOL + "b = b value";
 		assert.strictEqual (data, expected);
-		
-		done ();
 	},
-	"stringifier converter": function (done){
+	"stringifier converter": function (){
 		var o = {
 			a: 1,
 			b: [1, 2],
 			"1": 1
 		};
-		
 		var data = properties.stringify (o);
-		var expected = "1 = 1" + EOL + "a = 1" + EOL + "b = [1,2]";
+		var expected = "1 = 1" + EOL + "a = 1" + EOL + "b = 1,2";
 		assert.strictEqual (data, expected);
-		
-		done ();
 	},
-	"replacer": function (done){
-		var stringifier = properties.stringifier ()
+	"replacer": function (){
+		var stringifier = properties.createStringifier ()
 				.property ({ key: "a", value: "a value" })
 				.section ("a")
 				.property ({ key: "a", value: "a value" })
@@ -143,34 +120,30 @@ var tests = {
 		var data = properties.stringify (stringifier, options);
 		var expected = "a = A VALUE" + EOL + EOL + "[a]" + EOL + "a = a value";
 		assert.strictEqual (data, expected);
-		
-		done ();
 	},
-	"arrays and objects": function (done){
-		var stringifier = properties.stringifier ()
-				.property ({ key: "a", value: [1, 2] })
+	"arrays and objects": function (){
+		var stringifier = properties.createStringifier ()
+				.property ({ key: "a", value: [1, "a"] })
 				.property ({ key: "b", value: { a: 1 } });
 		var data = properties.stringify (stringifier);
-		var expected = "a = [1,2]" + EOL + "b = {\"a\":1}";
+		var expected = "a = 1,a" + EOL + "b = [object Object]";
 		assert.strictEqual (data, expected);
-		
-		done ();
+	},
+	"stringify object": function (){
+		var o = {
+			a: 1,
+			b: "a",
+			c: null,
+			d: undefined,
+			"": 2
+		};
+		var data = properties.stringify (o);
+		var expected = "a = 1" + EOL + "b = a" + EOL + "c = " + EOL + "d = " + EOL +
+				" = 2";
+		assert.strictEqual (data, expected);
 	}
 };
 
-var keys = Object.keys (tests);
-var keysLength = keys.length;
-
-(function again (i){
-	if (i<keysLength){
-		var fn = tests[keys[i]];
-		if (fn.length){
-			fn (function (){
-				again (i + 1);
-			});
-		}else{
-			fn ();
-			again (i + 1);
-		}
-	}
-})(0);
+for (var test in tests){
+	tests[test] ();
+}

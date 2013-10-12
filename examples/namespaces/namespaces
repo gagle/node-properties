@@ -20,9 +20,3 @@ host 10.10.10.10
 port 1234
 pool.min 5
 pool.max 10
-
-[cool]
-# When json is enabled, the value part of a property line must be valid json
-# data, that's why all the strings are surrounded with ".
-things.array = ["${db|host}", ${db|port}, "string", 123]
-things.object = { "array": ${cool|things.array} }

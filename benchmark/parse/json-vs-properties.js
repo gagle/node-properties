@@ -6,7 +6,7 @@ var fs = require ("fs");
 
 var jsonData = fs.readFileSync ("json", { encoding: "utf8" });
 var propertiesData = fs.readFileSync ("properties", { encoding: "utf8" });
-var options = { sections: true, namespaces: true, json: true };
+var options = { sections: true, namespaces: true };
 
 speedy.run ({
 	json: function (){
@@ -36,9 +36,9 @@ Total time: ~6000ms (6s 0ms)
 Higher is better (ops/sec)
 
 json
-  362,515 ± 0.0%
+  560,712 ± 0.0%
 properties
-  23,823 ± 0.1%
+  35,966 ± 0.3%
 
-Elapsed time: 6146ms (6s 146ms)
+Elapsed time: 6147ms (6s 147ms)
 */

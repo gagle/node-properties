@@ -11,8 +11,7 @@ var options = {
 	sections: true,
 	comments: ";",
 	separators: "=",
-	strict: true,
-	json: true
+	strict: true
 };
 
 speedy.run ({
@@ -40,9 +39,9 @@ Total time: ~6000ms (6s 0ms)
 Higher is better (ops/sec)
 
 ini
-  23,542 ± 0.2%
+  33,857 ± 0.2%
 properties
-  31,156 ± 0.2%
+  47,877 ± 0.0%
 
-Elapsed time: 6162ms (6s 162ms)
+Elapsed time: 6146ms (6s 146ms)
 */

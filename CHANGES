@@ -1,4 +1,10 @@
-v1.0.4 (07 Oct 2013)
+v1.1.0 (12 Oct 2013)
+	Removed "json" parsing option (improved parsing speed).
+	Removed "Stringifier.from()".
+	Removed optional parameter from "stringifier()".
+	Renamed "stringifier()" to "createStringifier()".
+
+v1.0.4 (07 Sep 2013)
 	When "namespaces" are in use the objects are merged correctly.
 	When "path" is used the callback is called correctly.
 
