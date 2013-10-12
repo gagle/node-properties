@@ -492,9 +492,9 @@ Options:
 - __unicode__ - _Boolean_  
   The .properties specification uses iso 8859-1 (latin-1) as a default encoding. In the other hand, Node.js has a utf8 default encoding. This means that if you want a full compatibility with Java, that is, you are generating a .properties file that is going to be read by a Java program, then set this option to true. This will encode all ascii extended and multibyte characters to their unicode string representation (`\uXXXX`).
 
-  Non-printable control codes (control sets 0 and 1) are always encoded as a unicode strings except `\t`, `\n`, `\f` and `\r`.
+  Non-printable control codes (control sets 0 and 1) are always encoded as unicode strings except `\t`, `\n`, `\f` and `\r`.
   
-  If you are in a system that can handle utf8 strings, e.g. Node.js, you don't need to use this option.
+  If you are in a platform that can handle utf8 strings, e.g. Node.js, you don't need to use this option.
 - __replacer__ - _Function_
   Each property or section can be removed or modified from the final string. It's similar to the replacer of the JSON.stringify function.
 
