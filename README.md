@@ -281,7 +281,7 @@ __Useful options that you should always use__
 
 There are too many options that you can enable but, which of them should you use? Well, this depends on what you need but I like to enable the following ones:
 
-- __namespaces__: Extremly useful if you want to organize your configuration files using namespaces and access the data using javascript objects. For example:
+- __namespaces__: Extremly useful if you want to organize your configuration files using namespaces and access the data using JavaScript objects. For example:
   
   ```
   db.pool.min 5
@@ -399,7 +399,7 @@ Options:
 - __sections__ - _Boolean_  
   Parses INI sections. See the [ini](#ini) section for further details.
 - __namespaces__ - _Boolean_  
-  Parses dot separated keys as javascript objects. See the [namespaces](#namespaces) section for further details.
+  Parses dot separated keys as JavaScript objects. See the [namespaces](#namespaces) section for further details.
 - __variables__ - _Boolean_  
   Allows you to read the value of a key while the file is being parsed. See the [variables](#variables) section for further details.
 - __vars__ - _Boolean_  
