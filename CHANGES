@@ -1,3 +1,6 @@
+v1.1.1 (14 Oct 2013)
+	Bugfix when "parse()" was called only with 1 parameter.
+
 v1.1.0 (12 Oct 2013)
 	Removed "json" parsing option (improved parsing speed).
 	Removed "Stringifier.from()".
