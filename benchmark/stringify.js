@@ -40,24 +40,24 @@ File: stringify.js
 
 Node v0.10.20
 V8 v3.14.5.9
-Speedy v0.0.8
+Speedy v0.1.1
 
-Benchmarks: 4
+Tests: 4
 Timeout: 1000ms (1s 0ms)
 Samples: 3
-Total time per benchmark: ~3000ms (3s 0ms)
+Total time per test: ~3000ms (3s 0ms)
 Total time: ~12000ms (12s 0ms)
 
 Higher is better (ops/sec)
 
 ini
-  220,071 ± 0.1%
+  221,533 ± 0.2%
 json
-  688,354 ± 0.0%
+  695,892 ± 0.0%
 properties
-  555,186 ± 0.1%
+  555,565 ± 0.0%
 yaml
-  52,581 ± 0.1%
+  55,184 ± 0.3%
 
-Elapsed time: 12292ms (12s 292ms)
+Elapsed time: 12105ms (12s 105ms)
 */
