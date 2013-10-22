@@ -1,3 +1,7 @@
+v1.1.2 (22 Oct 2013)
+	Bugfix stringifying characters when "unicode" was true (improved ISO 8859-1
+		compatibility).
+
 v1.1.1 (14 Oct 2013)
 	Bugfix when "parse()" was called with only 1 parameter.
 

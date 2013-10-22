@@ -5,7 +5,7 @@ _Node.js project_
 
 #### .properties parser/stringifier ####
 
-Version: 1.1.1
+Version: 1.1.2
 
 [Specification](http://docs.oracle.com/javase/7/docs/api/java/util/Properties.html#load%28java.io.Reader%29)
 

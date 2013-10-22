@@ -8,6 +8,12 @@ var WIN = process.platform === "win32";
 var EOL = WIN ? "\r\n" : "\n";
 
 var tests = {
+	"iso-8859-1": function (){
+		var options = { unicode: true };
+		var data = properties.stringify ({ "¡": "ÿ", "Ā": "a" }, options);
+		var expected = "¡ = ÿ" + EOL + "\\u0100 = a";
+		assert.strictEqual (data, expected);
+	},
 	"comments multiline": function (){
 		var stringifier = properties.createStringifier ().header ("a\nb\r\nc\n");
 		var data = properties.stringify (stringifier);
