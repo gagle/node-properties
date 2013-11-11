@@ -5,7 +5,8 @@ _Node.js project_
 
 #### .properties parser/stringifier ####
 
-Version: 1.1.2
+[![NPM version](https://badge.fury.io/js/properties.png)](http://badge.fury.io/js/properties)
+[![Build Status](https://secure.travis-ci.org/gagle/node-properties.png)](http://travis-ci.org/gagle/node-properties)
 
 [Specification](http://docs.oracle.com/javase/7/docs/api/java/util/Properties.html#load%28java.io.Reader%29)
 
@@ -216,7 +217,7 @@ Note: The whitespace (`<space>`, `\t`, `\f`) is still considered a separator eve
 <a name="include"></a>
 __Importing files__
 
-When the `include` option is enabled, the `include` key allows you import files. If the path is a directory it tries to load the file `index.properties`. The paths are relative from the __current__ file.
+When the `include` option is enabled, the `include` key allows you import files. If the path is a directory it tries to load the file `index.properties`. The paths are relative from the __current__ .properties file.
 
 The imported files are merged with the current file, they can replace old data.
 
@@ -225,9 +226,19 @@ The _include_ keyword cannot appear inside a section, it must be a global proper
 ```
 include a/file
 
-# Loads a/dir/index.properties
+# Load a/dir/index.properties
 include a/dir
 ```
+
+Note: You can include files using a simple key-value string:
+
+```javascript
+properties.parse ("include my/file", function (error, data){
+	...
+})
+```
+
+In this case the files are __always__ relative to `.`. You cannot use `__dirname` like this: `"include " + __dirname + "/my/file"`.
 
 ---
 
@@ -359,13 +370,15 @@ Options:
   External variables can be passed to the file if the variables option is enabled. See the [variables](#variables) section for further details.
 - __include__ - _Boolean_  
   Files can be linked and imported with the `include` key.  If this option is used the callback is mandatory. See the [include](#include) section for further details.
-- __reviver__ - _Boolean_  
-  Each property or section can be removed or modified from the final object. It's similar to the reviver of the JSON.parse function.
+- __reviver__ - _Function_  
+  Each property or section can be removed or modified from the final object. It's similar to the reviver of the `JSON.parse()` function.
 
   The reviver it's exactly the same as the replacer from [stringify()](#stringify). The same function can be reused.
 
-  The callback gets 3 parameters: key, value and section.  
-  A property has a key and a value and can belong to a section. If it's a global property the section is set to null. If __undefined__ is returned the property will be removed from the final object, otherwise the returned value will be used as the property value.  
+  The callback gets 3 parameters: key, value and section.
+  
+  A property has a key and a value and can belong to a section. If it's a global property the section is set to null. If __undefined__ is returned the property will be removed from the final object, otherwise the returned value will be used as the property value.
+  
   If the key and the value are set to null then it's a section line. If it returns a falsy value it won't be added to the final object, the entire section -including all the properties- will be discarded. If it returns a truthy value the section is parsed.
   
   For your convenience, to know if the line is a property or section you can access to `this.isProperty` and `this.isSection` from inside the replacer function. Also, `this.assert()` can be used to return the _default_ value, the unmodified value that will be used to parse the line.
@@ -395,6 +408,44 @@ Options:
       //Removes all the lines
     }
     ```
+  
+  The reviver is called just after the value is casted to the proper data type. This means that the `value` parameter can be null, true, false or any data type.
+  
+  This module doesn't parse arrays but you can actually parse comma-separated values using a reviver:
+  
+  ```javascript
+  var options = {
+    sections: true,
+    reviver: function (key, value, section){
+      //Do not split section lines
+      if (this.isSection) return this.assert ();
+      
+      //Split all the string values by a comma
+      if (typeof value === "string"){
+      return value.split (",");
+      }
+      
+      //Do not split the rest of the lines
+      return this.assert ();
+    }
+  };
+  
+  /*
+  [sec,tion]
+  key1 a,b,c
+  key2 true
+  */
+  console.log (properties.parse ("[sec,tion]\n key1 a,b,c\n key2 true", options));
+  
+  /*
+  {
+    "sec,tion": {
+      key1: ["a", "b", "c" ],
+      key2: true
+    }
+  }
+  */
+  ```
   
   Look at the [reviver](https://github.com/gagle/node-properties/blob/master/examples/reviver/reviver.js) example for further details.
 
@@ -446,13 +497,15 @@ Options:
   Non-printable control codes (control sets 0 and 1) are always encoded as unicode strings except `\t`, `\n`, `\f` and `\r`.
   
   If you are in a platform that can handle utf8 strings, e.g. Node.js, you don't need to use this option.
-- __replacer__ - _Function_
-  Each property or section can be removed or modified from the final string. It's similar to the replacer of the JSON.stringify function.
+- __replacer__ - _Function_  
+  Each property or section can be removed or modified from the final string. It's similar to the replacer of the `JSON.stringify()` function.
 
   The replacer it's exatcly the same as the reviver from [parse()](#parse). The same function can be reused.
 
-  The callback gets three parameters: key, value and section.  
-  A property has a key and a value and can belong to a section. If it's a global property the section is set to null. If __undefined__ is returned the property won't be stringified, otherwise the returned value will be used as the property value.  
+  The callback gets three parameters: key, value and section.
+  
+  A property has a key and a value and can belong to a section. If it's a global property the section is set to null. If __undefined__ is returned the property won't be stringified, otherwise the returned value will be used as the property value.
+  
   If the key and the value are set to null then it's a section line. If it returns a falsy value it won't be added to the final string, the entire section -including all the properties- will be discarded. If it returns a truthy value the section is stringified.
   
   For your convenience, to know if the line is a property or section you can access to `this.isProperty` and `this.isSection` from inside the replacer function. Also, `this.assert()` can be used to return the _default_ value, the unmodified value that will be used to stringify the line.

@@ -3,6 +3,10 @@
 var assert = require ("assert");
 var properties = require ("../lib");
 var fs = require ("fs");
+var path = require ("path");
+
+//Avoid using __dirname all the time and to allow includes from a string
+process.chdir (path.dirname (process.mainModule.filename));
 
 var WIN = process.platform === "win32";
 var EOL = WIN ? "\r\n" : "\n";

@@ -2,6 +2,10 @@
 
 var assert = require ("assert");
 var properties = require ("../lib");
+var path = require ("path");
+
+//Avoid using __dirname all the time and to allow includes from a string
+process.chdir (path.dirname (process.mainModule.filename));
 
 var tests = {
 	"parse": function (done){

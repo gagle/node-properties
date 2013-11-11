@@ -13,6 +13,9 @@
 		"speedy": "*",
 		"js-yaml": "2.1.x"
 	},
+	"scripts": {
+		"test": "node test/parse && node test/stringify"
+	},
 	"license": "MIT",
 	"main": "lib"
 }
