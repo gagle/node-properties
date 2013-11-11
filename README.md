@@ -422,7 +422,8 @@ Options:
       
       //Split all the string values by a comma
       if (typeof value === "string"){
-      return value.split (",");
+        var values = value.split (",");
+        return values.length === 1 ? value : values;
       }
       
       //Do not split the rest of the lines
