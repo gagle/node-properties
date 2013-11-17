@@ -7,7 +7,6 @@ _Node.js project_
 
 [![NPM version](https://badge.fury.io/js/properties.png)](http://badge.fury.io/js/properties "Fury Version Badge")
 [![Build Status](https://secure.travis-ci.org/gagle/node-properties.png)](http://travis-ci.org/gagle/node-properties "Travis CI Badge")
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/gagle/node-properties/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 
 [Specification](http://docs.oracle.com/javase/7/docs/api/java/util/Properties.html#load%28java.io.Reader%29)
 
