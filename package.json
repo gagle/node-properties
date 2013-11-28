@@ -8,6 +8,9 @@
 	"engines": {
 		"node": ">=0.10"
 	},
+	"dependencies": {
+		"error-maker": "*"
+	},
 	"devDependencies": {
 		"ini": "1.1.x",
 		"speedy": "*",
