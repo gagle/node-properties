@@ -8,7 +8,7 @@ properties
 
 [![NPM installation](https://nodei.co/npm/properties.png?mini=true)](https://nodei.co/npm/properties "NodeICO Badge")
 
-[Specification](http://docs.oracle.com/javase/7/docs/api/java/util/Properties.html#load%28java.io.Reader%29)
+[.properties specification](http://docs.oracle.com/javase/7/docs/api/java/util/Properties.html#load%28java.io.Reader%29)
 
 This module implements the Java .properties specification and adds additional features like [ini](#ini) sections, variables (key referencing), namespaces, importing files and much more.
 
