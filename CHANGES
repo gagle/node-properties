@@ -1,3 +1,6 @@
+v1.1.3 (07 Dec 2013)
+	When a namespace chain is invalid it now returns an error.
+
 v1.1.2 (22 Oct 2013)
 	Bugfix stringifying characters when "unicode" was true (improved ISO 8859-1
 		compatibility).

@@ -433,6 +433,17 @@ var tests = {
 			done ();
 		});
 	},
+	"namespaces (invalid)": function (done){
+		var options = {
+			namespaces: true
+		};
+		
+		properties.parse ("a=1\na.b=2", options, function (error, p){
+			assert.ok (error);
+			
+			done ();
+		});
+	},
 	"include": function (done){
 		var options = { path: true, include: true };
 		
