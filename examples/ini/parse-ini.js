@@ -5,10 +5,10 @@ var properties = require ("../../lib");
 
 var data = fs.readFileSync ("ini", { encoding: "utf8" });
 var options = {
-	sections: true,
-	comments: ";",
-	separators: "=",
-	strict: true
+  sections: true,
+  comments: ";",
+  separators: "=",
+  strict: true
 };
 
 var obj = properties.parse (data, options);
@@ -17,27 +17,27 @@ console.log (obj);
 
 /*
 {
-	server: {
-		host: "localhost",
-		port: 8080,
-		log: "web.log"
-	},
-	session: {
-		secret: "brainfuck",
-		key_id: "sid",
-		max_age: 31536000000
-	},
-	database: {
-		host: "localhost",
-		port: 27017,
-		min_pool: 10,
-		max_pool: 100,
-		timeout: 10000
-	},
-	i18n: {
-		default: "en-US",
-		cache: true,
-		timeout: 3600000
-	}
+  server: {
+    host: "localhost",
+    port: 8080,
+    log: "web.log"
+  },
+  session: {
+    secret: "brainfuck",
+    key_id: "sid",
+    max_age: 31536000000
+  },
+  database: {
+    host: "localhost",
+    port: 27017,
+    min_pool: 10,
+    max_pool: 100,
+    timeout: 10000
+  },
+  i18n: {
+    default: "en-US",
+    cache: true,
+    timeout: 3600000
+  }
 }
 */
