@@ -353,7 +353,7 @@ Options:
   separators: ["-", ">"]
   ```
 - __strict__ - _Boolean_  
-  This option can be used with the comments and separators options. If is set to true __only__ the tokens specified in these options are used to parse comments and separators.
+  This option can be used with the `comments` and `separators` options. If true, __only__ the tokens specified in these options are used to parse comments and separators.
 - __sections__ - _Boolean_  
   Parses INI sections. See the [ini](#ini) section for further details.
 - __namespaces__ - _Boolean_  
