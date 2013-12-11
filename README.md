@@ -12,6 +12,25 @@ properties
 
 This module implements the Java .properties specification and adds additional features like [ini](#ini) sections, variables (key referencing), namespaces, importing files and much more.
 
+#### Quick example ####
+
+```
+# file
+a = 1
+b: 2
+```
+
+```javascript
+var properties = require ("properties");
+
+properties.load ("file", { path: true }, function (error, obj){
+  if (error) return console.error (error);
+  
+  console.log (obj);
+  //{ a: 1, b: 2 }
+});
+```
+
 #### Documentation ####
 
 - [Sections](#sections)
@@ -31,13 +50,6 @@ This module implements the Java .properties specification and adds additional fe
 #### Objects ####
 
 - [Stringifier](#Stringifier)
-
-#### Migration from v0.3 to v1
-
-- `load()` and `store()` have been removed. Now `parse()` and `stringify()` can read and write from/to files using the `path` option.
-- `stringify()` has been refactored. Now a `Stringifier` can be used to stringify an object if you want to write sections or comments.
-- The `pretty` option has been removed from `stringify()`.
-- The `replacer` from `stringify()` must be a function. Cannot be an array like in previous versions.
 
 ---
 
