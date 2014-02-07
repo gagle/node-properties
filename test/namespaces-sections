@@ -6,5 +6,5 @@ a.c ${a.a}${a.b}
 b.a a
 b.b ${s1|b.a}a
 
-[s2]
-c true
+[s2.b.c]
+d true

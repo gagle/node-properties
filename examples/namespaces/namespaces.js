@@ -25,7 +25,11 @@ properties.parse ("namespaces", options, function (error, p){
     path: {
       home: "./app",
       test: "./app/test",
-      web: "./app/web"
+      web: {
+        logs: "./app/web/logs",
+        controllers: "./app/web/controllers",
+        views: "./app/web/views"
+      }
     },
     log: {
       basename: "app",

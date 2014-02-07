@@ -23,7 +23,7 @@ b: 2
 ```javascript
 var properties = require ("properties");
 
-properties.load ("file", { path: true }, function (error, obj){
+properties.parse ("file", { path: true }, function (error, obj){
   if (error) return console.error (error);
   
   console.log (obj);
@@ -133,7 +133,7 @@ You can also pass external variables with the `vars` option and use their value 
 <a name="namespaces"></a>
 __Namespaces__
 
-When the `namespaces` option is enabled dot separated keys are parsed as namespaces, that is, they are interpreted as JavaScript objects.
+When the `namespaces` option is enabled dot separated keys and sections are parsed as namespaces, that is, they are interpreted as JavaScript objects.
 
 ```
 a.b = 1
@@ -157,27 +157,29 @@ These properties create the following object:
 You can also use sections and variables:
 
 ```
-[s1]
+[s1.x]
 a.b = 1
 # a.c.d = 1
-a.c.d = ${s1|a.b}
+a.c.d = ${s1.x|a.b}
 
 ```
 
 ```javascript
 {
   s1: {
-    a: {
-      b: 1,
-      c: {
-        d: 1
+    x: {
+      a: {
+        b: 1,
+        c: {
+          d: 1
+        }
       }
     }
   }
 }
 ```
 
-The external variables can also be read using namespaces:
+The external variables can be also read using namespaces:
 
 ```javascript
 var options = {
@@ -223,7 +225,7 @@ Note: The whitespace (`<space>`, `\t`, `\f`) is still considered a separator eve
 <a name="include"></a>
 __Importing files__
 
-When the `include` option is enabled, the `include` key allows you import files. If the path is a directory it tries to load the file `index.properties`. The paths are relative from the __current__ .properties file.
+When the `include` option is enabled, the `include` key allow you import files. If the path is a directory it tries to load the file `index.properties`. The paths are relative to the __current__ .properties file.
 
 The imported files are merged with the current file, they can replace old data.
 
@@ -266,17 +268,23 @@ There are too many options that you can enable but, which of them should you use
   db_pool_min 5
   db_pool_max 10
   ```
-- __sections__: More organization. You don't need to write the first namespace level. For example:
+- __sections__: More organization. You don't need to write all the namespace chain. For example:
 
   ```
   [db]
-  pool.min 5
-  pool.max 10
+  host 1.2.3.4
+  port 1234
+  
+  [db.pool]
+  min 5
+  max 10
   ```
   
   Instead of:
   
   ```
+  db.host 1.2.3.4
+  db.port 1234
   db.pool.min 5
   db.pool.max 10
   ```
@@ -329,6 +337,8 @@ config.load (function (error, obj){
 });
 ```
 
+Note: You can also use a configuration loader like [seraphim](https://github.com/gagle/node-seraphim).
+
 ---
 
 <a name="parse"></a>
@@ -339,10 +349,16 @@ Parses a .properties string.
 If a callback is given, the result is returned as the second parameter.
 
 ```javascript
-obj = properties.parse ({ ... });
+try{
+  //Certain options can throw errors, so if the callback is not used, try-catch
+  //the function
+  obj = properties.parse ({ ... });
+}catch (error){
+  ...
+}
 
 properties.parse ({ ... }, function (error, obj){
-  //The "error" can be ignored, it is always null if the "path" option is not used
+  //The callback must be used if the "path" option is used
 });
 ```
 
@@ -367,15 +383,15 @@ Options:
 - __strict__ - _Boolean_  
   This option can be used with the `comments` and `separators` options. If true, __only__ the tokens specified in these options are used to parse comments and separators.
 - __sections__ - _Boolean_  
-  Parses INI sections. See the [ini](#ini) section for further details.
+  Parses INI sections. Read the [INI](#ini) section for further details.
 - __namespaces__ - _Boolean_  
-  Parses dot separated keys as JavaScript objects. See the [namespaces](#namespaces) section for further details.
+  Parses dot separated keys as JavaScript objects. Look at the [namespaces](#namespaces) section for further details.
 - __variables__ - _Boolean_  
-  Allows you to read the value of a key while the file is being parsed. See the [variables](#variables) section for further details.
+  Allows you to read the value of a key while the file is being parsed. Look at the [variables](#variables) section for further details.
 - __vars__ - _Boolean_  
-  External variables can be passed to the file if the variables option is enabled. See the [variables](#variables) section for further details.
+  External variables can be passed to the file if the variables option is enabled. Look at the [variables](#variables) section for further details.
 - __include__ - _Boolean_  
-  Files can be linked and imported with the `include` key.  If this option is used the callback is mandatory. See the [include](#include) section for further details.
+  Files can be linked and imported with the `include` key.  If this option is used the callback is mandatory. Look at the [include](#include) section for further details.
 - __reviver__ - _Function_  
   Each property or section can be removed or modified from the final object. It's similar to the reviver of the `JSON.parse()` function.
 
@@ -470,9 +486,9 @@ ___module_.stringify(obj[, options][, callback]) : undefined | String__
 
 Stringifies an object or a [Stringifier](#Stringifier).
 
-If you don't need to add sections nor comments simply pass an object, otherwise use a [Stringifier](#Stringifier).
+If you don't need to add sections or comments simply pass an object, otherwise use a [Stringifier](#Stringifier).
 
-The callback is only needed when the `path` option is used.
+The callback is only necessary when the `path` option is used.
 
 Nested objects and arrays cannot be stringified like in JSON.stringify:
 

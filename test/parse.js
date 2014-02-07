@@ -321,6 +321,35 @@ var tests = {
       done ();
     });
   },
+  "variables with sections and namespaces": function (done){
+    var options = {
+      variables: true,
+      sections: true,
+      namespaces: true,
+      path: true
+    };
+    
+    properties.parse ("variables-sections-namespaces", options,
+        function (error, p){
+      assert.ifError (error);
+      
+      assert.deepEqual (p, {
+        a: {
+          b: "c"
+        },
+        c: {
+          a: {
+            b: {
+              x: 1
+            },
+            e: 1
+          }
+        }
+      });
+      
+      done ();
+    });
+  },
   "namespaces": function (done){
     var options = { path: true, variables: true, namespaces: true };
     
@@ -364,7 +393,11 @@ var tests = {
           }
         },
         s2: {
-          c: true
+          b: {
+            c: {
+              d: true
+            }
+          }
         }
       });
       
@@ -407,7 +440,7 @@ var tests = {
       namespaces: true,
       sections: true,
       reviver: function (key, value, section){
-        if (this.isSection && section === "s2") return;
+        if (this.isSection && section === "s2.b.c") return;
         if (this.isProperty && key === "b.a") return "b";
         return this.assert ();
       }

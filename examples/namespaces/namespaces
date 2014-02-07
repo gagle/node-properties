@@ -4,10 +4,9 @@ app.title ${app.name} v${app.version}
 
 path.home ./app
 path.test ${path.home}/test
-path.web ${path.home}/web
-path.web.logs ${path.web}/logs
-path.web.controllers ${path.web}/controllers
-path.web.views ${path.web}/views
+path.web.logs ${path.home}/web/logs
+path.web.controllers ${path.home}/web/controllers
+path.web.views ${path.home}/web/views
 
 log.basename app
 log.max_size 1kb
@@ -18,5 +17,7 @@ log.backups 1
 [db]
 host 10.10.10.10
 port 1234
-pool.min 5
-pool.max 10
+
+[db.pool]
+min 5
+max 10
