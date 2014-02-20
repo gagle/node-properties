@@ -99,9 +99,9 @@ a = 1
 b = ${a}
 ```
 
-Note: If you are using the `include` option take into account that the variables are local to the file, they cannot be used to access the properties of other files.
+Note: If you are using the `include` option, take into account that the variables are local to the file, they cannot be used to access the properties of other files.
 
-If you need to get the value of a key that belongs to a section prefix the key with the section followed by `|`.
+If you need to get the value of a key that belongs to a section, prefix the key with the section followed by `|`.
 
 ```
 a = 1
@@ -205,7 +205,7 @@ __INI__
 
 This module implements the .properties specification but there are some options that can be enabled, some of them are the `sections`, `comments`, `separators` and `strict`. With these four options this module can parse INI files. There isn't an official INI specification, each program implements its own features, but there is a de facto standard that says that INI files are just .properties files with sections and the `=` token as a separator.
 
-If you want to parse INI files hen enable these options:
+If you want to parse INI files, then enable these options:
 
 ```javascript
 var options = {
@@ -225,7 +225,7 @@ Note: The whitespace (`<space>`, `\t`, `\f`) is still considered a separator eve
 <a name="include"></a>
 __Importing files__
 
-When the `include` option is enabled, the `include` key allow you import files. If the path is a directory it tries to load the file `index.properties`. The paths are relative to the __current__ .properties file.
+When the `include` option is enabled, the `include` key allow you import files. If the path is a directory, it tries to load the file `index.properties`. The paths are relative to the __current__ .properties file.
 
 The imported files are merged with the current file, they can replace old data.
 
@@ -242,7 +242,7 @@ Note: You can include files using a simple key-value string:
 
 ```javascript
 properties.parse ("include my/file", function (error, data){
-	...
+  ...
 })
 ```
 
@@ -346,7 +346,7 @@ ___module_.parse(data[, options][, callback]) : undefined | Object__
 
 Parses a .properties string.
 
-If a callback is given, the result is returned as the second parameter.
+If a callback is given, the result is returned as the second parameter. Some options will require a callback.
 
 ```javascript
 try{
@@ -365,7 +365,7 @@ properties.parse ({ ... }, function (error, obj){
 Options:
 
 - __path__ - _Boolean_  
-    By default `parse()` reads a String. If you want to read a file set this option to true. If this option is used the callback is mandatory. It gets 2 parameters, a possible error and the object with all the properties.
+  By default `parse()` reads a String. If you want to read a file, set this option to true. If this option is used, the callback is mandatory. It gets 2 parameters, a possible error and the object with all the properties.
 - __comments__ - _String_ | _Array_  
   Allows you to add additional comment tokens. The token must be a single printable non-whitespae ascii character. If the `strict` option is not set, the tokens `#` and `!` are parsed as comment tokens.
   
@@ -391,7 +391,7 @@ Options:
 - __vars__ - _Boolean_  
   External variables can be passed to the file if the variables option is enabled. Look at the [variables](#variables) section for further details.
 - __include__ - _Boolean_  
-  Files can be linked and imported with the `include` key.  If this option is used the callback is mandatory. Look at the [include](#include) section for further details.
+  Files can be linked and imported with the `include` key. If this option is used, the callback is mandatory. Look at the [include](#include) section for further details.
 - __reviver__ - _Function_  
   Each property or section can be removed or modified from the final object. It's similar to the reviver of the `JSON.parse()` function.
 
@@ -399,11 +399,11 @@ Options:
 
   The callback gets 3 parameters: key, value and section.
   
-  A property has a key and a value and can belong to a section. If it's a global property the section is set to null. If __undefined__ is returned the property will be removed from the final object, otherwise the returned value will be used as the property value.
+  A property has a key and a value and can belong to a section. If it's a global property, the section is set to null. If __undefined__ is returned, the property will be removed from the final object, otherwise the returned value will be used as the property value.
   
-  If the key and the value are set to null then it's a section line. If it returns a falsy value it won't be added to the final object, the entire section -including all the properties- will be discarded. If it returns a truthy value the section is parsed.
+  If the key and the value are set to null, then it's a section line. If it returns a falsy value, it won't be added to the final object, the entire section -including all the properties- will be discarded. If it returns a truthy value, the section is parsed.
   
-  For your convenience, to know if the line is a property or section you can access to `this.isProperty` and `this.isSection` from inside the replacer function. Also, `this.assert()` can be used to return the _default_ value, the unmodified value that will be used to parse the line.
+  For your convenience, to know whether the line is a property or section you can access to `this.isProperty` and `this.isSection` from inside the replacer function. Also, `this.assert()` can be used to return the _default_ value, the unmodified value that will be used to parse the line.
   
   `this.assert()` it's the same as:
   
@@ -509,7 +509,7 @@ This also applies to the [Stringifier](#Stringifier) keys and values.
 Options:
 
 - __path__ - _String_  
-  By default `stringify()` returns a string. If you want to write it to a file, use this option and pass the path of a file. If this option is used the callback is mandatory. It gets two parameters, a possible error and the string.
+  By default `stringify()` returns a string. If you want to write it to a file, use this option and pass the path of a file. If this option is used, the callback is mandatory. It gets two parameters, a possible error and the string.
 - __comment__ - _String_  
   The token to use to write comments. It must be a single printable non-whitespace ascii character. Default is `#`.
 - __separator__ - _String_  
@@ -527,11 +527,11 @@ Options:
 
   The callback gets three parameters: key, value and section.
   
-  A property has a key and a value and can belong to a section. If it's a global property the section is set to null. If __undefined__ is returned the property won't be stringified, otherwise the returned value will be used as the property value.
+  A property has a key and a value and can belong to a section. If it's a global property, the section is set to null. If __undefined__ is returned, the property won't be stringified, otherwise the returned value will be used as the property value.
   
-  If the key and the value are set to null then it's a section line. If it returns a falsy value it won't be added to the final string, the entire section -including all the properties- will be discarded. If it returns a truthy value the section is stringified.
+  If the key and the value are set to null, then it's a section line. If it returns a falsy value, it won't be added to the final string, the entire section -including all the properties- will be discarded. If it returns a truthy value, the section is stringified.
   
-  For your convenience, to know if the line is a property or section you can access to `this.isProperty` and `this.isSection` from inside the replacer function. Also, `this.assert()` can be used to return the _default_ value, the unmodified value that will be used to stringify the line.
+  For your convenience, to know whether the line is a property or section you can access to `this.isProperty` and `this.isSection` from inside the replacer function. Also, `this.assert()` can be used to return the _default_ value, the unmodified value that will be used to stringify the line.
   
   `this.assert()` it's the same as:
   
@@ -605,7 +605,7 @@ b = 1,2,3
 <a name="Stringifier_section"></a>
 __Stringifier#section(obj) : Stringifier__
 
-Writes a section line. It gets an object with two options: `name` and `comment`. The name is converted into a string. If you don't need to write a comment you can pass the name instead of an object. Returns the stringifier being used.
+Writes a section line. It gets an object with two options: `name` and `comment`. The name is converted into a string. If you don't need to write a comment, you can pass the name instead of an object. Returns the stringifier being used.
 
 ```javascript
 stringifier.section ("my section");

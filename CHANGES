@@ -1,3 +1,7 @@
+v1.2.1 (20 Feb 2014)
+  Added a check to ensure that a callback is passed when the "include" option
+    is enabled.
+
 v1.2.0 (07 Feb 2014)
   The sections now can contain a namespace chain, that is, dot-separated
     sections can be split up like dot-separated properties.
