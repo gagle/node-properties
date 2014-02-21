@@ -18,6 +18,7 @@ This module implements the Java .properties specification and adds additional fe
 # file
 a = 1
 b: 2
+c 3
 ```
 
 ```javascript
@@ -27,7 +28,7 @@ properties.parse ("file", { path: true }, function (error, obj){
   if (error) return console.error (error);
   
   console.log (obj);
-  //{ a: 1, b: 2 }
+  //{ a: 1, b: 2, b: 3 }
 });
 ```
 
