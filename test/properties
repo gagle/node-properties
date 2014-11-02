@@ -45,12 +45,5 @@ a19		\u00c9
 92=\u\21\
 92
 
-#Type conversion
-a20 true
-a21 false
-a22 123
-a23 null
-a24 undefined
-
 #No sections
 [a]

@@ -43,11 +43,6 @@ var tests = {
         a19: "É",
         "←": "→",
         "→": "→",
-        a20: true,
-        a21: false,
-        a22: 123,
-        a23: null,
-        a24: undefined,
         "[a]": null
       });
       
@@ -592,6 +587,50 @@ var tests = {
       
       done ();
     });
+  },
+  "cast values according to defaults": function(done) {
+    var options = { path: true };
+
+    properties.parse ("types", options,
+      function (error, p){
+        assert.ifError (error);
+
+        assert.deepEqual (p, {
+          a1: true,
+          a2: false,
+          a3: 123,
+          a4: null,
+          a5: undefined,
+          a6: 123,
+          a7: 291,
+          a8: 1230
+        });
+
+        done ();
+      }
+    );
+  },
+  "cast values according to options": function(done) {
+    var options = { path: true, casting: { nulls: false, undefineds: false, booleans: false, numbers: false } };
+
+    properties.parse ("types", options,
+      function (error, p){
+        assert.ifError (error);
+
+        assert.deepEqual (p, {
+          a1: 'true',
+          a2: 'false',
+          a3: '123',
+          a4: 'null',
+          a5: 'undefined',
+          a6: '0123',
+          a7: '0x123',
+          a8: '123e1'
+        });
+
+        done ();
+      }
+    );
   }
 };
 
