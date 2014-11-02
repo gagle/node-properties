@@ -385,15 +385,17 @@ Options:
   This option can be used with the `comments` and `separators` options. If true, __only__ the tokens specified in these options are used to parse comments and separators.
 - __casting__ - _Object_  
   By default, property values will be cast to their JavaScript type equivalent. It is possible to disable this behaviour per type:
-```javascript
-casting: {
-    nulls: false,
-    undefineds: false,
-    booleans: false,
-    numbers: false
-}
-```
-For example, if your property values may contain numbers in octal, hexadecimal or exponential notation, think carefully about their range and their subsequent usage, or the automatic casting might surprise you.
+
+  ```javascript
+  casting: {
+      nulls: false,
+      undefineds: false,
+      booleans: false,
+      numbers: false
+  }
+  ```
+
+  For example, if your property values may contain numbers in octal, hexadecimal or exponential notation, think carefully about their range and their subsequent usage, or the automatic casting might surprise you.
 - __sections__ - _Boolean_  
   Parses INI sections. Read the [INI](#ini) section for further details.
 - __namespaces__ - _Boolean_  
