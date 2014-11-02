@@ -1,0 +1,9 @@
+#Type conversion
+a1 true
+a2 false
+a3 123
+a4 null
+a5 undefined
+a6 0123
+a7 0x123
+a8 123e1
