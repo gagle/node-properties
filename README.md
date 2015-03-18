@@ -28,7 +28,7 @@ properties.parse ("file", { path: true }, function (error, obj){
   if (error) return console.error (error);
   
   console.log (obj);
-  //{ a: 1, b: 2, b: 3 }
+  //{ a: 1, b: 2, c: 3 }
 });
 ```
 
