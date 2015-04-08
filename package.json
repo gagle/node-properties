@@ -1,21 +1,29 @@
 {
-  "name": "properties",
-  "version": "1.2.1",
-  "description": ".properties parser/stringifier",
-  "keywords": ["properties", "ini", "parser", "stringifier", "config"],
-  "author": "Gabriel Llamas <gagle@outlook.com>",
-  "repository": "git://github.com/gagle/node-properties.git",
-  "engines": {
-    "node": ">=0.10"
-  },
-  "devDependencies": {
-    "ini": "1.1.x",
-    "speedy": "*",
-    "js-yaml": "2.1.x"
-  },
-  "scripts": {
-    "test": "node test/parse && node test/stringify"
-  },
-  "license": "MIT",
-  "main": "lib"
+	"name": "properties",
+	"version": "2.0.0",
+	"description": ".properties parser/stringifier",
+	"keywords": [
+		"properties",
+		"ini",
+		"parser",
+		"stringifier",
+		"config"
+	],
+	"author": "Gabriel Llamas <gagle@outlook.com>",
+	"repository": "git://github.com/gagle/node-properties.git",
+	"engines": {
+		"node": ">=0.10"
+	},
+	"devDependencies": {
+		"code": "^1.2.1",
+		"ini": "1.1.x",
+		"js-yaml": "2.1.x",
+		"lab": "^5.1.1",
+		"speedy": "*"
+	},
+	"scripts": {
+		"test": "node node_modules/lab/bin/lab -t 100"
+	},
+	"license": "MIT",
+	"main": "lib"
 }

@@ -51,13 +51,13 @@ Total time: ~12000ms (12s 0ms)
 Higher is better (ops/sec)
 
 ini
-  221,533 ± 0.2%
+	221,533 ± 0.2%
 json
-  695,892 ± 0.0%
+	695,892 ± 0.0%
 properties
-  555,565 ± 0.0%
+	555,565 ± 0.0%
 yaml
-  55,184 ± 0.3%
+	55,184 ± 0.3%
 
 Elapsed time: 12105ms (12s 105ms)
 */

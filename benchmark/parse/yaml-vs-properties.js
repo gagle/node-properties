@@ -34,9 +34,9 @@ Total time: ~6000ms (6s 0ms)
 Higher is better (ops/sec)
 
 yaml
-  20,194 ± 0.3%
+	20,194 ± 0.3%
 properties
-  36,178 ± 0.1%
+	36,178 ± 0.1%
 
 Elapsed time: 6086ms (6s 86ms)
 */

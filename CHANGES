@@ -1,147 +1,158 @@
+v2.0.0 (XX XXX 2015)
+	Complete refactor from scratch. Usage simplified. A lot of bloated things
+		have been removed.
+	"Stringifier#section()" no longer accepts a string for the name of the
+		section, use "stringifier.section({ name: ... })" instead.
+	"Stringifier#header()" has been removed, use "Stringifier#comment()" instead.
+	"Stringifier#comment()" has been added. It can be used to add comments.
+	"Stringifier#blank()" has been added. It can be used to add empty lines.
+	Removed "path" option and callback from "parse()" and "stringify()".
+	Added "whitespace" option. Adds a whitespace after "#" and around "=".
+
 v1.2.1 (20 Feb 2014)
-  Added a check to ensure that a callback is passed when the "include" option
-    is enabled.
+	Added a check to ensure that a callback is passed when the "include" option
+		is enabled.
 
 v1.2.0 (07 Feb 2014)
-  The sections now can contain a namespace chain, that is, dot-separated
-    sections can be split up like dot-separated properties.
-  Fixed variable expansion when the "namespace" option is enabled.
-  Minor improvements.
+	The sections now can contain a namespace chain, that is, dot-separated
+		sections can be split up like dot-separated properties.
+	Fixed variable expansion when the "namespace" option is enabled.
+	Minor improvements.
 
 v1.1.3 (07 Dec 2013)
-  When a namespace chain is invalid it now returns an error.
+	When a namespace chain is invalid it now returns an error.
 
 v1.1.2 (22 Oct 2013)
-  Bugfix stringifying characters when "unicode" was true (improved ISO 8859-1
-    compatibility).
+	Bugfix stringifying characters when "unicode" was true (improved ISO 8859-1
+		compatibility).
 
 v1.1.1 (14 Oct 2013)
-  Bugfix when "parse()" was called with only 1 parameter.
+	Bugfix when "parse()" was called with only 1 parameter.
 
 v1.1.0 (12 Oct 2013)
-  Removed "json" parsing option (improved parsing speed).
-  Removed "Stringifier.from()".
-  Removed optional parameter from "stringifier()".
-  Renamed "stringifier()" to "createStringifier()".
+	Removed "json" parsing option (improved parsing speed).
+	Removed "Stringifier.from()".
+	Removed optional parameter from "stringifier()".
+	Renamed "stringifier()" to "createStringifier()".
 
 v1.0.4 (07 Sep 2013)
-  When "namespaces" are in use the objects are merged correctly.
-  When "path" is used the callback is called correctly.
+	When "namespaces" are in use the objects are merged correctly.
+	When "path" is used the callback is called correctly.
 
 v1.0.3 (16 Aug 2013)
-  The paths from the imported files are relative to the current file.
+	The paths from the imported files are relative to the current file.
 
 v1.0.2 (16 Aug 2013)
-  Minor bugfixes with sections that don't end with "]".
+	Minor bugfixes with sections that don't end with "]".
 
 v1.0.1 (11 Aug 2013)
-  Some bugfixes including files.
+	Some bugfixes including files.
 
 v1.0.0 (08 Aug 2013)
-  Complete refactor from scratch.
-  Improved reading speed by ~45%. This new version iterates the data only once
-    while the previous version was a direct port from the Java source code and
-    was iterating four times over the same data.
-  Improved writing speed by ~77%.
-  All the dependencies have been removed.
-  If the sections are enabled the properties should be stringified using a
-    Stringifier instead of giving a raw object.
-  "load()" and "store" have been removed and "parse()" and "stringify()" can
-    read and write from/to files with the "path" option.
-  Added "json" option to "parse()". When it is enabled stringified json arrays
-    and objects are parsed into javascript arrays and objects.
-  Added "namespaces" option to "parse()". When it is enabled the dots in the
-    keys will be interpreted as namespaces.
-  Added "vars" option to "parse()". When the variables are enabled and a
-    variable does not exist it first looks into the "vars" object before
-    throwing an error. It can be used to pass environment variables.
-  Added "strict" option to "parse()". When it is enabled the parser will only
-    consider as coments and separators the tokens included in the "comments"
-    and "separators" options.
-  Added "include" option to "parse()". The "include" key can be used to import
-    other files.
-  Removed "bufferSize" and "encoding" options. Files are read using a 16KB
-    buffer size and utf8 encoding.
-  Removed the "pretty" option from "stringify()". The required code to
-    accomplish the column limit is too complex and the feature is rarely used.
-    This option contains bugs in the previous versions. The overall stringify
-    speed is faster.
-  The stringify replacer must be a function. Cannot be an array like in previous
-    versions.
-  Some bugfixes with escaped backslashes.
-  Some bugfixes with whitespace values.
-  Some bugfixes with sections.
-  Some bugfixes with "stringify()".
+	Complete refactor from scratch.
+	Improved reading speed by ~45%. This new version iterates the data only once
+		while the previous version was a direct port from the Java source code and
+		was iterating four times over the same data.
+	Improved writing speed by ~77%.
+	All the dependencies have been removed.
+	If the sections are enabled the properties should be stringified using a
+		Stringifier instead of giving a raw object.
+	"load()" and "store" have been removed and "parse()" and "stringify()" can
+		read and write from/to files with the "path" option.
+	Added "json" option to "parse()". When it is enabled stringified json arrays
+		and objects are parsed into javascript arrays and objects.
+	Added "namespaces" option to "parse()". When it is enabled the dots in the
+		keys will be interpreted as namespaces.
+	Added "vars" option to "parse()". When the variables are enabled and a
+		variable does not exist it first looks into the "vars" object before
+		throwing an error. It can be used to pass environment variables.
+	Added "strict" option to "parse()". When it is enabled the parser will only
+		consider as coments and separators the tokens included in the "comments"
+		and "separators" options.
+	Added "include" option to "parse()". The "include" key can be used to import
+		other files.
+	Removed "bufferSize" and "encoding" options. Files are read using a 16KB
+		buffer size and utf8 encoding.
+	Removed the "pretty" option from "stringify()". The required code to
+		accomplish the column limit is too complex and the feature is rarely used.
+		This option contains bugs in the previous versions. The overall stringify
+		speed is faster.
+	The stringify replacer must be a function. Cannot be an array like in previous
+		versions.
+	Some bugfixes with escaped backslashes.
+	Some bugfixes with whitespace values.
+	Some bugfixes with sections.
+	Some bugfixes with "stringify()".
 
 v0.3.3 (12 Jan 2013)
-  Fixed column width in pretty feature.
+	Fixed column width in pretty feature.
 
 v0.3.2 (04 Jan 2013)
-  Removed "config()".
+	Removed "config()".
 
 v0.3.1 (01 Jan 2013)
-  Fixed pretty print with sections and comments.
+	Fixed pretty print with sections and comments.
 
 v0.3.0 (30 Dec 2012)
-  Added "reviver" callback setting to "load()".
-  Added "replacer" callback setting to "store()".
-  Added "pretty" setting to "store()".
-  Added "stringify()".
-  Added "parse()".
-  Merged enhanced-properties module with this module.
-  Added sections feature.
-  Added custom characters feature.
-  Added variable substitution feature.
+	Added "reviver" callback setting to "load()".
+	Added "replacer" callback setting to "store()".
+	Added "pretty" setting to "store()".
+	Added "stringify()".
+	Added "parse()".
+	Merged enhanced-properties module with this module.
+	Added sections feature.
+	Added custom characters feature.
+	Added variable substitution feature.
 
 v0.2.0 (14 Dec 2012)
-  Complete code revision and refactor.
-  Non printable characters (C0 and C1 control codes) are converted to unicode
-    string representations regardless the encoding.
-  Added "config()".
+	Complete code revision and refactor.
+	Non printable characters (C0 and C1 control codes) are converted to unicode
+		string representations regardless the encoding.
+	Added "config()".
 
 v0.1.13 (30 Jul 2012)
-  Added the option to pass the file encoding, by default is utf8.
+	Added the option to pass the file encoding, by default is utf8.
 
 v0.1.12 (29 Jul 2012)
-  Fixed error when "get()" was called with not existent key.
+	Fixed error when "get()" was called with not existent key.
 
 v0.1.11 (23 Jul 2012)
-  Fixed case sensitivity.
+	Fixed case sensitivity.
 
 v0.1.10 (22 Jul 2012)
-  The empty keys now have a "null" value instead of an empty string.
+	The empty keys now have a "null" value instead of an empty string.
 
 v0.1.9 (22 Jul 2012)
-  Added "remove()" method.
+	Added "remove()" method.
 
 v0.1.8 (21 Jul 2012)
-  Added the option to configure the case sensitivity.
+	Added the option to configure the case sensitivity.
 
 v0.1.7 (02 May 2012)
-  Changed the way to require the class.
-    Now: "var Properties = require ("properties");".
-  Inside the "load()" and "store()" callbacks, "this" points to the object
-    itself.
-  Some maintenance.
+	Changed the way to require the class.
+		Now: "var Properties = require ("properties");".
+	Inside the "load()" and "store()" callbacks, "this" points to the object
+		itself.
+	Some maintenance.
 
 v0.1.6 (02 May 2012)
-  Fixed source code to support the new `BufferedReader` settings.
+	Fixed source code to support the new `BufferedReader` settings.
 
 v0.1.5 (28 Apr 2012)
-  Added "buffered-writer" dependency.
+	Added "buffered-writer" dependency.
 
 v0.1.4 (21 Apr 2012)
-  Added "buffered-writer" dependency.
+	Added "buffered-writer" dependency.
 
 v0.1.3 (16 Apr 2012)
-  Removed "getFileName()", internal function.
+	Removed "getFileName()", internal function.
 
 v0.1.2 (15 Apr 2012)
-  The property value is now converted to a string before persisting.
+	The property value is now converted to a string before persisting.
 
 v0.1.1 (15 Apr 2012)
-  Now it's possible to add comments for each key-value pair. A header comment
-    can also be added.
+	Now it's possible to add comments for each key-value pair. A header comment
+		can also be added.
 
 v0.1.0 (15 Apr 2012)
-  First release.
+	First release.

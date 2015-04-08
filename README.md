@@ -243,7 +243,7 @@ Note: You can include files using a simple key-value string:
 
 ```javascript
 properties.parse ("include my/file", function (error, data){
-  ...
+	...
 })
 ```
 
