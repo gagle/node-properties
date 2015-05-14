@@ -321,7 +321,7 @@ module.exports.load = function (path, cb){
     options.vars = env;
     
     //If the path is a directory it tries to load the "index.properties" file
-    properties.parse (configDir, options, cb);
+    properties.parse (path, options, cb);
   });
 };
 ```
