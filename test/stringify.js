@@ -15,7 +15,7 @@ var tests = {
   "iso-8859-1": function (){
     var options = { unicode: true };
     var data = properties.stringify ({ "¡": "ÿ", "Ā": "a" }, options);
-    var expected = "¡ = ÿ" + EOL + "\\u0100 = a";
+    var expected = "\\u00a1 = \\u00ff" + EOL + "\\u0100 = a";
     assert.strictEqual (data, expected);
   },
   "comments multiline": function (){
