@@ -375,7 +375,7 @@ Options:
   comments: [";", "@"]
   ```
 - __separators__ - _String_ | _Array_  
-  Allows you to add additional separator tokens. The token must be a single printable non-whitespae ascii character. If the `strict` option is not set, the tokens `=` and `:` are parsed as comment tokens.
+  Allows you to add additional separator tokens. The token must be a single printable non-whitespae ascii character. If the `strict` option is not set, the tokens `=` and `:` are parsed as separator tokens.
   
   ```javascript
   separators: "-"
