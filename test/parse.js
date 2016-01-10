@@ -350,6 +350,28 @@ var tests = {
       done ();
     });
   },
+  "variables supporting tolerant substitution": function(done) {
+    var options = {variables: true, path: true, sections: true, namespaces: true, tolerant_substitution: true};
+
+    properties.parse("variables-tolerant-substitution", options, function(error, p) {
+      assert.ifError(error);
+
+      assert.deepEqual(p, {
+        "a": 1,
+        "b": 1,
+        "foo": "${bar}",
+        "section": {"c": 3, "d": 3, "e": "${section_foo|bar}"},
+        "s1": {"e2": "ee"},
+        "s${bar}": {"e2": "ee"},
+        "namespace": {"a": {"b": "c"}},
+        "c": {"a": {"b": {"x": 1}, "e": 1}},
+        "${namespace|a.b.bar}": {"a": {"b": {"x": 1}}},
+        "${namespace|a.${h}.bar}": {"afgd": {"bsada": {"${bar}": {"foo": {"bar": "foo"}}}}}
+      });
+
+      done();
+    });
+  },
   "namespaces": function (done){
     var options = { path: true, variables: true, namespaces: true };
     
