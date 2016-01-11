@@ -350,10 +350,10 @@ var tests = {
       done ();
     });
   },
-  "variables supporting tolerant substitution": function(done) {
+  "variables supporting tolerant substitution": function(done){
     var options = {variables: true, path: true, sections: true, namespaces: true, tolerant_substitution: true};
 
-    properties.parse("variables-tolerant-substitution", options, function(error, p) {
+    properties.parse("variables-tolerant-substitution", options, function(error, p){
       assert.ifError(error);
 
       assert.deepEqual(p, {
