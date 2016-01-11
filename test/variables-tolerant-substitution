@@ -1,0 +1,31 @@
+#simple substitution
+a = 1
+b = ${a}
+foo=${bar}
+
+#section substitution
+[section]
+c = 3
+d = ${section|c}
+e = ${section_foo|bar}
+
+[s${a}]
+e2 = ee
+
+[s${bar}]
+e2 = ee
+
+#namespace substitution
+[namespace]
+a.b c
+
+[${namespace|a.b}.a]
+b.x 1
+
+e ${c.a|b.x}
+
+[${namespace|a.b.bar}.a]
+b.x 1
+
+[${namespace|a.${h}.bar}.afgd.bsada.${bar}.foo]
+bar=foo
