@@ -389,6 +389,8 @@ Options:
   Parses dot separated keys as JavaScript objects. Look at the [namespaces](#namespaces) section for further details.
 - __variables__ - _Boolean_  
   Allows you to read the value of a key while the file is being parsed. Look at the [variables](#variables) section for further details.
+- __tolerant_substitution__ - _Boolean_  
+  This option can be used with the `variables` option. if true, it allows properties to be partially parsed instead of returning an error when a variable is not set.
 - __vars__ - _Boolean_  
   External variables can be passed to the file if the variables option is enabled. Look at the [variables](#variables) section for further details.
 - __include__ - _Boolean_  
