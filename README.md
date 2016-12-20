@@ -624,3 +624,6 @@ stringifier.section ({ name: "my section", comment: "My Section" });
 ```
 
 Look at the [stringify-ini](https://github.com/gagle/node-properties/blob/master/examples/ini/stringify-ini.js) example for further details.
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/gagle/node-properties/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
