@@ -17,5 +17,6 @@
     "test": "node test/parse && node test/stringify"
   },
   "license": "MIT",
-  "main": "lib"
+  "main": "lib",
+  "typings": "lib/index.d.ts"
 }
