@@ -598,12 +598,10 @@ var tests = {
       .parse ("a1 1\na2 01\na3 10000000000001.0000000000001\na4 +1", function (error, p){
       assert.ifError (error);
 
-      assert.deepStrictEqual (p, {
-        a1: 1,
-        a2: '01',
-        a3: '10000000000001.0000000000001',
-        a4: "+1"
-      });
+      assert.strictEqual (p.a1, 1);
+      assert.strictEqual (p.a2, "01");
+      assert.strictEqual (p.a3, "10000000000001.0000000000001");
+      assert.strictEqual (p.a4, "+1");
 
       done ();
     });
