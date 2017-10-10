@@ -44,6 +44,7 @@ properties.parse ("file", { path: true }, function (error, obj){
 
 #### Functions ####
 
+- [_module_.with(modifiers...) : _module_](#with)
 - [_module_.parse(data[, options][, callback]) : undefined | Object](#parse)
 - [_module_.createStringifier() : Stringifier](#createStringifier)
 - [_module_.stringify(obj[, options][, callback]) : undefined | String](#stringify)
@@ -339,6 +340,23 @@ config.load (function (error, obj){
 ```
 
 Note: You can also use a configuration loader like [seraphim](https://github.com/gagle/node-seraphim).
+
+---
+
+<a name="with"></a>
+___module_.with(modifiers...) : _module___
+
+Apply optional static modifiers to the module context that alter default behaviour or include non-standard logic.  This function returns the module itself so it may be chained.
+
+```javascript
+properties
+  .with("MODIFIER_NAME")
+  .parse({ ... });
+```
+
+Modifiers: 
+
+ - MOD_STABLE_NUMBER_COERCION - when reading properties, asserts that values identified as numerical must also satisfy the condition: `String(Number(x))===String(x)`
 
 ---
 
