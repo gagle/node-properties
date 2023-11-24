@@ -81,6 +81,29 @@ var tests = {
       done ();
     });
   },
+  "parse (keep no escaped line breaks)": function (done) {
+    properties.parse ("a = b\\\n  c\\\n d", function (error, p){
+      assert.ifError (error);
+
+      assert.deepEqual (p, {
+        a: "bcd",
+      });
+
+      done ();
+    });
+  },
+  "parse (keep escaped line breaks)": function (done) {
+    var options = { keepEscapedLineBreaks: true };
+    properties.parse ("a = b\\\n  c\\\n d", options, function (error, p){
+      assert.ifError (error);
+
+      assert.deepEqual (p, {
+        a: "b\\\n  c\\\n d",
+      });
+
+      done ();
+    });
+  },
   "reviver": function (done){
     var options = {
       reviver: function (key, value){
