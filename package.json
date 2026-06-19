@@ -4,7 +4,7 @@
   "description": ".properties parser/stringifier",
   "keywords": ["properties", "ini", "parser", "stringifier", "config"],
   "author": "Gabriel Llamas <gagle@outlook.com>",
-  "repository": "git://github.com/gagle/node-properties.git",
+  "repository": "git+https://github.com/gagle/node-properties.git",
   "engines": {
     "node": ">=0.10"
   },
