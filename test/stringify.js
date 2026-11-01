@@ -48,6 +48,36 @@ var tests = {
     var expected = "; asd" + EOL + "a - b";
     assert.strictEqual (data, expected);
   },
+  "comment tokens in the key": function (){
+    var o = { "#a": "x", "!b": "y" };
+    var data = properties.stringify (o);
+    var expected = "\\#a = x" + EOL + "\\!b = y";
+    assert.strictEqual (data, expected);
+    properties.parse (data, function (e, d){
+      assert.ifError (e);
+      assert.deepStrictEqual (d, o);
+    });
+  },
+  "comment token used to stringify is escaped in the key": function (){
+    var o = { ";a": "x" };
+    var data = properties.stringify (o, { comment: ";" });
+    var expected = "\\;a = x";
+    assert.strictEqual (data, expected);
+    properties.parse (data, { comments: [";"] }, function (e, d){
+      assert.ifError (e);
+      assert.deepStrictEqual (d, o);
+    });
+  },
+  "separator token in the key": function (){
+    var o = { "a-b": "x" };
+    var data = properties.stringify (o, { separator: "-" });
+    var expected = "a\\-b - x";
+    assert.strictEqual (data, expected);
+    properties.parse (data, { separators: ["-"] }, function (e, d){
+      assert.ifError (e);
+      assert.deepStrictEqual (d, o);
+    });
+  },
   "no key": function (){
     var stringifier = properties.createStringifier ()
         .property ({ value: "b" });
